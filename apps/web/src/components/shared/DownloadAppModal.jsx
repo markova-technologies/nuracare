@@ -60,12 +60,8 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
           borderRadius: '24px',
           maxWidth: '480px',
           width: '100%',
-<<<<<<< HEAD
-=======
-          boxShadow: '0 25px 50px -12px rgba(22, 101, 52, 0.3), 0 0 0 1px rgba(34, 197, 94, 0.2)',
->>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
           overflow: 'hidden',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          boxShadow: '0 25px 50px -12px rgba(22, 101, 52, 0.3), 0 0 0 1px rgba(34, 197, 94, 0.2)',
           border: '1px solid #e2e8f0',
           position: 'relative'
         }}
@@ -73,14 +69,9 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
       >
         {/* Header */}
         <div style={{
-<<<<<<< HEAD
-          padding: '24px 28px 16px',
-          borderBottom: '1px solid #f1f5f9',
-=======
           padding: '22px 26px 16px',
           background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(22, 101, 52, 0.04) 100%)',
           borderBottom: '1px solid rgba(34, 197, 94, 0.15)',
->>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center'
@@ -89,13 +80,8 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
             <div style={{
               width: '44px',
               height: '44px',
-<<<<<<< HEAD
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, #16a34a, #15803d)',
-=======
               borderRadius: '14px',
               background: 'linear-gradient(135deg, #22c55e, #15803d)',
->>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -104,13 +90,6 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
               <Icons.Smartphone size={24} color="#ffffff" />
             </div>
             <div>
-<<<<<<< HEAD
-              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#0f172a' }}>
-                Download NuraCare App
-              </h3>
-              <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-muted, #4b5563)' }}>
-                v{versionData.appVersion} Android APK Direct Download
-=======
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <h3 style={{ margin: 0, fontSize: '19px', fontWeight: 800, color: '#14532d' }}>
                   NuraCare Mobile
@@ -121,18 +100,13 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
               </div>
               <p style={{ margin: 0, fontSize: '12.5px', color: '#4b5563', marginTop: '2px' }}>
                 Android APK Standalone Release
->>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
               </p>
             </div>
           </div>
           <button 
             onClick={onClose}
             style={{
-<<<<<<< HEAD
-              background: 'none',
-=======
               background: 'rgba(0,0,0,0.06)',
->>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
               border: 'none',
               padding: '6px',
               cursor: 'pointer',
@@ -147,37 +121,9 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
           </button>
         </div>
 
-<<<<<<< HEAD
-        {/* Content Body */}
-        <div style={{ padding: '24px 28px' }}>
-          {/* Guarantee Banner */}
-          <div style={{
-            background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
-            border: '1px solid #86efac',
-            borderRadius: '14px',
-            padding: '14px 18px',
-            marginBottom: '20px',
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '12px'
-          }}>
-            <Icons.Sparkles size={20} color="#16a34a" style={{ marginTop: '2px', flexShrink: 0 }} />
-            <div>
-              <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#14532d' }}>
-                No Expo Go App Required!
-              </div>
-              <div style={{ fontSize: '12px', color: '#166534', marginTop: '2px', lineHeight: '1.4' }}>
-                This is a standalone native Android app (.APK). It installs directly on any Android device without installing any extra software.
-              </div>
-            </div>
-          </div>
-
-          {/* Download & QR Action Box */}
-=======
         {/* Content */}
         <div style={{ padding: '22px 26px 26px' }}>
           {/* Main Action Area */}
->>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
           <div style={{
             background: '#f8fafc',
             borderRadius: '18px',
