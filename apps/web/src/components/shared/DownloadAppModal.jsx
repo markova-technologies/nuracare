@@ -1,6 +1,9 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Icons from 'lucide-react';
 import { showToast } from '@/lib/utils';
+
+// Permanent GitHub Release CDN download URL (never expires, fast global CDN)
+const APK_DOWNLOAD_URL = 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.5/nuracare.apk';
 
 export default function DownloadAppModal({ isOpen = true, onClose }) {
   const [copied, setCopied] = useState(false);
@@ -22,19 +25,14 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
 
   if (!isOpen) return null;
 
-  // Direct standalone APK binary link from the hosted platform
-  const serverApkUrl = '/nuracare.apk';
-  const directCdnApkUrl = versionData.downloadUrl || serverApkUrl;
-  const fullDownloadUrl = typeof window !== 'undefined' ? `${window.location.origin}/nuracare.apk` : 'https://nuracare.pro.et/nuracare.apk';
-
-  // QR code encodes the direct .apk link so scanning it immediately triggers Android's native APK download
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(fullDownloadUrl)}&color=166534&bgcolor=f0fdf4`;
+  // QR code encodes the direct .apk link so scanning it immediately triggers Android's native download
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(APK_DOWNLOAD_URL)}&color=166534&bgcolor=f0fdf4`;
 
   const handleCopyLink = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(fullDownloadUrl);
+      navigator.clipboard.writeText(APK_DOWNLOAD_URL);
       setCopied(true);
-      showToast('Direct APK link copied to clipboard!', 'success');
+      showToast('Direct APK download link copied to clipboard!', 'success');
       setTimeout(() => setCopied(false), 2500);
     }
   };
@@ -44,10 +42,10 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.55)',
+        backgroundColor: 'rgba(0, 0, 0, 0.65)',
         backdropFilter: 'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
-        zIndex: 9999,
+        zIndex: 99999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -60,8 +58,12 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
         style={{
           backgroundColor: '#ffffff',
           borderRadius: '24px',
-          maxWidth: '520px',
+          maxWidth: '480px',
           width: '100%',
+<<<<<<< HEAD
+=======
+          boxShadow: '0 25px 50px -12px rgba(22, 101, 52, 0.3), 0 0 0 1px rgba(34, 197, 94, 0.2)',
+>>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
           overflow: 'hidden',
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
           border: '1px solid #e2e8f0',
@@ -71,8 +73,14 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
       >
         {/* Header */}
         <div style={{
+<<<<<<< HEAD
           padding: '24px 28px 16px',
           borderBottom: '1px solid #f1f5f9',
+=======
+          padding: '22px 26px 16px',
+          background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(22, 101, 52, 0.04) 100%)',
+          borderBottom: '1px solid rgba(34, 197, 94, 0.15)',
+>>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center'
@@ -81,8 +89,13 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
             <div style={{
               width: '44px',
               height: '44px',
+<<<<<<< HEAD
               borderRadius: '12px',
               background: 'linear-gradient(135deg, #16a34a, #15803d)',
+=======
+              borderRadius: '14px',
+              background: 'linear-gradient(135deg, #22c55e, #15803d)',
+>>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -91,18 +104,35 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
               <Icons.Smartphone size={24} color="#ffffff" />
             </div>
             <div>
+<<<<<<< HEAD
               <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#0f172a' }}>
                 Download NuraCare App
               </h3>
               <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-muted, #4b5563)' }}>
                 v{versionData.appVersion} Android APK Direct Download
+=======
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <h3 style={{ margin: 0, fontSize: '19px', fontWeight: 800, color: '#14532d' }}>
+                  NuraCare Mobile
+                </h3>
+                <span style={{ background: '#dcfce7', color: '#15803d', padding: '2px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, border: '1px solid #86efac' }}>
+                  v1.0.5 Latest
+                </span>
+              </div>
+              <p style={{ margin: 0, fontSize: '12.5px', color: '#4b5563', marginTop: '2px' }}>
+                Android APK Standalone Release
+>>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
               </p>
             </div>
           </div>
           <button 
             onClick={onClose}
             style={{
+<<<<<<< HEAD
               background: 'none',
+=======
+              background: 'rgba(0,0,0,0.06)',
+>>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
               border: 'none',
               padding: '6px',
               cursor: 'pointer',
@@ -117,6 +147,7 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
           </button>
         </div>
 
+<<<<<<< HEAD
         {/* Content Body */}
         <div style={{ padding: '24px 28px' }}>
           {/* Guarantee Banner */}
@@ -142,12 +173,17 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
           </div>
 
           {/* Download & QR Action Box */}
+=======
+        {/* Content */}
+        <div style={{ padding: '22px 26px 26px' }}>
+          {/* Main Action Area */}
+>>>>>>> 2be93c8 (feat(download): point all download endpoints to permanent GitHub Release v1.0.5 APK and simplify modal to single button)
           <div style={{
             background: '#f8fafc',
-            borderRadius: '16px',
+            borderRadius: '18px',
             padding: '20px',
             border: '1px solid #e2e8f0',
-            marginBottom: '20px'
+            marginBottom: '18px'
           }}>
             <div style={{
               display: 'flex',
@@ -155,7 +191,8 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
               alignItems: 'center',
               flexWrap: 'wrap',
               justifyContent: 'center',
-              width: '100%'
+              width: '100%',
+              marginBottom: '16px'
             }}>
               {/* QR Code */}
               <div style={{
@@ -174,172 +211,89 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
                   style={{ width: '130px', height: '130px', borderRadius: '8px', display: 'block' }}
                 />
                 <span style={{ fontSize: '11px', fontWeight: 700, color: '#15803d', marginTop: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Icons.QrCode size={12} /> Scan with Camera
+                  <Icons.QrCode size={12} /> Scan with Phone
                 </span>
-                <span style={{ fontSize: '10px', color: '#64748b' }}>Instant Phone Download</span>
               </div>
 
-              {/* Download Buttons */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: '1', minWidth: '200px' }}>
-                <a 
-                  href={directCdnApkUrl} 
-                  download="nuracare.apk"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    backgroundColor: '#16a34a',
-                    color: 'white',
-                    padding: '12px 18px',
-                    borderRadius: '12px',
-                    fontWeight: 700,
-                    fontSize: '14px',
-                    textDecoration: 'none',
-                    boxShadow: '0 4px 14px rgba(22, 163, 74, 0.4)',
-                    transition: 'all 0.15s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#15803d'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#16a34a'}
-                >
-                  <Icons.Download size={18} />
-                  <span>Download Android App (.APK)</span>
-                </a>
-
-                <a 
-                  href={serverApkUrl} 
-                  download="nuracare.apk"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    backgroundColor: '#f0fdf4',
-                    color: '#15803d',
-                    padding: '10px 16px',
-                    borderRadius: '12px',
-                    border: '1px solid #bbf7d0',
-                    fontWeight: 600,
-                    fontSize: '13px',
-                    textDecoration: 'none',
-                    transition: 'all 0.15s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#dcfce7'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#f0fdf4'}
-                >
-                  <Icons.HardDriveDownload size={16} />
-                  <span>Download Direct from Server</span>
-                </a>
-
-                <button 
-                  onClick={handleCopyLink}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    backgroundColor: '#f1f5f9',
-                    color: '#334155',
-                    padding: '9px 16px',
-                    borderRadius: '12px',
-                    border: '1px solid #cbd5e1',
-                    fontWeight: 600,
-                    fontSize: '12.5px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {copied ? <Icons.Check size={15} color="#16a34a" /> : <Icons.Copy size={15} />}
-                  <span>{copied ? 'Direct Link Copied!' : 'Copy Direct APK Link'}</span>
-                </button>
+              {/* Information pill */}
+              <div style={{ flex: '1', minWidth: '180px', textAlign: 'left' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#15803d', fontWeight: 700, fontSize: '13px', marginBottom: '4px' }}>
+                  <Icons.CheckCircle2 size={16} /> Standalone Android App
+                </div>
+                <p style={{ margin: 0, fontSize: '12px', color: '#64748b', lineHeight: '1.5', marginBottom: '10px' }}>
+                  Works on all Android phones. No Expo Go required. Includes 3D avatar companion, fasting calendar, and calming water sounds.
+                </p>
+                <div style={{ fontSize: '11px', color: '#94a3b8', background: '#f1f5f9', padding: '6px 10px', borderRadius: '8px', display: 'inline-block' }}>
+                  📦 Size: ~114 MB • Verified Safe
+                </div>
               </div>
             </div>
+
+            {/* ONLY ONE SINGLE PROMINENT DOWNLOAD BUTTON */}
+            <a 
+              href={APK_DOWNLOAD_URL} 
+              download="nuracare.apk"
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                backgroundColor: '#16a34a',
+                color: '#ffffff',
+                padding: '16px 24px',
+                borderRadius: '14px',
+                fontWeight: 800,
+                fontSize: '16px',
+                textDecoration: 'none',
+                boxShadow: '0 6px 20px rgba(22, 163, 74, 0.45)',
+                transition: 'all 0.15s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#15803d'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#16a34a'}
+            >
+              <Icons.Download size={22} color="#ffffff" />
+              <span>Download NuraCare App (.APK)</span>
+            </a>
+
+            {/* Copy link button */}
+            <button 
+              onClick={handleCopyLink}
+              style={{
+                marginTop: '10px',
+                background: 'none',
+                border: 'none',
+                color: '#64748b',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px'
+              }}
+            >
+              {copied ? <Icons.Check size={13} color="#16a34a" /> : <Icons.Copy size={13} />}
+              <span>{copied ? 'Link copied to clipboard!' : 'Copy download link'}</span>
+            </button>
           </div>
 
-          {/* Store status pills */}
-          <div style={{ display: 'flex', gap: '10px', marginBottom: '18px' }}>
-            <div style={{
-              flex: 1,
-              padding: '10px 12px',
-              borderRadius: '10px',
-              background: '#f9fafb',
-              border: '1px solid #e5e7eb',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px'
-            }}>
-              <Icons.Play size={18} color="#10b981" />
-              <div>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#111827' }}>Google Play</div>
-                <div style={{ fontSize: '11px', color: '#6b7280' }}>Review in progress</div>
-              </div>
-            </div>
-
-            <div style={{
-              flex: 1,
-              padding: '10px 12px',
-              borderRadius: '10px',
-              background: '#f9fafb',
-              border: '1px solid #e5e7eb',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px'
-            }}>
-              <Icons.Apple size={18} color="#9ca3af" />
-              <div>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#111827' }}>Apple App Store</div>
-                <div style={{ fontSize: '11px', color: '#6b7280' }}>Coming Soon</div>
-              </div>
-            </div>
-          </div>
-
-          {/* How to Install Guide */}
+          {/* 3 Simple Install Steps */}
           <div style={{
             background: '#ffffff',
             border: '1px solid #e2e8f0',
             borderRadius: '14px',
-            padding: '14px 16px'
+            padding: '12px 16px'
           }}>
-            <h4 style={{ margin: '0 0 10px 0', fontSize: '13px', fontWeight: 700, color: '#1e293b', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Icons.HelpCircle size={16} color="#16a34a" />
-              Instant Android Installation (3 Simple Steps):
-            </h4>
-            <ol style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', color: '#475569', lineHeight: '1.7' }}>
-              <li><strong>Scan QR or Tap Download</strong>: Use your phone camera on the QR code, or tap <em>Download .APK</em>.</li>
-              <li><strong>Download File</strong>: If Chrome asks <em>"File might be harmful"</em>, tap <strong>Download anyway</strong> (standard for direct APKs).</li>
-              <li><strong>Install & Open</strong>: Tap <strong>Open</strong> in your notification bar, then tap <strong>Install</strong>. Done!</li>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#334155', marginBottom: '8px' }}>
+              How to install in 3 steps:
+            </div>
+            <ol style={{ margin: 0, paddingLeft: '18px', fontSize: '11.5px', color: '#64748b', lineHeight: '1.7' }}>
+              <li>Tap the green <strong>Download</strong> button above or scan the QR code.</li>
+              <li>When Android asks, tap <strong>Download anyway</strong> and open the file.</li>
+              <li>Tap <strong>Install</strong> (enable "Install unknown apps" if prompted).</li>
             </ol>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div style={{
-          padding: '12px 28px',
-          background: '#f9fafb',
-          borderTop: '1px solid #e5e7eb',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: '12px',
-          color: '#6b7280'
-        }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Icons.ShieldCheck size={14} color="#16a34a" /> Verified & Safe Package
-          </span>
-          <button 
-            onClick={onClose}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#4b5563',
-              fontWeight: 600,
-              cursor: 'pointer',
-              padding: '4px 8px'
-            }}
-          >
-            Close
-          </button>
         </div>
       </div>
     </div>

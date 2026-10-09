@@ -15,7 +15,7 @@ export const DEFAULT_REMOTE_CONFIG: RemoteConfigPayload = {
     latestVersionCode: 6,
     minSupportedVersionCode: 1,
     updateRequired: false,
-    downloadUrl: 'https://expo.dev/artifacts/eas/GCgb_vM43BYMM1R1rOSYQgvpzfh5YqhNMdgXf9uEt0k.apk',
+    downloadUrl: 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.5/nuracare.apk',
     releaseNotes: 'Real challenge system with Telebirr & CBE Birr staking, live verification, Nura AI challenge integration, streak push notifications, and security-hardened wallet.',
   },
   home: {
