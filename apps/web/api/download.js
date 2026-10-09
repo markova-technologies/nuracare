@@ -8,7 +8,7 @@
 export const config = { runtime: 'edge' };
 
 const REPO = 'markova-technologies/nuracare';
-const FALLBACK_APK_URL = `https://github.com/${REPO}/releases/download/v1.0.7/NuraCare-v1.0.7.apk`;
+const FALLBACK_APK_URL = `https://expo.dev/artifacts/eas/o3j1mtP81JXzuWG7wEFnFFTFjCk98jr0355zhXa7vSg.apk`;
 
 export default async function handler(req) {
   try {

@@ -3,8 +3,8 @@ import * as Icons from 'lucide-react';
 import { showToast } from '@/lib/utils';
 
 // NuraCare Standalone Release Download
-const DEFAULT_VERSION = '1.0.7';
-const DEFAULT_APK_URL = 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.7/NuraCare-v1.0.7.apk';
+const DEFAULT_VERSION = '1.0.8';
+const DEFAULT_APK_URL = 'https://expo.dev/artifacts/eas/o3j1mtP81JXzuWG7wEFnFFTFjCk98jr0355zhXa7vSg.apk';
 
 export default function DownloadAppModal({ isOpen = true, onClose }) {
   const [activeTab, setActiveTab] = useState('instant'); // 'instant' | 'apk'

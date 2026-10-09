@@ -1,15 +1,15 @@
 {
-  "appVersion": "1.0.7",
-  "versionCode": 8,
+  "appVersion": "1.0.8",
+  "versionCode": 9,
   "minSupportedVersion": "1.0.0",
   "minVersionCode": 1,
   "forceUpdate": false,
-  "releaseDate": "2026-10-09",
+  "releaseDate": "2026-10-10",
   "websiteUrl": "https://nuracare.pro.et",
-  "downloadUrl": "https://github.com/markova-technologies/nuracare/releases/download/v1.0.7/NuraCare-v1.0.7.apk",
-  "apkFileName": "NuraCare-v1.0.7.apk",
+  "downloadUrl": "https://expo.dev/artifacts/eas/o3j1mtP81JXzuWG7wEFnFFTFjCk98jr0355zhXa7vSg.apk",
+  "apkFileName": "NuraCare-v1.0.8.apk",
   "changelogUrl": "https://nuracare.pro.et/changelog",
-  "releaseNotes": "🏆 Real challenge system — join, create & verify challenges live\n💰 Telebirr & CBE Birr staking (ETB) — real prize pools\n🤖 Nura AI now creates challenges from chat commands\n📊 Live leaderboard & streak tracking connected to Supabase\n🔔 Streak milestone push notifications (3, 7, 14, 30 days)\n🔒 Security hardened — wallet balances server-only\n⚡ 5+ duplicate modules eliminated, faster app startup\n🌙 Ethiopian fasting calendar improvements\n🐛 Multiple critical structural bug fixes",
+  "releaseNotes": "🚀 Full modern Android compatibility (Android 10 - 15)\n⚡ Switched to JavaScriptCore engine, resolving Hermes V1 low-memory terminations on Samsung Galaxy A05s\n🔧 Removed unmaintained native audio libraries for 100% crash-free launch\n🛡️ Updated Android permissions for Android 14 compatibility\n🏆 Real challenge system & live tracking",
   "features": {
     "challengesEnabled": true,
     "monetaryStakingEnabled": true,
@@ -19,6 +19,6 @@
     "telebirrEnabled": true,
     "cbeEnabled": true
   },
-  "easArtifactUrl": "https://expo.dev/artifacts/eas/uUzXUMAoUO17tQ59WwExktzv3CzAh478cT1M9GYM5As.apk",
-  "directApkUrl": "https://expo.dev/artifacts/eas/uUzXUMAoUO17tQ59WwExktzv3CzAh478cT1M9GYM5As.apk"
+  "easArtifactUrl": "https://expo.dev/artifacts/eas/o3j1mtP81JXzuWG7wEFnFFTFjCk98jr0355zhXa7vSg.apk",
+  "directApkUrl": "https://expo.dev/artifacts/eas/o3j1mtP81JXzuWG7wEFnFFTFjCk98jr0355zhXa7vSg.apk"
 }
