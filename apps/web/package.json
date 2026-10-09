@@ -14,7 +14,6 @@
     "@ai-sdk/openai": "^3.0.58",
     "@ai-sdk/react": "^3.0.176",
     "@google/generative-ai": "^0.24.1",
-    "@nuracare/shared": "*",
     "@supabase/supabase-js": "^2.107.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",

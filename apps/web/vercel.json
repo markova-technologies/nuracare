@@ -3,14 +3,9 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "devCommand": "vite --port 3000",
-  "functions": {
-    "api/chat.js": {
-      "maxDuration": 30
-    }
-  },
   "crons": [
     {
-      "path": "/api/cron-sync",
+      "path": "/api/cron-sync.js",
       "schedule": "0 0 * * *"
     }
   ],
@@ -75,7 +70,11 @@
       "destination": "/api/document?action=classify"
     },
     {
-      "source": "/((?!api|share|_next|.*\\.(?:apk|json|wav|png|jpg|jpeg|jfif|svg|ico|txt|pdf)$).*)",
+      "source": "/api/cron-sync",
+      "destination": "/api/cron-sync.js"
+    },
+    {
+      "source": "/((?!api/.*).*)",
       "destination": "/index.html"
     }
   ]
