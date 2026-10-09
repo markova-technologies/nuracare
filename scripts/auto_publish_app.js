@@ -143,7 +143,8 @@ async function main() {
     versionCode: mobileVersionCode,
     releaseDate: new Date().toISOString().split('T')[0],
     websiteUrl: 'https://nuracare.pro.et',
-    downloadUrl: '/nuracare.apk',
+    downloadUrl: `https://github.com/markova-technologies/nuracare/releases/download/v${mobileVersion}/NuraCare-v${mobileVersion}.apk`,
+    apkFileName: `NuraCare-v${mobileVersion}.apk`,
     releaseNotes: `Updated NuraCare v${mobileVersion} with enhanced live sync, offline support, 3D avatar canvas, and calming audio.`
   };
   writeJson(VERSION_JSON_PATH, updatedVersionData);
@@ -155,7 +156,8 @@ async function main() {
     if (remoteConfig.updateManifest) {
       remoteConfig.updateManifest.latestVersion = mobileVersion;
       remoteConfig.updateManifest.latestVersionCode = mobileVersionCode;
-      remoteConfig.updateManifest.downloadUrl = 'https://nuracare.pro.et/nuracare.apk';
+      remoteConfig.updateManifest.downloadUrl = `https://github.com/markova-technologies/nuracare/releases/download/v${mobileVersion}/NuraCare-v${mobileVersion}.apk`;
+      remoteConfig.updateManifest.apkFileName = `NuraCare-v${mobileVersion}.apk`;
       remoteConfig.updateManifest.releaseNotes = updatedVersionData.releaseNotes;
       remoteConfig.timestamp = new Date().toISOString();
       writeJson(REMOTE_CONFIG_PATH, remoteConfig);

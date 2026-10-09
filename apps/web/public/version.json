@@ -6,7 +6,8 @@
   "forceUpdate": false,
   "releaseDate": "2026-10-09",
   "websiteUrl": "https://nuracare.pro.et",
-  "downloadUrl": "https://github.com/markova-technologies/nuracare/releases/download/v1.0.5/nuracare.apk",
+  "downloadUrl": "https://github.com/markova-technologies/nuracare/releases/download/v1.0.6/NuraCare-v1.0.6.apk",
+  "apkFileName": "NuraCare-v1.0.6.apk",
   "changelogUrl": "https://nuracare.pro.et/changelog",
   "releaseNotes": "🏆 Real challenge system — join, create & verify challenges live\n💰 Telebirr & CBE Birr staking (ETB) — real prize pools\n🤖 Nura AI now creates challenges from chat commands\n📊 Live leaderboard & streak tracking connected to Supabase\n🔔 Streak milestone push notifications (3, 7, 14, 30 days)\n🔒 Security hardened — wallet balances server-only\n⚡ 5+ duplicate modules eliminated, faster app startup\n🌙 Ethiopian fasting calendar improvements\n🐛 Multiple critical structural bug fixes",
   "features": {
@@ -18,5 +19,6 @@
     "telebirrEnabled": true,
     "cbeEnabled": true
   },
-  "easArtifactUrl": "https://expo.dev/artifacts/eas/CGFz_V10hExu86TrxvsWhNIgrYJrOe7WNYg4MCT2oyE.apk"
+  "easArtifactUrl": "https://expo.dev/artifacts/eas/y1rS6X8EBP2vzdzJHVH4gLZNIHzGMrgZprQ-0RbzbmE.apk",
+  "directApkUrl": "https://expo.dev/artifacts/eas/y1rS6X8EBP2vzdzJHVH4gLZNIHzGMrgZprQ-0RbzbmE.apk"
 }

@@ -152,7 +152,7 @@ async function handleControlCenter(req, res) {
       const { count: postsCount } = await supabase.from('community_posts').select('*', { count: 'exact', head: true });
 
       const stats = {
-        platformVersion: '1.0.5',
+        platformVersion: '1.0.6',
         status: 'HEALTHY',
         activeServices: {
           aiRouter: 'Operational (Groq Edge)',

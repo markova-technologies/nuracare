@@ -2,22 +2,28 @@ import React, { useState, useEffect } from 'react';
 import * as Icons from 'lucide-react';
 import { showToast } from '@/lib/utils';
 
-// Permanent GitHub Release CDN download URL (never expires, fast global CDN)
-const APK_DOWNLOAD_URL = 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.5/nuracare.apk';
+// Permanent GitHub Release v1.0.6 CDN download URL (high speed CDN, standalone release)
+const DEFAULT_VERSION = '1.0.6';
+const DEFAULT_APK_URL = 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.6/NuraCare-v1.0.6.apk';
 
 export default function DownloadAppModal({ isOpen = true, onClose }) {
   const [copied, setCopied] = useState(false);
   const [versionData, setVersionData] = useState({
-    appVersion: '1.0.5',
-    downloadUrl: '/nuracare.apk'
+    appVersion: DEFAULT_VERSION,
+    downloadUrl: DEFAULT_APK_URL
   });
 
   useEffect(() => {
-    fetch('/version.json')
+    // Cache-busting fetch so browser never serves stale version data
+    fetch(`/version.json?t=${Date.now()}`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
-        if (data && data.downloadUrl) {
-          setVersionData(data);
+        if (data) {
+          setVersionData(prev => ({
+            ...prev,
+            appVersion: data.appVersion || prev.appVersion,
+            downloadUrl: data.downloadUrl || data.directApkUrl || prev.downloadUrl
+          }));
         }
       })
       .catch(() => {});
@@ -25,12 +31,16 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
 
   if (!isOpen) return null;
 
+  const currentVersion = versionData.appVersion || DEFAULT_VERSION;
+  const apkFileName = `NuraCare-v${currentVersion}.apk`;
+  const activeDownloadUrl = versionData.downloadUrl || DEFAULT_APK_URL;
+
   // QR code encodes the direct .apk link so scanning it immediately triggers Android's native download
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(APK_DOWNLOAD_URL)}&color=166534&bgcolor=f0fdf4`;
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(activeDownloadUrl)}&color=166534&bgcolor=f0fdf4`;
 
   const handleCopyLink = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(APK_DOWNLOAD_URL);
+      navigator.clipboard.writeText(activeDownloadUrl);
       setCopied(true);
       showToast('Direct APK download link copied to clipboard!', 'success');
       setTimeout(() => setCopied(false), 2500);
@@ -95,7 +105,7 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
                   NuraCare Mobile
                 </h3>
                 <span style={{ background: '#dcfce7', color: '#15803d', padding: '2px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, border: '1px solid #86efac' }}>
-                  v1.0.5 Latest
+                  v{currentVersion} Latest
                 </span>
               </div>
               <p style={{ margin: 0, fontSize: '12.5px', color: '#4b5563', marginTop: '2px' }}>
@@ -177,8 +187,8 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
 
             {/* ONLY ONE SINGLE PROMINENT DOWNLOAD BUTTON */}
             <a 
-              href={APK_DOWNLOAD_URL} 
-              download="nuracare.apk"
+              href={activeDownloadUrl} 
+              download={apkFileName}
               style={{
                 width: '100%',
                 display: 'flex',
@@ -200,7 +210,7 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#16a34a'}
             >
               <Icons.Download size={22} color="#ffffff" />
-              <span>Download NuraCare App (.APK)</span>
+              <span>Download NuraCare v{currentVersion} (.APK)</span>
             </a>
 
             {/* Copy link button */}
