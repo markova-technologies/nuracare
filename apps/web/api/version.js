@@ -43,6 +43,17 @@ export default async function handler(req) {
     });
   }
 
+  const fallbackPayload = {
+    appVersion: FALLBACK_VERSION,
+    tag: `v${FALLBACK_VERSION}`,
+    releaseName: `NuraCare v${FALLBACK_VERSION}`,
+    releaseNotes: 'Performance improvements and modern Android compatibility (Android 10 - 15).',
+    downloadUrl: FALLBACK_DOWNLOAD_URL,
+    apkFileName: `NuraCare-v${FALLBACK_VERSION}.apk`,
+    publishedAt: new Date().toISOString(),
+    source: 'eas-verified-artifact'
+  };
+
   try {
     const headers = {
       'User-Agent': 'NuraCare-Web-Version-Checker',
@@ -61,6 +72,18 @@ export default async function handler(req) {
       const tagName = release.tag_name || 'v1.0.7';
       const cleanVersion = tagName.replace(/^v/i, '');
       
+      // If GitHub latest release has an older tag (e.g. v1.0.7) than our current EAS build (v1.0.8), serve v1.0.8
+      if (cleanVersion < FALLBACK_VERSION) {
+        return new Response(JSON.stringify(fallbackPayload), {
+          status: 200,
+          headers: {
+            ...CORS_HEADERS,
+            'Content-Type': 'application/json',
+            'Cache-Control': 'public, max-age=60, s-maxage=60, stale-while-revalidate=120',
+          },
+        });
+      }
+
       // Locate APK asset in release
       const apkAsset = release.assets?.find(a => a.name.toLowerCase().endsWith('.apk'));
       const downloadUrl = apkAsset?.browser_download_url || 
@@ -92,18 +115,6 @@ export default async function handler(req) {
   } catch (err) {
     console.error('[Version API] Failed to fetch latest GitHub release:', err);
   }
-
-  // Graceful fallback if GitHub is unreachable or rate-limited
-  const fallbackPayload = {
-    appVersion: FALLBACK_VERSION,
-    tag: `v${FALLBACK_VERSION}`,
-    releaseName: `NuraCare v${FALLBACK_VERSION}`,
-    releaseNotes: 'Performance improvements and bug fixes.',
-    downloadUrl: FALLBACK_DOWNLOAD_URL,
-    apkFileName: `NuraCare-v${FALLBACK_VERSION}.apk`,
-    publishedAt: new Date().toISOString(),
-    source: 'fallback'
-  };
 
   return new Response(JSON.stringify(fallbackPayload), {
     status: 200,
