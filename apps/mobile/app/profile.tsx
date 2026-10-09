@@ -485,7 +485,7 @@ export default function ProfileScreen() {
             </TouchableOpacity>
           </View>
           <Text style={[styles.sectionSubtitle, { color: theme.textSecondary }]}>
-            NuraCare v1.0.6 (Build 7) • All latest features & challenges active
+            NuraCare v1.0.7 (Build 8) • All latest features & challenges active
           </Text>
         </View>
 

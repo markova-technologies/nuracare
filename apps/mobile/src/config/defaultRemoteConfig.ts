@@ -11,12 +11,12 @@ export const DEFAULT_REMOTE_CONFIG: RemoteConfigPayload = {
   environment: 'production',
   timestamp: new Date().toISOString(),
   updateManifest: {
-    latestVersion: '1.0.6',
+    latestVersion: '1.0.7',
     latestVersionCode: 8,
     minSupportedVersionCode: 1,
     updateRequired: false,
-    downloadUrl: 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.6/NuraCare-v1.0.6.apk',
-    releaseNotes: 'NuraCare v1.0.6: Startup stability fix, safe audio mode, full health onboarding and login flow.',
+    downloadUrl: 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.7/NuraCare-v1.0.7.apk',
+    releaseNotes: 'NuraCare v1.0.7: Startup stability fix, safe audio mode, full health onboarding and login flow.',
   },
   home: {
     greetingFormat: 'time_adaptive',

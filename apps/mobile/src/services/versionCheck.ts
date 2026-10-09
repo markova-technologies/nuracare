@@ -27,7 +27,7 @@ export async function checkForAppUpdates(showUpToDateAlert = false): Promise<Ver
   if (Platform.OS === 'web') return null;
 
   try {
-    const currentVersion = Constants.expoConfig?.version || '1.0.6';
+    const currentVersion = Constants.expoConfig?.version || '1.0.7';
     const currentVersionCode = Constants.expoConfig?.android?.versionCode || 8;
 
     const controller = new AbortController();

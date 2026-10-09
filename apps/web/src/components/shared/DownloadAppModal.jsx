@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import * as Icons from 'lucide-react';
 import { showToast } from '@/lib/utils';
 
-// Permanent GitHub Release v1.0.6 CDN download URL (high speed CDN, standalone release)
-const DEFAULT_VERSION = '1.0.6';
-const DEFAULT_APK_URL = 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.6/NuraCare-v1.0.6.apk';
+// NuraCare Standalone Release Download
+const DEFAULT_VERSION = '1.0.7';
+const DEFAULT_APK_URL = 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.7/NuraCare-v1.0.7.apk';
 
 export default function DownloadAppModal({ isOpen = true, onClose }) {
   const [copied, setCopied] = useState(false);
@@ -14,19 +14,34 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
   });
 
   useEffect(() => {
-    // Cache-busting fetch so browser never serves stale version data
-    fetch(`/version.json?t=${Date.now()}`, { cache: 'no-store' })
-      .then(res => res.json())
+    // Priority 1: Fetch live release metadata from /api/version (edge-cached GitHub Releases)
+    fetch(`/api/version?t=${Date.now()}`, { cache: 'no-store' })
+      .then(res => {
+        if (!res.ok) throw new Error('API unavailable');
+        return res.json();
+      })
       .then(data => {
-        if (data) {
-          setVersionData(prev => ({
-            ...prev,
-            appVersion: data.appVersion || prev.appVersion,
-            downloadUrl: data.downloadUrl || data.directApkUrl || prev.downloadUrl
-          }));
+        if (data && data.appVersion) {
+          setVersionData({
+            appVersion: data.appVersion,
+            downloadUrl: data.downloadUrl || DEFAULT_APK_URL
+          });
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        // Priority 2 Fallback: Static manifest /version.json
+        fetch(`/version.json?t=${Date.now()}`, { cache: 'no-store' })
+          .then(res => res.json())
+          .then(data => {
+            if (data) {
+              setVersionData(prev => ({
+                appVersion: data.appVersion || prev.appVersion,
+                downloadUrl: data.downloadUrl || data.directApkUrl || prev.downloadUrl
+              }));
+            }
+          })
+          .catch(() => {});
+      });
   }, []);
 
   if (!isOpen) return null;
