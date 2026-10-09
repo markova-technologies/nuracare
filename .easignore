@@ -1,8 +1,10 @@
 node_modules/
 .git/
-package-lock.json
-apps/web/public/*.apk
-apps/web/dist/
-apps/mobile/dist/
+.vercel/
+apps/web/
+dist/
 *.apk
 *.log
+*.tar.gz
+avatars.png
+habesha-female-avatar-graphic-illustration-abstract-memphis-minimalism-blackhaired-girl-with_710103-819.jpg
