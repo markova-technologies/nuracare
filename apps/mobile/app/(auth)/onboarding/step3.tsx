@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { useProfile } from '../../../src/context/ProfileContext';
+import { getProfile, saveProfile } from '../../../src/storage/profileStorage';
 import { ArrowLeft, ArrowRight, Upload, FileText, Pill } from 'lucide-react-native';
 import * as DocumentPicker from 'expo-document-picker';
 
@@ -42,7 +43,10 @@ export default function OnboardingStep3() {
       ? `[Attached: ${fileAttached}]\n${medicalNotes}`
       : medicalNotes;
 
-    await setProfile({ medicalNotes: finalNotes });
+    const updates = { medicalNotes: finalNotes };
+    await setProfile(updates);
+    const existing = getProfile() || {};
+    saveProfile({ ...existing, ...updates });
     setLoading(false);
     router.push('/(auth)/onboarding/step4');
   };

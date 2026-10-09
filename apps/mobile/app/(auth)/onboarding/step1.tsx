@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { useProfile } from '../../../src/context/ProfileContext';
+import { getProfile, saveProfile } from '../../../src/storage/profileStorage';
 import { ArrowLeft, ArrowRight, User } from 'lucide-react-native';
 
 const COUNTRIES = ['Ethiopia', 'Kenya', 'Nigeria', 'South Africa', 'United States', 'United Kingdom', 'Other'];
@@ -19,11 +20,12 @@ const LANGUAGES = ['English', 'Amharic', 'Oromiffa'];
 
 export default function OnboardingStep1() {
   const { profile, setProfile } = useProfile();
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [gender, setGender] = useState<'female' | 'male'>('female');
-  const [country, setCountry] = useState('Ethiopia');
-  const [language, setLanguage] = useState('English');
+  const existingStored = getProfile() || {};
+  const [name, setName] = useState(profile?.name || existingStored?.name || '');
+  const [age, setAge] = useState(profile?.age ? String(profile.age) : (existingStored?.age ? String(existingStored.age) : ''));
+  const [gender, setGender] = useState<'female' | 'male'>((profile?.gender || existingStored?.gender) === 'male' ? 'male' : 'female');
+  const [country, setCountry] = useState(profile?.culturalHeritage || existingStored?.culturalHeritage || 'Ethiopia');
+  const [language, setLanguage] = useState(profile?.langPref || existingStored?.langPref || 'English');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -38,13 +40,16 @@ export default function OnboardingStep1() {
 
   const handleNext = async () => {
     setLoading(true);
-    await setProfile({
+    const updates = {
       name: name.trim() || 'Wellness Friend',
-      age: parseInt(age, 10) || null,
+      age: parseInt(age, 10) || 28,
       gender,
       culturalHeritage: country,
       langPref: language,
-    });
+    };
+    await setProfile(updates);
+    const existing = getProfile() || {};
+    saveProfile({ ...existing, ...updates });
     setLoading(false);
     router.push('/(auth)/onboarding/step2');
   };
@@ -57,7 +62,16 @@ export default function OnboardingStep1() {
       >
         <ScrollView style={styles.container} contentContainerStyle={styles.content}>
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+            <TouchableOpacity
+              onPress={() => {
+                if (router.canGoBack()) {
+                  router.back();
+                } else {
+                  router.replace('/(auth)/login');
+                }
+              }}
+              style={styles.backBtn}
+            >
               <ArrowLeft size={22} color="#0f172a" />
             </TouchableOpacity>
             <View style={styles.stepPill}>

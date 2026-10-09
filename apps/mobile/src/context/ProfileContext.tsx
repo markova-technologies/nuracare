@@ -4,6 +4,7 @@ import { useAuth } from './AuthContext';
 import { storage } from '../storage/mmkv';
 
 import { useAuthStore } from '../store';
+import { getProfile, saveProfile } from '../storage/profileStorage';
 
 type ProfileContextType = {
   profile: any;
@@ -29,18 +30,22 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     }
 
     if (currentUser?.id && String(currentUser.id).startsWith('guest_')) {
-      setProfileState({
+      const stored = getProfile() || {};
+      const guestProfile = {
         id: currentUser.id,
-        name: currentUser.name || 'Guest Explorer',
-        age: 28,
-        culturalHeritage: 'Global',
-        langPref: 'English',
-        conditions: [],
-        medications: [],
-        fastingMode: currentUser.fastingMode || 'Orthodox Christian (Tsom)',
-        medicalNotes: '',
-        records: []
-      });
+        name: stored.name || currentUser.name || 'Guest Explorer',
+        age: stored.age || 28,
+        gender: stored.gender || 'female',
+        culturalHeritage: stored.culturalHeritage || 'Global',
+        langPref: stored.langPref || 'English',
+        conditions: stored.conditions || [],
+        medications: stored.medications || [],
+        fastingMode: stored.fastingMode || currentUser.fastingMode || 'Orthodox Christian (Tsom)',
+        medicalNotes: stored.medicalNotes || '',
+        records: stored.records || [],
+        onboardingCompleted: !!stored.onboardingCompleted,
+      };
+      setProfileState(guestProfile);
       setLoading(false);
       return;
     }
@@ -64,27 +69,34 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
           const culturalHeritage = storage.getString(`culturalHeritage_${userId}`) || 'Global';
           const langPref = storage.getString(`langPref_${userId}`) || 'English';
           const gender = storage.getString(`gender_${userId}`) || data.gender || 'female';
-          setProfileState({ ...data, medicalNotes: data.medical_notes, fastingMode, culturalHeritage, langPref, gender });
+          const full = { ...data, medicalNotes: data.medical_notes, fastingMode, culturalHeritage, langPref, gender, onboardingCompleted: true };
+          setProfileState(full);
+          saveProfile(full);
         } else if (error && error.code === 'PGRST116') {
-          const { data: newProfile } = await supabase
-            .from('profiles')
-            .upsert({ id: userId, name: currentUser.name || currentUser.user_metadata?.full_name || '', updated_at: new Date() })
-            .select()
-            .single();
-          if (newProfile) {
-            const fastingMode = storage.getString(`fastingMode_${userId}`) || 'None';
-            const culturalHeritage = storage.getString(`culturalHeritage_${userId}`) || 'Global';
-            const langPref = storage.getString(`langPref_${userId}`) || 'English';
-            setProfileState({ ...newProfile, medicalNotes: newProfile.medical_notes, fastingMode, culturalHeritage, langPref });
-          } else {
-            setProfileState({ id: userId, name: currentUser.name || currentUser.user_metadata?.full_name || '', _fallback: true });
-          }
+          const stored = getProfile() || {};
+          const fallback = {
+            id: userId,
+            name: currentUser.name || currentUser.user_metadata?.full_name || stored.name || '',
+            onboardingCompleted: !!stored.onboardingCompleted,
+            _fallback: true
+          };
+          setProfileState(fallback);
+          saveProfile(fallback);
         } else {
-          setProfileState({ id: userId, name: currentUser.name || currentUser.user_metadata?.full_name || '', _fallback: true });
+          const stored = getProfile() || {};
+          const fallback = {
+            id: userId,
+            name: currentUser.name || currentUser.user_metadata?.full_name || stored.name || '',
+            onboardingCompleted: !!stored.onboardingCompleted,
+            _fallback: true
+          };
+          setProfileState(fallback);
+          saveProfile(fallback);
         }
       } catch (err) {
         console.warn("Profile fetch error, using local fallback", err);
-        setProfileState({ id: currentUser.id, name: currentUser.name || 'Nura Explorer', _fallback: true });
+        const stored = getProfile() || {};
+        setProfileState({ id: currentUser.id, name: currentUser.name || 'Nura Explorer', onboardingCompleted: !!stored.onboardingCompleted, _fallback: true });
       } finally {
         setLoading(false);
       }
@@ -122,6 +134,9 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
       storage.set(`gender_${userId}`, dbPayload.gender);
     }
     
+    const stored = getProfile() || {};
+    saveProfile({ ...stored, ...updates });
+
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -130,11 +145,13 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
         .single();
         
       if (!error && data) {
-        const fastingMode = storage.getString(`fastingMode_${userId}`) || 'None';
-        const culturalHeritage = storage.getString(`culturalHeritage_${userId}`) || 'Global';
-        const langPref = storage.getString(`langPref_${userId}`) || 'English';
-        const gender = storage.getString(`gender_${userId}`) || data.gender || 'female';
-        setProfileState({ ...data, medicalNotes: data.medical_notes, fastingMode, culturalHeritage, langPref, gender });
+        const fastingMode = storage.getString(`fastingMode_${userId}`) || updates.fastingMode || 'None';
+        const culturalHeritage = storage.getString(`culturalHeritage_${userId}`) || updates.culturalHeritage || 'Global';
+        const langPref = storage.getString(`langPref_${userId}`) || updates.langPref || 'English';
+        const gender = storage.getString(`gender_${userId}`) || data.gender || updates.gender || 'female';
+        const merged = { ...data, medicalNotes: data.medical_notes, fastingMode, culturalHeritage, langPref, gender, onboardingCompleted: updates.onboardingCompleted ?? stored.onboardingCompleted };
+        setProfileState(merged);
+        saveProfile(merged);
       } else {
         setProfileState((prev: any) => ({ ...(prev || {}), ...updates }));
       }

@@ -12,6 +12,8 @@ import {
 import { useRouter } from 'expo-router';
 import { useAuthStore, useWellnessStore } from '../src/store';
 import { useProfile } from '../src/context/ProfileContext';
+import { useAuth } from '../src/context/AuthContext';
+import { clearProfile as clearProfileStorage } from '../src/storage/profileStorage';
 import { useTheme } from '../src/context/ThemeContext';
 import {
   User,
@@ -46,6 +48,7 @@ export default function ProfileScreen() {
   const { user, setUser } = useAuthStore();
   const { setScore } = useWellnessStore();
   const { profile, setProfile, clearProfile } = useProfile();
+  const { signOut } = useAuth();
   const { theme, isDark, themeMode, setThemeMode, activeTheme } = useTheme();
   
   const [showThemeModal, setShowThemeModal] = useState(false);
@@ -72,10 +75,14 @@ export default function ProfileScreen() {
       {
         text: 'Sign Out',
         style: 'destructive',
-        onPress: () => {
+        onPress: async () => {
           clearProfile();
+          clearProfileStorage();
           setUser(null);
           setScore(100);
+          try {
+            if (signOut) await signOut();
+          } catch {}
           router.replace('/(auth)/login');
         },
       },

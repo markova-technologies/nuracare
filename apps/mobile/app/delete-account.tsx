@@ -4,11 +4,14 @@ import { useRouter } from 'expo-router';
 import { ArrowLeft, Trash2, AlertTriangle, CheckCircle2 } from 'lucide-react-native';
 import { useAuthStore } from '../src/store';
 import { useProfile } from '../src/context/ProfileContext';
+import { useAuth } from '../src/context/AuthContext';
+import { clearProfile as clearProfileStorage } from '../src/storage/profileStorage';
 
 export default function DeleteAccountScreen() {
   const router = useRouter();
   const { setUser } = useAuthStore();
   const { clearProfile } = useProfile();
+  const { signOut } = useAuth();
 
   const [confirmText, setConfirmText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -33,7 +36,11 @@ export default function DeleteAccountScreen() {
               // Simulated cloud purge + local clean
               await new Promise((resolve) => setTimeout(resolve, 1500));
               clearProfile();
+              clearProfileStorage();
               setUser(null);
+              try {
+                if (signOut) await signOut();
+              } catch {}
               setIsDeleting(false);
               Alert.alert(
                 'Account Deleted',

@@ -6,6 +6,7 @@ import { useWellnessStore, useAuthStore } from '../src/store';
 import { startBackgroundSyncLoop } from '../src/services/supabase/syncEngine';
 import { AuthProvider, useAuth } from '../src/context/AuthContext';
 import { ProfileProvider, useProfile } from '../src/context/ProfileContext';
+import { getProfile } from '../src/storage/profileStorage';
 
 import * as SplashScreen from 'expo-splash-screen';
 import Constants from 'expo-constants';
@@ -88,15 +89,31 @@ function InnerLayout() {
     if (!isReady || authLoading) return;
 
     const inAuthGroup = segments[0] === '(auth)';
+    const inOnboarding = segments[0] === '(auth)' && segments[1] === 'onboarding';
     
     // Only redirect if unauthenticated and trying to access protected screens
-    if (!currentUser && !inAuthGroup) {
-      router.replace('/(auth)/login');
-    } else if (currentUser && inAuthGroup) {
-      // If user is already authenticated and lands on login/auth, send to tabs
-      router.replace('/(tabs)');
+    if (!currentUser) {
+      if (!inAuthGroup) {
+        router.replace('/(auth)/login');
+      }
+    } else {
+      // User is authenticated or active guest
+      const userProfile = getProfile();
+      const hasCompletedOnboarding = !!userProfile?.onboardingCompleted;
+
+      if (!hasCompletedOnboarding) {
+        // Needs onboarding: redirect to step1 only if not already in onboarding flow
+        if (!inOnboarding) {
+          router.replace('/(auth)/onboarding/step1');
+        }
+      } else {
+        // Already completed onboarding: redirect out of (auth) to main tabs
+        if (inAuthGroup) {
+          router.replace('/(tabs)');
+        }
+      }
     }
-  }, [currentUser?.id, authLoading, isReady, segments[0]]);
+  }, [currentUser?.id, authLoading, isReady, segments]);
 
   // 1. Maintenance Mode check (server-driven kill switch / maintenance)
   if (config?.emergency?.maintenanceMode) {

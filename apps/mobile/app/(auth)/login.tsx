@@ -14,6 +14,7 @@ import { Leaf, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react-native';
 import { useAuth } from '../../src/context/AuthContext';
 import { useAuthStore } from '../../src/store';
 import { router } from 'expo-router';
+import { getProfile, saveProfile } from '../../src/storage/profileStorage';
 
 export default function LoginScreen() {
   const { signInWithEmail, signUpWithEmail, signInWithGoogle, setGuestUser } = useAuth();
@@ -52,7 +53,20 @@ export default function LoginScreen() {
       if (setGuestUser) {
         setGuestUser(authenticatedUser);
       }
-      router.replace('/(tabs)');
+
+      if (isSignUp) {
+        // New sign up always completes personalized health onboarding
+        const existing = getProfile() || {};
+        saveProfile({ ...existing, name: name.trim() });
+        router.replace('/(auth)/onboarding/step1');
+      } else {
+        const profile = getProfile();
+        if (profile?.onboardingCompleted) {
+          router.replace('/(tabs)');
+        } else {
+          router.replace('/(auth)/onboarding/step1');
+        }
+      }
     } catch (e: any) {
       console.warn('Auth service notice:', e?.message || e);
       // If network/rate-limit or offline mode occurs, provide seamless login for the user
@@ -73,7 +87,19 @@ export default function LoginScreen() {
         if (setGuestUser) {
           setGuestUser(localUser);
         }
-        router.replace('/(tabs)');
+
+        if (isSignUp) {
+          const existing = getProfile() || {};
+          saveProfile({ ...existing, name: name.trim() });
+          router.replace('/(auth)/onboarding/step1');
+        } else {
+          const profile = getProfile();
+          if (profile?.onboardingCompleted) {
+            router.replace('/(tabs)');
+          } else {
+            router.replace('/(auth)/onboarding/step1');
+          }
+        }
       } else {
         setError(e.message || 'Authentication failed. Please check your credentials.');
       }
@@ -87,7 +113,12 @@ export default function LoginScreen() {
     setError(null);
     try {
       await signInWithGoogle();
-      router.replace('/(tabs)');
+      const profile = getProfile();
+      if (profile?.onboardingCompleted) {
+        router.replace('/(tabs)');
+      } else {
+        router.replace('/(auth)/onboarding/step1');
+      }
     } catch (e: any) {
       setError(e.message || 'Google Sign-In failed');
     } finally {
@@ -106,7 +137,12 @@ export default function LoginScreen() {
     if (setGuestUser) {
       setGuestUser(guestData);
     }
-    router.replace('/(tabs)');
+    const profile = getProfile();
+    if (profile?.onboardingCompleted) {
+      router.replace('/(tabs)');
+    } else {
+      router.replace('/(auth)/onboarding/step1');
+    }
   };
 
   return (

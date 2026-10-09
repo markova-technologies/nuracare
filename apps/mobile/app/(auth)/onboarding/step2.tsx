@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { useProfile } from '../../../src/context/ProfileContext';
+import { getProfile, saveProfile } from '../../../src/storage/profileStorage';
 import { ArrowLeft, ArrowRight, Activity, Heart, Wind, Bone, Brain, Sparkles, Clock } from 'lucide-react-native';
 
 const CONDITIONS = [
@@ -62,10 +63,13 @@ export default function OnboardingStep2() {
 
   const handleNext = async () => {
     setLoading(true);
-    await setProfile({
+    const updates = {
       conditions,
       fastingMode,
-    });
+    };
+    await setProfile(updates);
+    const existing = getProfile() || {};
+    saveProfile({ ...existing, ...updates });
     setLoading(false);
     router.push('/(auth)/onboarding/step3');
   };

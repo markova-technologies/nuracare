@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Nura",
+    "name": "NuraCare",
     "slug": "nuracare",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "scheme": "nuracare",
     "icon": "./assets/images/icon.png",
@@ -20,7 +20,7 @@
     },
     "android": {
       "package": "com.darikab71.nuracaremobile",
-      "versionCode": 6,
+      "versionCode": 7,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"

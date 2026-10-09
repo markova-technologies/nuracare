@@ -27,8 +27,8 @@ const DEFAULT_CONFIG = {
   minSupportedAppVersion: '1.0.0',
   environment: 'production',
   updateManifest: {
-    latestVersion: '1.0.5',
-    latestVersionCode: 6,
+    latestVersion: '1.0.6',
+    latestVersionCode: 7,
     minSupportedVersionCode: 1,
     updateRequired: false,
     downloadUrl: 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.5/nuracare.apk',

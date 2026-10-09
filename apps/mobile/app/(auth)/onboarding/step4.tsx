@@ -11,17 +11,23 @@ import { router } from 'expo-router';
 import { Sparkles, CheckCircle2, Heart, ShieldCheck, Users, Pill, ArrowRight } from 'lucide-react-native';
 import { saveProfile, getProfile } from '../../../src/storage/profileStorage';
 import { useAuthStore } from '../../../src/store';
+import { useProfile } from '../../../src/context/ProfileContext';
 
 export default function OnboardingStep4() {
   const existingProfile = getProfile() || {};
-  const { setUser } = useAuthStore();
+  const { user: storeUser, setUser } = useAuthStore();
+  const { setProfile } = useProfile();
 
-  const handleComplete = () => {
-    saveProfile({ ...existingProfile, onboardingCompleted: true });
+  const handleComplete = async () => {
+    const finalProfile = { ...existingProfile, onboardingCompleted: true };
+    saveProfile(finalProfile);
+    if (setProfile) {
+      await setProfile(finalProfile);
+    }
     setUser({
-      id: existingProfile.id || 'user_' + Date.now(),
-      name: existingProfile.name || 'Wellness Friend',
-      fastingMode: existingProfile.fastingMode || 'Orthodox Christian (Tsom)',
+      id: existingProfile.id || storeUser?.id || 'usr_' + Date.now(),
+      name: existingProfile.name || storeUser?.name || 'Wellness Friend',
+      fastingMode: existingProfile.fastingMode || storeUser?.fastingMode || 'Orthodox Christian (Tsom)',
     });
     router.replace('/(tabs)');
   };
