@@ -211,6 +211,34 @@ export default function FloatingNatureBackground({
           }
         }
       } else {
+        if (!soundRef.current && Audio?.Sound) {
+          try {
+            await Audio.setAudioModeAsync({
+              playsInSilentModeIOS: true,
+              staysActiveInBackground: false,
+              shouldDuckAndroid: true,
+            }).catch(() => {});
+
+            let soundSource: any;
+            try {
+              soundSource = require('../../../assets/sounds/water_stream.wav');
+            } catch {
+              soundSource = { uri: 'https://nuracare.pro.et/water_stream.wav' };
+            }
+
+            const { sound } = await Audio.Sound.createAsync(
+              soundSource,
+              { isLooping: true, volume: 0.55, shouldPlay: true }
+            );
+            soundRef.current = sound;
+            setIsPlayingSound(true);
+            return;
+          } catch (e) {
+            console.warn('Lazy audio init failed:', e);
+            return;
+          }
+        }
+
         if (soundRef.current) {
           const status = await soundRef.current.getStatusAsync();
           if (status.isLoaded) {
@@ -315,40 +343,6 @@ export default function FloatingNatureBackground({
         // Non-blocking
       }
     }
-
-    // 2. Native Expo AV Audio setup with bundled local asset
-    async function initNativeSound() {
-      if (Platform.OS === 'web' || !Audio?.Sound) return;
-      try {
-        await Audio.setAudioModeAsync({
-          playsInSilentModeIOS: true,
-          staysActiveInBackground: false,
-          shouldDuckAndroid: true,
-        }).catch(() => {});
-
-        let soundSource: any;
-        try {
-          soundSource = require('../../../assets/sounds/water_stream.wav');
-        } catch {
-          soundSource = { uri: 'https://nuracare.pro.et/water_stream.wav' };
-        }
-
-        const { sound } = await Audio.Sound.createAsync(
-          soundSource,
-          { isLooping: true, volume: 0.55, shouldPlay: false }
-        ).catch(() => ({ sound: null }));
-
-        if (isMounted && sound) {
-          soundRef.current = sound;
-        } else if (sound) {
-          await sound.unloadAsync().catch(() => {});
-        }
-      } catch (err) {
-        // Safe non-blocking fallback
-      }
-    }
-
-    initNativeSound();
 
     return () => {
       isMounted = false;

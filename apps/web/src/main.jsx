@@ -12,6 +12,15 @@ import { CheckupsProvider } from '@/hooks/useCheckups'
 import SharedChatPage from '@/features/chat/SharedChatPage'
 import { registerServiceWorker } from '@/registerSW'
 
+// Capture PWA install prompt globally so users can install instantly from anywhere
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    window.deferredInstallPrompt = e;
+    window.dispatchEvent(new CustomEvent('pwa-installable'));
+  });
+}
+
 registerServiceWorker()
 
 const root = ReactDOM.createRoot(document.getElementById('root'))

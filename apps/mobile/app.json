@@ -7,11 +7,6 @@
     "scheme": "nuracare",
     "icon": "./assets/images/icon.png",
     "owner": "z01a",
-    "splash": {
-      "image": "./assets/images/icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "extra": {
       "router": {},
       "eas": {
