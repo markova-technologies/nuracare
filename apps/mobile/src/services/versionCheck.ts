@@ -48,8 +48,9 @@ export async function checkForAppUpdates(showUpToDateAlert = false): Promise<Ver
     const isBelowMinimum = currentVersionCode < minCode;
     const isForced = remote.forceUpdate === true || isBelowMinimum;
     const hasUpdate = remoteVersionCode > currentVersionCode;
+    const isAlreadyOnVersion = remote.appVersion === currentVersion;
 
-    if (!hasUpdate) {
+    if (!hasUpdate || (isAlreadyOnVersion && !isForced)) {
       if (showUpToDateAlert) {
         Alert.alert('✅ Up to Date', `You have the latest NuraCare (v${currentVersion}).`);
       }
