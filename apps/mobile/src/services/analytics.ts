@@ -60,7 +60,7 @@ class AnalyticsService {
     if (this.queue.length === 0) return;
 
     const eventsToUpload = [...this.queue];
-    const appVersion = Constants.expoConfig?.version || '1.0.3';
+    const appVersion = Constants.expoConfig?.version || '1.0.6';
 
     try {
       const response = await fetch(ANALYTICS_ENDPOINT, {

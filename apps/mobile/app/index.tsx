@@ -1,4 +1,5 @@
 import React from 'react';
+import { View, ActivityIndicator } from 'react-native';
 import { Redirect } from 'expo-router';
 import { useAuthStore } from '../src/store';
 import { useAuth } from '../src/context/AuthContext';
@@ -9,7 +10,13 @@ export default function Index() {
   const { user: storeUser } = useAuthStore();
   const currentUser = authUser || storeUser;
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff' }}>
+        <ActivityIndicator size="large" color="#16a34a" />
+      </View>
+    );
+  }
 
   // If user has an active session AND finished onboarding, open tabs
   if (currentUser) {

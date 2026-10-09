@@ -155,7 +155,7 @@ export default function FloatingNatureBackground({
   showSoundToggle = true,
 }: FloatingNatureBackgroundProps) {
   const { theme, isDark } = useTheme();
-  const [isPlayingSound, setIsPlayingSound] = useState(true);
+  const [isPlayingSound, setIsPlayingSound] = useState(false);
 
   // Elements configuration matching web FloatingLeaves
   const elementsConfig = useMemo(() => {
@@ -322,9 +322,9 @@ export default function FloatingNatureBackground({
       try {
         await Audio.setAudioModeAsync({
           playsInSilentModeIOS: true,
-          staysActiveInBackground: true,
-          shouldDuckAndroid: false,
-        });
+          staysActiveInBackground: false,
+          shouldDuckAndroid: true,
+        }).catch(() => {});
 
         let soundSource: any;
         try {
@@ -335,14 +335,12 @@ export default function FloatingNatureBackground({
 
         const { sound } = await Audio.Sound.createAsync(
           soundSource,
-          { isLooping: true, volume: 0.55, shouldPlay: true }
-        );
+          { isLooping: true, volume: 0.55, shouldPlay: false }
+        ).catch(() => ({ sound: null }));
 
-        if (isMounted) {
+        if (isMounted && sound) {
           soundRef.current = sound;
-          await sound.playAsync().catch(() => {});
-          setIsPlayingSound(true);
-        } else {
+        } else if (sound) {
           await sound.unloadAsync().catch(() => {});
         }
       } catch (err) {

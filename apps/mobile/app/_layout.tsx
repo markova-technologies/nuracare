@@ -88,8 +88,14 @@ function InnerLayout() {
   useEffect(() => {
     if (!isReady || authLoading) return;
 
-    const inAuthGroup = segments[0] === '(auth)';
-    const inOnboarding = segments[0] === '(auth)' && segments[1] === 'onboarding';
+    const rootSegment = segments[0];
+    // If on the entry point / index route, let index.tsx handle initial redirection cleanly
+    if (!rootSegment || rootSegment === 'index') {
+      return;
+    }
+
+    const inAuthGroup = rootSegment === '(auth)';
+    const inOnboarding = rootSegment === '(auth)' && segments[1] === 'onboarding';
     
     // Only redirect if unauthenticated and trying to access protected screens
     if (!currentUser) {
@@ -113,7 +119,7 @@ function InnerLayout() {
         }
       }
     }
-  }, [currentUser?.id, authLoading, isReady, segments]);
+  }, [currentUser?.id, authLoading, isReady, segments[0], segments[1]]);
 
   // 1. Maintenance Mode check (server-driven kill switch / maintenance)
   if (config?.emergency?.maintenanceMode) {
@@ -126,9 +132,9 @@ function InnerLayout() {
   }
 
   // 2. Forced Update check (server-driven Level 3 update)
-  const currentCode = Constants.expoConfig?.android?.versionCode || 6;
+  const currentCode = Constants.expoConfig?.android?.versionCode || 8;
   const minCode = config?.updateManifest?.minSupportedVersionCode || 1;
-  const isOutdated = currentCode < minCode || (config?.updateManifest?.updateRequired && currentCode < (config.updateManifest.latestVersionCode || 6));
+  const isOutdated = currentCode < minCode || (config?.updateManifest?.updateRequired && currentCode < (config.updateManifest.latestVersionCode || 8));
 
   if (isOutdated && config?.updateManifest) {
     return (
@@ -165,20 +171,73 @@ function InnerLayout() {
   );
 }
 
+import React, { Component } from 'react';
 import FloatingNatureBackground from '../src/components/ambient/FloatingNatureBackground';
 import { ThemeProvider } from '../src/context/ThemeContext';
 
+class AppErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean; error: Error | null }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: any) {
+    console.warn('[AppErrorBoundary] Uncaught startup error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24, backgroundColor: '#ffffff' }}>
+          <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#166534', marginBottom: 12 }}>NuraCare</Text>
+          <Text style={{ fontSize: 14, color: '#4b5563', textAlign: 'center', marginBottom: 16 }}>
+            The app encountered a startup issue. Tap below to reload.
+          </Text>
+          {this.state.error?.message ? (
+            <View style={{ backgroundColor: '#fef2f2', borderWidth: 1, borderColor: '#fecaca', padding: 12, borderRadius: 8, marginBottom: 20, maxWidth: '90%' }}>
+              <Text style={{ color: '#dc2626', fontSize: 12 }}>
+                {this.state.error.message}
+              </Text>
+            </View>
+          ) : null}
+          <TouchableOpacity
+            onPress={() => this.setState({ hasError: false, error: null })}
+            style={{
+              backgroundColor: '#16a34a',
+              paddingHorizontal: 24,
+              paddingVertical: 12,
+              borderRadius: 12,
+            }}
+          >
+            <Text style={{ color: '#ffffff', fontWeight: '700', fontSize: 15 }}>Reload App</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <ProfileProvider>
-        <ThemeProvider>
-          <FloatingNatureBackground showSoundToggle={true}>
-            <InnerLayout />
-          </FloatingNatureBackground>
-        </ThemeProvider>
-      </ProfileProvider>
-    </AuthProvider>
+    <AppErrorBoundary>
+      <AuthProvider>
+        <ProfileProvider>
+          <ThemeProvider>
+            <FloatingNatureBackground showSoundToggle={true}>
+              <InnerLayout />
+            </FloatingNatureBackground>
+          </ThemeProvider>
+        </ProfileProvider>
+      </AuthProvider>
+    </AppErrorBoundary>
   );
 }
 
