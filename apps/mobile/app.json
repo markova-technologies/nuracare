@@ -2,7 +2,7 @@
   "expo": {
     "name": "NuraCare",
     "slug": "nuracare",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "orientation": "portrait",
     "scheme": "nuracare",
     "icon": "./assets/images/icon.png",
@@ -14,15 +14,15 @@
       }
     },
     "android": {
+      "jsEngine": "jsc",
       "package": "com.darikab71.nuracaremobile",
-      "versionCode": 8,
+      "versionCode": 9,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
         "android.permission.INTERNET",
-        "android.permission.SCHEDULE_EXACT_ALARM",
         "android.permission.POST_NOTIFICATIONS",
         "android.permission.RECEIVE_BOOT_COMPLETED"
       ]
