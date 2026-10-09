@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import * as Icons from 'lucide-react';
 import { showToast } from '@/lib/utils';
 
 export default function DownloadAppModal({ isOpen = true, onClose }) {
   const [copied, setCopied] = useState(false);
+  const [versionData, setVersionData] = useState({
+    appVersion: '1.0.5',
+    downloadUrl: '/nuracare.apk'
+  });
+
+  useEffect(() => {
+    fetch('/version.json')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.downloadUrl) {
+          setVersionData(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   if (!isOpen) return null;
 
   // Direct standalone APK binary link from the hosted platform
   const serverApkUrl = '/nuracare.apk';
-  const directCdnApkUrl = 'https://expo.dev/artifacts/eas/GCgb_vM43BYMM1R1rOSYQgvpzfh5YqhNMdgXf9uEt0k.apk';
-  const activeDownloadUrl = serverApkUrl;
+  const directCdnApkUrl = versionData.downloadUrl || serverApkUrl;
   const fullDownloadUrl = typeof window !== 'undefined' ? `${window.location.origin}/nuracare.apk` : 'https://nuracare.pro.et/nuracare.apk';
 
   // QR code encodes the direct .apk link so scanning it immediately triggers Android's native APK download
@@ -44,12 +58,13 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
     >
       <div 
         style={{
-          background: 'linear-gradient(135deg, #ffffff 0%, #f8fdf9 100%)',
+          backgroundColor: '#ffffff',
           borderRadius: '24px',
           maxWidth: '520px',
           width: '100%',
-          boxShadow: '0 25px 50px -12px rgba(22, 101, 52, 0.25), 0 0 0 1px rgba(34, 197, 94, 0.15)',
           overflow: 'hidden',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          border: '1px solid #e2e8f0',
           position: 'relative'
         }}
         onClick={(e) => e.stopPropagation()}
@@ -57,73 +72,65 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
         {/* Header */}
         <div style={{
           padding: '24px 28px 16px',
-          background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 101, 52, 0.03) 100%)',
-          borderBottom: '1px solid rgba(34, 197, 94, 0.15)',
+          borderBottom: '1px solid #f1f5f9',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{
-              width: '42px',
-              height: '42px',
+              width: '44px',
+              height: '44px',
               borderRadius: '12px',
-              background: 'linear-gradient(135deg, #22c55e, #15803d)',
+              background: 'linear-gradient(135deg, #16a34a, #15803d)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'white',
-              boxShadow: '0 4px 12px rgba(34, 197, 94, 0.35)'
+              boxShadow: '0 4px 10px rgba(22, 163, 74, 0.3)'
             }}>
-              <Icons.Smartphone size={24} />
+              <Icons.Smartphone size={24} color="#ffffff" />
             </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <h3 style={{ margin: 0, fontSize: '19px', fontWeight: 700, color: 'var(--text-main, #14532d)' }}>
-                  Get NuraCare Mobile
-                </h3>
-                <span style={{ background: '#dcfce7', color: '#15803d', padding: '2px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, border: '1px solid #86efac' }}>
-                  v1.0.4 Latest
-                </span>
-              </div>
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#0f172a' }}>
+                Download NuraCare App
+              </h3>
               <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-muted, #4b5563)' }}>
-                Android APK Direct Download
+                v{versionData.appVersion} Android APK Direct Download
               </p>
             </div>
           </div>
           <button 
             onClick={onClose}
             style={{
-              background: 'rgba(0,0,0,0.05)',
+              background: 'none',
               border: 'none',
-              borderRadius: '50%',
-              width: '32px',
-              height: '32px',
+              padding: '6px',
+              cursor: 'pointer',
+              color: '#94a3b8',
+              borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: '#6b7280'
+              justifyContent: 'center'
             }}
           >
-            <Icons.X size={18} />
+            <Icons.X size={20} />
           </button>
         </div>
 
-        {/* Content */}
+        {/* Content Body */}
         <div style={{ padding: '24px 28px' }}>
-          {/* No Expo Go Required Guarantee Banner */}
+          {/* Guarantee Banner */}
           <div style={{
-            background: 'linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%)',
-            border: '1.5px solid #86efac',
+            background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+            border: '1px solid #86efac',
             borderRadius: '14px',
-            padding: '12px 16px',
-            marginBottom: '18px',
+            padding: '14px 18px',
+            marginBottom: '20px',
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             gap: '12px'
           }}>
-            <Icons.CheckCircle2 size={24} color="#16a34a" style={{ flexShrink: 0 }} />
+            <Icons.Sparkles size={20} color="#16a34a" style={{ marginTop: '2px', flexShrink: 0 }} />
             <div>
               <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#14532d' }}>
                 No Expo Go App Required!
@@ -134,12 +141,8 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
             </div>
           </div>
 
-          {/* Main Action Banner */}
+          {/* Download & QR Action Box */}
           <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
             background: '#f8fafc',
             borderRadius: '16px',
             padding: '20px',
