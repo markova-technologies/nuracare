@@ -5,7 +5,7 @@
   "devCommand": "vite --port 3000",
   "crons": [
     {
-      "path": "/api/cron-sync.js",
+      "path": "/api/cron-sync",
       "schedule": "0 0 * * *"
     }
   ],
@@ -19,35 +19,51 @@
   "rewrites": [
     {
       "source": "/api/fitbit-auth",
-      "destination": "/api/fitbit?action=auth"
+      "destination": "/api/wearables?provider=fitbit&action=auth"
     },
     {
       "source": "/api/fitbit-callback",
-      "destination": "/api/fitbit?action=callback"
+      "destination": "/api/wearables?provider=fitbit&action=callback"
     },
     {
       "source": "/api/fitbit-disconnect",
-      "destination": "/api/fitbit?action=disconnect"
+      "destination": "/api/wearables?provider=fitbit&action=disconnect"
     },
     {
       "source": "/api/fitbit-sync",
-      "destination": "/api/fitbit?action=sync"
+      "destination": "/api/wearables?provider=fitbit&action=sync"
+    },
+    {
+      "source": "/api/fitbit",
+      "destination": "/api/wearables?provider=fitbit"
     },
     {
       "source": "/api/oura-auth",
-      "destination": "/api/oura?action=auth"
+      "destination": "/api/wearables?provider=oura&action=auth"
     },
     {
       "source": "/api/oura-callback",
-      "destination": "/api/oura?action=callback"
+      "destination": "/api/wearables?provider=oura&action=callback"
     },
     {
       "source": "/api/oura-disconnect",
-      "destination": "/api/oura?action=disconnect"
+      "destination": "/api/wearables?provider=oura&action=disconnect"
     },
     {
       "source": "/api/oura-sync",
-      "destination": "/api/oura?action=sync"
+      "destination": "/api/wearables?provider=oura&action=sync"
+    },
+    {
+      "source": "/api/oura",
+      "destination": "/api/wearables?provider=oura"
+    },
+    {
+      "source": "/api/sync-toggle",
+      "destination": "/api/wearables?action=sync-toggle"
+    },
+    {
+      "source": "/api/challenge-payment",
+      "destination": "/api/payment"
     },
     {
       "source": "/api/chapa-checkout",
@@ -62,6 +78,18 @@
       "destination": "/api/payment?action=stripe-checkout"
     },
     {
+      "source": "/api/analytics",
+      "destination": "/api/admin?action=analytics"
+    },
+    {
+      "source": "/api/memory",
+      "destination": "/api/admin?action=memory"
+    },
+    {
+      "source": "/api/shared/:token",
+      "destination": "/api/share?token=:token"
+    },
+    {
       "source": "/api/ocr",
       "destination": "/api/document?action=ocr"
     },
@@ -70,11 +98,7 @@
       "destination": "/api/document?action=classify"
     },
     {
-      "source": "/api/cron-sync",
-      "destination": "/api/cron-sync.js"
-    },
-    {
-      "source": "/((?!api/.*).*)",
+      "source": "/((?!api|.*\\.[\\w]+$).*)",
       "destination": "/index.html"
     }
   ]
