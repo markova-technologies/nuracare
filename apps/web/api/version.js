@@ -9,7 +9,7 @@ export const config = { runtime: 'edge' };
 
 const REPO = 'markova-technologies/nuracare';
 const FALLBACK_VERSION = '1.0.8';
-const FALLBACK_DOWNLOAD_URL = `https://expo.dev/artifacts/eas/o3j1mtP81JXzuWG7wEFnFFTFjCk98jr0355zhXa7vSg.apk`;
+const FALLBACK_DOWNLOAD_URL = `https://github.com/${REPO}/releases/download/v${FALLBACK_VERSION}/NuraCare-v${FALLBACK_VERSION}.apk`;
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',

@@ -12,22 +12,22 @@
   "redirects": [
     {
       "source": "/NuraCare-v1.0.8.apk",
-      "destination": "https://expo.dev/artifacts/eas/o3j1mtP81JXzuWG7wEFnFFTFjCk98jr0355zhXa7vSg.apk",
+      "destination": "https://github.com/markova-technologies/nuracare/releases/download/v1.0.8/NuraCare-v1.0.8.apk",
       "permanent": false
     },
     {
       "source": "/nuracare-v1.0.8.apk",
-      "destination": "https://expo.dev/artifacts/eas/o3j1mtP81JXzuWG7wEFnFFTFjCk98jr0355zhXa7vSg.apk",
+      "destination": "https://github.com/markova-technologies/nuracare/releases/download/v1.0.8/NuraCare-v1.0.8.apk",
       "permanent": false
     },
     {
       "source": "/NuraCare-v1.0.7.apk",
-      "destination": "https://expo.dev/artifacts/eas/o3j1mtP81JXzuWG7wEFnFFTFjCk98jr0355zhXa7vSg.apk",
+      "destination": "https://github.com/markova-technologies/nuracare/releases/download/v1.0.7/NuraCare-v1.0.7.apk",
       "permanent": false
     },
     {
       "source": "/nuracare-v1.0.7.apk",
-      "destination": "https://expo.dev/artifacts/eas/o3j1mtP81JXzuWG7wEFnFFTFjCk98jr0355zhXa7vSg.apk",
+      "destination": "https://github.com/markova-technologies/nuracare/releases/download/v1.0.7/NuraCare-v1.0.7.apk",
       "permanent": false
     },
     {

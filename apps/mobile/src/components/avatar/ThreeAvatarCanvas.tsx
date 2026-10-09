@@ -5,8 +5,11 @@ import * as THREE from 'three';
 let WebView: any = null;
 if (Platform.OS !== 'web') {
   try {
-    WebView = require('react-native-webview')?.WebView;
-  } catch (e) {}
+    const RNWebView = require('react-native-webview');
+    WebView = RNWebView?.default || RNWebView?.WebView || RNWebView;
+  } catch (e) {
+    WebView = null;
+  }
 }
 
 interface ThreeAvatarCanvasProps {
@@ -36,7 +39,7 @@ export default function ThreeAvatarCanvas({
 
   const mousePos = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
   const animFrameId = useRef<number | null>(null);
-  const clockRef = useRef(new THREE.Clock());
+  const clockRef = useRef(Platform.OS === 'web' && THREE?.Clock ? new THREE.Clock() : null);
 
   // Blink timing
   const nextBlinkTime = useRef(2.0);
