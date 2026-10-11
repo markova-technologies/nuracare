@@ -14,9 +14,9 @@
       }
     },
     "android": {
-      "jsEngine": "jsc",
+      "jsEngine": "hermes",
       "package": "com.darikab71.nuracaremobile",
-      "versionCode": 10,
+      "versionCode": 11,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
