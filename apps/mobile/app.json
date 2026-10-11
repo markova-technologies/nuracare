@@ -1,4 +1,4 @@
-{
+﻿{
   "expo": {
     "name": "NuraCare",
     "slug": "nuracare",
@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "scheme": "nuracare",
     "icon": "./assets/images/icon.png",
-    "owner": "z01a",
+    "owner": "darikab71",
     "extra": {
       "router": {},
       "eas": {
@@ -40,3 +40,4 @@
     ]
   }
 }
+

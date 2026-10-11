@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+﻿import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import * as THREE from 'three';
 
@@ -608,7 +608,7 @@ export default function ThreeAvatarCanvas({
     #canvas-box { width:100%; height:100%; display:flex; justify-content:center; align-items:center; position:relative; }
     canvas { display:block; width:100%; height:100%; }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Native Offline Canvas Animation -->
 </head>
 <body>
   <div id="canvas-box">
@@ -847,3 +847,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(134, 239, 172, 0.25)',
   },
 });
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react';
+﻿import React, { useEffect, useRef, useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -23,7 +23,12 @@ import Svg, {
   G,
 } from 'react-native-svg';
 
-const Audio: any = null;
+let Audio: any = null;
+try {
+  Audio = require('expo-av')?.Audio;
+} catch (e) {
+  // Graceful fallback if expo-av is not present
+}
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -551,3 +556,4 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
+

@@ -1,6 +1,6 @@
-/**
+﻿/**
  * NuraCare Dynamic APK Download Redirector
- * Vercel Edge Function — /api/download
+ * Vercel Edge Function â€” /api/download
  *
  * Redirects directly to the latest published APK on GitHub Releases.
  * Guarantees that any direct download link or QR code ALWAYS downloads with the clean filename NuraCare-vX.Y.Z.apk
@@ -8,7 +8,7 @@
 export const config = { runtime: 'edge' };
 
 const REPO = 'markova-technologies/nuracare';
-const FALLBACK_APK_URL = `https://github.com/${REPO}/releases/download/v1.0.8/NuraCare-v1.0.8.apk`;
+const FALLBACK_APK_URL = `https://github.com/${REPO}/releases/download/v1.0.7/NuraCare-v1.0.7.apk`;
 
 export default async function handler(req) {
   try {
@@ -44,3 +44,4 @@ export default async function handler(req) {
   // Fallback to latest known release
   return Response.redirect(FALLBACK_APK_URL, 302);
 }
+

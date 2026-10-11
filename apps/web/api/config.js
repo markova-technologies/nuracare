@@ -1,6 +1,6 @@
-/**
+﻿/**
  * NuraCare Remote Configuration API
- * Vercel Edge Function — /api/config
+ * Vercel Edge Function â€” /api/config
  *
  * Serves the server-driven remote configuration to NuraCare mobile clients.
  * Supports:
@@ -9,7 +9,7 @@
  *  - No redeploy needed to change feature flags, maintenance mode, or update requirements
  *
  * Admin usage:
- *   1. Go to Vercel Dashboard → Project → Settings → Environment Variables
+ *   1. Go to Vercel Dashboard â†’ Project â†’ Settings â†’ Environment Variables
  *   2. Edit REMOTE_CONFIG_JSON with updated config JSON
  *   3. Changes take effect within the client's next polling cycle (~5 minutes)
  */
@@ -21,7 +21,7 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type, If-None-Match, X-Client-Version',
 };
 
-/** Built-in default — used if REMOTE_CONFIG_JSON env var is not set */
+/** Built-in default â€” used if REMOTE_CONFIG_JSON env var is not set */
 const DEFAULT_CONFIG = {
   version: 3,
   minSupportedAppVersion: '1.0.0',
@@ -116,7 +116,7 @@ export default async function handler(req) {
 
     const responseBody = JSON.stringify(configPayload);
 
-    // ETag for efficient polling — clients send If-None-Match, we return 304 if unchanged
+    // ETag for efficient polling â€” clients send If-None-Match, we return 304 if unchanged
     const etag = `"${configPayload.version}-${Buffer.from(responseBody).length}"`;
     const clientEtag = req.headers.get('if-none-match');
 
@@ -144,3 +144,4 @@ export default async function handler(req) {
     });
   }
 }
+

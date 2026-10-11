@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import * as Icons from 'lucide-react';
 import { showToast } from '@/lib/utils';
 
 // NuraCare Standalone Release Download
-const DEFAULT_VERSION = '1.0.8';
+const DEFAULT_VERSION = '1.0.7';
 const GITHUB_REPO = 'markova-technologies/nuracare';
 const DEFAULT_APK_URL = `https://github.com/${GITHUB_REPO}/releases/download/v${DEFAULT_VERSION}/NuraCare-v${DEFAULT_VERSION}.apk`;
 
@@ -205,7 +205,7 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
                   Complete standalone app bundle. Works on all Android 10 - 15 devices (Samsung, Xiaomi, Tecno, etc.).
                 </p>
                 <div style={{ fontSize: '11px', color: '#15803d', background: '#dcfce7', padding: '4px 8px', borderRadius: '6px', display: 'inline-block', fontWeight: 600, border: '1px solid #86efac' }}>
-                  📦 {apkFileName} • ~118 MB
+                  ðŸ“¦ {apkFileName} â€¢ ~124 MB
                 </div>
               </div>
             </div>
@@ -281,3 +281,4 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
     </div>
   );
 }
+
