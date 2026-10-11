@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Icons from 'lucide-react';
 import { showToast } from '@/lib/utils';
 
@@ -58,8 +58,8 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
 
   // The QR code encodes the canonical versioned APK URL
   const qrTargetUrl = typeof window !== 'undefined' 
-    ? `${window.location.origin}/NuraCare-v${currentVersion}.apk`
-    : `https://nuracare.pro.et/NuraCare-v${currentVersion}.apk`;
+    ? `${window.location.origin}/api/download`
+    : `https://nuracare.pro.et/api/download`;
 
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(qrTargetUrl)}&color=166534&bgcolor=f0fdf4`;
 
@@ -212,7 +212,7 @@ export default function DownloadAppModal({ isOpen = true, onClose }) {
 
             {/* Direct APK Download Button */}
             <a 
-              href={`/NuraCare-v${currentVersion}.apk`}
+              href="/api/download"
               download={apkFileName}
               style={{
                 width: '100%',

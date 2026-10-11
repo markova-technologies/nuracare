@@ -8,7 +8,7 @@
 export const config = { runtime: 'edge' };
 
 const REPO = 'markova-technologies/nuracare';
-const FALLBACK_VERSION = '1.0.8';
+const FALLBACK_VERSION = '1.0.7';
 const FALLBACK_DOWNLOAD_URL = `https://github.com/${REPO}/releases/download/v${FALLBACK_VERSION}/NuraCare-v${FALLBACK_VERSION}.apk`;
 
 const CORS_HEADERS = {
@@ -71,18 +71,6 @@ export default async function handler(req) {
       const release = await ghRes.json();
       const tagName = release.tag_name || 'v1.0.7';
       const cleanVersion = tagName.replace(/^v/i, '');
-      
-      // If GitHub latest release has an older tag (e.g. v1.0.7) than our current EAS build (v1.0.8), serve v1.0.8
-      if (cleanVersion < FALLBACK_VERSION) {
-        return new Response(JSON.stringify(fallbackPayload), {
-          status: 200,
-          headers: {
-            ...CORS_HEADERS,
-            'Content-Type': 'application/json',
-            'Cache-Control': 'public, max-age=60, s-maxage=60, stale-while-revalidate=120',
-          },
-        });
-      }
 
       // Locate APK asset in release
       const apkAsset = release.assets?.find(a => a.name.toLowerCase().endsWith('.apk'));
