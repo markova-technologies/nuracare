@@ -92,10 +92,56 @@ export default function ChatScreen() {
         setPendingConfirmation(agentResult.pendingConfirmation);
       }
 
+      let responseText = agentResult.textResponse;
+
+      // If no device tools were matched, attempt real online AI consultation
+      if ((!agentResult.executedSteps || agentResult.executedSteps.length === 0) && !agentResult.pendingConfirmation) {
+        try {
+          const apiMessages = [...(messages || []), userMsg].slice(-8).map((m: any) => ({
+            role: m.role === 'assistant' ? 'assistant' : 'user',
+            content: m.content
+          }));
+
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+          const aiRes = await fetch('https://nuracare.pro.et/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              messages: apiMessages,
+              profile: profile || {},
+              lang: selectedLanguage
+            }),
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+
+          if (aiRes.ok) {
+            const rawText = await aiRes.text();
+            const lines = rawText.split('\n');
+            let accumulated = '';
+            for (const line of lines) {
+              if (line.startsWith('data: ') && !line.includes('[DONE]')) {
+                try {
+                  const chunk = JSON.parse(line.slice(6));
+                  accumulated += chunk.choices?.[0]?.delta?.content || '';
+                } catch {}
+              }
+            }
+            if (accumulated.trim()) {
+              responseText = accumulated.trim();
+            }
+          }
+        } catch {
+          // Graceful fallback to local response if offline
+        }
+      }
+
       addMessage({
         id: `msg_${Date.now() + 1}`,
         role: 'assistant',
-        content: agentResult.textResponse,
+        content: responseText,
         executedSteps: agentResult.executedSteps,
         created_at: new Date().toISOString()
       });
