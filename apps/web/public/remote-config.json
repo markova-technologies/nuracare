@@ -1,15 +1,15 @@
-﻿{
+{
     "version":  3,
     "minSupportedAppVersion":  "1.0.0",
     "environment":  "production",
     "timestamp":  "2026-10-08T12:00:00.000Z",
     "updateManifest":  {
-                           "latestVersion":  "1.0.7",
-                           "latestVersionCode":  8,
+                           "latestVersion":  "1.0.8",
+                           "latestVersionCode":  11,
                            "minSupportedVersionCode":  1,
                            "updateRequired":  false,
-                           "downloadUrl":  "https://github.com/markova-technologies/nuracare/releases/download/v1.0.7/NuraCare-v1.0.7.apk",
-                           "apkFileName":  "NuraCare-v1.0.7.apk",
+                           "downloadUrl":  "https://expo.dev/artifacts/eas/GALJ94iUE3yNo0QNMrJgEHtHNSpNRnORrSOufA-kJdM.apk",
+                           "apkFileName":  "NuraCare-v1.0.8.apk",
                            "releaseNotes":  "Universal 124 MB Android Release: Full 3D animated companion, ambient water stream sound, full storage resilience, and challenges."
                        },
     "home":  {

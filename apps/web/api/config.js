@@ -1,4 +1,4 @@
-﻿/**
+/**
  * NuraCare Remote Configuration API
  * Vercel Edge Function â€” /api/config
  *
@@ -27,12 +27,12 @@ const DEFAULT_CONFIG = {
   minSupportedAppVersion: '1.0.0',
   environment: 'production',
   updateManifest: {
-    latestVersion: '1.0.7',
-    latestVersionCode: 8,
+    latestVersion: '1.0.8',
+    latestVersionCode: 11,
     minSupportedVersionCode: 1,
     updateRequired: false,
-    downloadUrl: 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.7/NuraCare-v1.0.7.apk',
-    releaseNotes: 'NuraCare v1.0.7: Startup stability fix, safe audio mode, full health onboarding and login flow.',
+    downloadUrl: 'https://expo.dev/artifacts/eas/GALJ94iUE3yNo0QNMrJgEHtHNSpNRnORrSOufA-kJdM.apk',
+    releaseNotes: 'NuraCare v1.0.8: Full 124MB Hermes engine, startup stability fix, safe audio mode, full health onboarding and login flow.',
   },
   home: {
     greetingFormat: 'time_adaptive',
