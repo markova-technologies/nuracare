@@ -7,10 +7,10 @@
  */
 export const config = { runtime: 'edge' };
 
-const CANONICAL_APK_URL = 'https://expo.dev/artifacts/eas/GALJ94iUE3yNo0QNMrJgEHtHNSpNRnORrSOufA-kJdM.apk';
+const GITHUB_RELEASE_APK_URL = 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.8/NuraCare-v1.0.8.apk';
 
 export default async function handler(req) {
-  // Direct redirect to the verified 124MB Hermes APK on Expo CDN
-  return Response.redirect(CANONICAL_APK_URL, 302);
+  // Direct redirect to the verified v1.0.8 APK on GitHub Releases
+  return Response.redirect(GITHUB_RELEASE_APK_URL, 302);
 }
 

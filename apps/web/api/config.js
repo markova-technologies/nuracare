@@ -31,8 +31,8 @@ const DEFAULT_CONFIG = {
     latestVersionCode: 11,
     minSupportedVersionCode: 1,
     updateRequired: false,
-    downloadUrl: 'https://expo.dev/artifacts/eas/GALJ94iUE3yNo0QNMrJgEHtHNSpNRnORrSOufA-kJdM.apk',
-    releaseNotes: 'NuraCare v1.0.8: Full 124MB Hermes engine, startup stability fix, safe audio mode, full health onboarding and login flow.',
+    downloadUrl: 'https://github.com/markova-technologies/nuracare/releases/download/v1.0.8/NuraCare-v1.0.8.apk',
+    releaseNotes: 'NuraCare v1.0.8: Full Hermes engine, startup stability fix, safe audio mode, full health onboarding and login flow.',
   },
   home: {
     greetingFormat: 'time_adaptive',

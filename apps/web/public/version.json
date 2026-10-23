@@ -1,8 +1,8 @@
 {
-    "directApkUrl":  "https://expo.dev/artifacts/eas/GALJ94iUE3yNo0QNMrJgEHtHNSpNRnORrSOufA-kJdM.apk",
+    "directApkUrl":  "https://github.com/markova-technologies/nuracare/releases/download/v1.0.8/NuraCare-v1.0.8.apk",
     "easArtifactUrl":  "https://expo.dev/artifacts/eas/GALJ94iUE3yNo0QNMrJgEHtHNSpNRnORrSOufA-kJdM.apk",
     "appVersion":  "1.0.8",
-    "releaseNotes":  "Complete 124 MB Universal Android Release (Android 10 - 15)\nStartup crash resolved with comprehensive storage resilience\nFull 3D avatar & ambient water stream audio included\nReal challenges & offline-capable tracking",
+    "releaseNotes":  "Complete Universal Android Release (Android 10 - 15)\nFull Hermes engine & offline-capable tracking\nComplete storage resilience & zero startup crashes\nReal challenges & community sync",
     "features":  {
                      "communityFeedEnabled":  true,
                      "nuraAIEnabled":  true,
@@ -12,7 +12,7 @@
                      "telebirrEnabled":  true,
                      "challengesEnabled":  true
                  },
-    "releaseDate":  "2026-10-12",
+    "releaseDate":  "2026-10-23",
     "apkFileName":  "NuraCare-v1.0.8.apk",
     "minVersionCode":  1,
     "websiteUrl":  "https://nuracare.pro.et",
@@ -20,5 +20,5 @@
     "versionCode":  11,
     "forceUpdate":  false,
     "changelogUrl":  "https://nuracare.pro.et/changelog",
-    "downloadUrl":  "https://expo.dev/artifacts/eas/GALJ94iUE3yNo0QNMrJgEHtHNSpNRnORrSOufA-kJdM.apk"
+    "downloadUrl":  "https://github.com/markova-technologies/nuracare/releases/download/v1.0.8/NuraCare-v1.0.8.apk"
 }
