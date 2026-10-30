@@ -34,3 +34,4 @@ This rule is absolute, non-negotiable, and MUST be followed on **EVERY SINGLE TU
 
 3. **NEVER FORGET OR SKIP**:
    This ledger is the ultimate ground-truth conversational memory across IDE crashes, PC reboots, context compactions, and session resets. Forgetting to read or append to `memory.md` is considered a critical failure.
+

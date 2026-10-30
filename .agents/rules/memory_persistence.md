@@ -41,3 +41,4 @@ You MUST ALWAYS follow this rule without any exception. It takes precedence over
   ```
 - **Never skip this step** under any circumstances, regardless of the prompt size or type of request.
 - **Never overwrite or delete** existing conversation history in `memory.md`; always append new turns sequentially.
+
