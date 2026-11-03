@@ -781,9 +781,12 @@ I've updated the [wearable_integration_plan.md](file:///C:/Users/zelal/.gemini/a
 #### Turn 59 (2026-06-11 - Step 2876)
 ##### 👤 User Prompt:
 ```text
-Tell me how to do this step by step "Two Final Action Items For You:
-Update Live Database: Because we added a new tracking ID, you need to run this SQL command in your Supabase Dashboard's SQL Editor to update the profiles table:
-sql
+Tell me how to do this step by step "Two Final Action Items For You:
+
+Update Live Database: Because we added a new tracking ID, you need to run this SQL command in your Supabase Dashboard's SQL Editor to update the profiles table:
+
+sql
+
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS terra_user_id TEXT;"
 ```
 
@@ -798,7 +801,8 @@ ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS terra_user_id TEXT;"
 #### Turn 60 (2026-06-11 - Step 2879)
 ##### 👤 User Prompt:
 ```text
-Okay also for this "Setup Terra Credentials: You will need to create a free developer account at tryterra.co to get your TERRA_DEV_ID, TERRA_API_KEY, and TERRA_WEBHOOK_SECRET. Add these to your Vercel Environment Variables, and set your webhook URL in Terra to point to https://<your-domain>.vercel.app/api/terra-webhook.
+Okay also for this "Setup Terra Credentials: You will need to create a free developer account at tryterra.co to get your TERRA_DEV_ID, TERRA_API_KEY, and TERRA_WEBHOOK_SECRET. Add these to your Vercel Environment Variables, and set your webhook URL in Terra to point to https://<your-domain>.vercel.app/api/terra-webhook.
+
 Once those two steps are done, the integration will be fully live and functional!"
 ```
 
@@ -1460,14 +1464,22 @@ Processed and executed requested updates.
 #### Turn 116 (2026-06-12 - Step 4112)
 ##### 👤 User Prompt:
 ```text
-Okay break it down step by step first strip "1. Stripe Configuration
-You need to create a Stripe account and grab your Secret API Key.
-
-Go to your Stripe Dashboard.
-Toggle "Test mode" on (top right) so you don't use real money while developing.
-Copy the Secret key (it usually starts with sk_test_...).
-Add it to your .env.local:
-env
+Okay break it down step by step first strip "1. Stripe Configuration
+
+You need to create a Stripe account and grab your Secret API Key.
+
+
+
+Go to your Stripe Dashboard.
+
+Toggle "Test mode" on (top right) so you don't use real money while developing.
+
+Copy the Secret key (it usually starts with sk_test_...).
+
+Add it to your .env.local:
+
+env
+
 STRIPE_SECRET_KEY=sk_test_your_secret_key_here". Go
 ```
 
@@ -1780,16 +1792,26 @@ The build just successfully completed on my end! The syntax error is entirely fi
 ##### 👤 User Prompt:
 ```text
 Okay good. I got this recommendation:
--The welcome part should read between morning, afternoon & evening. It’s saying “Good morning” now
-- Today’s insight is not clear, add context - for eg it says now “ contains curcumin, known for strong anti- inflammatory effects.
-- The chat starts with how was your sleep because it thinks it’s morning, from my assumption, but it should be flexible/or read the time kinda, what if I want to write in the evening, not in the morning? like now it says (Hi abebe, I’m nura, your personal health companion, How did you sleep last night?… )
-- In the checkups - when I click on log visit, a popup appears saying “logged successfully” but can we add more to it, like a note, a reminder to the next visit either connected to calendar or a notification sent from the app or web. last visited date history this is my idea you refine based on what you wanted to deliver first like modify my idea even better if possible if not lets see something more to it than “log visit” button
-- Discovery feed - did it ask for my interest first when creating the account? Or is it giving me random options?  Why aren’t the videos static? Maybe make them direct to YouTube, and “#inflammation,” how about adding traditional locally found fruits or plants to relieve such things, for eg cloves or something? and I’m seeing a fruit pic for a title, turmeric, I know it’s an example but making it a little realistic would add value. And a Pizza pic for chamomile? 😅
-- Lifestyle & Nutrition - under natural nutrition there is “Tart Cherry Juice” like, where do we find that in Ethiopia? let’s try to add localized products and maybe add how to make these things video link directing to youtube for instance, if possible, I would want that at least if it’s a meal I don’t know how to make 
-- How does the runner tracker work? do I need to input the distance manually? did you mention the wearable one for this? 
-- The gym & strength - is nice it picked up the check-in data and is asking me to do a certain workout based of that
-- I need to double click and delete the log set so that I can choose something else, which shouldn’t be the case
-- where did the saved workout go? I should see the history
+-The welcome part should read between morning, afternoon & evening. It’s saying “Good morning” now
+
+- Today’s insight is not clear, add context - for eg it says now “ contains curcumin, known for strong anti- inflammatory effects.
+
+- The chat starts with how was your sleep because it thinks it’s morning, from my assumption, but it should be flexible/or read the time kinda, what if I want to write in the evening, not in the morning? like now it says (Hi abebe, I’m nura, your personal health companion, How did you sleep last night?… )
+
+- In the checkups - when I click on log visit, a popup appears saying “logged successfully” but can we add more to it, like a note, a reminder to the next visit either connected to calendar or a notification sent from the app or web. last visited date history this is my idea you refine based on what you wanted to deliver first like modify my idea even better if possible if not lets see something more to it than “log visit” button
+
+- Discovery feed - did it ask for my interest first when creating the account? Or is it giving me random options?  Why aren’t the videos static? Maybe make them direct to YouTube, and “#inflammation,” how about adding traditional locally found fruits or plants to relieve such things, for eg cloves or something? and I’m seeing a fruit pic for a title, turmeric, I know it’s an example but making it a little realistic would add value. And a Pizza pic for chamomile? 😅
+
+- Lifestyle & Nutrition - under natural nutrition there is “Tart Cherry Juice” like, where do we find that in Ethiopia? let’s try to add localized products and maybe add how to make these things video link directing to youtube for instance, if possible, I would want that at least if it’s a meal I don’t know how to make 
+
+- How does the runner tracker work? do I need to input the distance manually? did you mention the wearable one for this? 
+
+- The gym & strength - is nice it picked up the check-in data and is asking me to do a certain workout based of that
+
+- I need to double click and delete the log set so that I can choose something else, which shouldn’t be the case
+
+- where did the saved workout go? I should see the history
+
 - in lifestyle - manual vital  & hydration, anyway we can make it easy to input the data? And where do I click to save? And do I get to see the history for yesterday and today?
 
 
@@ -3276,48 +3298,90 @@ I just found and fixed the culprits:
 #### Turn 204 (2026-07-18 - Step 8570)
 ##### 👤 User Prompt:
 ```text
-It is still the same but there is one thing, there is an error thing on the build on the "Run expo doctor" and here is the full log "Running "expo doctor"
-Running 21 checks on your project...
-18/21 checks passed. 3 checks failed. Possible issues detected:
-Use the --verbose flag to see more details about passed checks.
-
-✖ Check for common project setup issues
-The .expo directory is not ignored by Git. It contains machine-specific device history and development server settings and should not be committed.
-Advice:
-Add ".expo/" to your .gitignore to avoid committing local Expo state.
-✖ Check that no duplicate dependencies are installed
-Your project contains duplicate native module dependencies, which should be de-duplicated.
-Native builds may only contain one version of any given native module, and having multiple versions of a single Native module installed may lead to unexpected build errors.
-Found duplicates for react:
-  ├─ react@19.2.3 (at: node_modules/react)
-  └─ react@18.3.1 (at: ../../node_modules/react)
-Found duplicates for react-dom:
-  ├─ react-dom@19.2.3 (at: node_modules/react-dom)
-  └─ react-dom@18.3.1 (at: ../../node_modules/react-dom)
-Advice:
-Resolve your dependency issues and deduplicate your dependencies. Learn more: https://expo.fyi/resolving-dependency-issues
-
-✖ Check that packages match versions required by installed Expo SDK
-
-🔧 Patch version mismatches
-package             expected  found    
-@expo/ui            ~56.0.22  56.0.21  
-expo                ~56.0.16  56.0.15  
-expo-constants      ~56.0.21  56.0.20  
-expo-router         ~56.2.15  56.2.14  
-expo-splash-screen  ~56.0.13  56.0.12  
-
-Changelogs:
-- expo-constants → https://github.com/expo/expo/blob/sdk-56/packages/expo-constants/CHANGELOG.md
-- expo-router → https://github.com/expo/expo/blob/sdk-56/packages/expo-router/CHANGELOG.md
-- expo-splash-screen → https://github.com/expo/expo/blob/sdk-56/packages/expo-splash-screen/CHANGELOG.md
-
-5 packages out of date.
-Advice:
-Use 'npx expo install --check' to review and upgrade your dependencies.
-To ignore specific packages, add them to "expo.install.exclude" in package.json. Learn more: https://expo.fyi/dependency-validation
-3 checks failed, indicating possible issues with the project.
-Command "expo doctor" failed.
+It is still the same but there is one thing, there is an error thing on the build on the "Run expo doctor" and here is the full log "Running "expo doctor"
+
+Running 21 checks on your project...
+
+18/21 checks passed. 3 checks failed. Possible issues detected:
+
+Use the --verbose flag to see more details about passed checks.
+
+
+
+✖ Check for common project setup issues
+
+The .expo directory is not ignored by Git. It contains machine-specific device history and development server settings and should not be committed.
+
+Advice:
+
+Add ".expo/" to your .gitignore to avoid committing local Expo state.
+
+✖ Check that no duplicate dependencies are installed
+
+Your project contains duplicate native module dependencies, which should be de-duplicated.
+
+Native builds may only contain one version of any given native module, and having multiple versions of a single Native module installed may lead to unexpected build errors.
+
+Found duplicates for react:
+
+  ├─ react@19.2.3 (at: node_modules/react)
+
+  └─ react@18.3.1 (at: ../../node_modules/react)
+
+Found duplicates for react-dom:
+
+  ├─ react-dom@19.2.3 (at: node_modules/react-dom)
+
+  └─ react-dom@18.3.1 (at: ../../node_modules/react-dom)
+
+Advice:
+
+Resolve your dependency issues and deduplicate your dependencies. Learn more: https://expo.fyi/resolving-dependency-issues
+
+
+
+✖ Check that packages match versions required by installed Expo SDK
+
+
+
+🔧 Patch version mismatches
+
+package             expected  found    
+
+@expo/ui            ~56.0.22  56.0.21  
+
+expo                ~56.0.16  56.0.15  
+
+expo-constants      ~56.0.21  56.0.20  
+
+expo-router         ~56.2.15  56.2.14  
+
+expo-splash-screen  ~56.0.13  56.0.12  
+
+
+
+Changelogs:
+
+- expo-constants → https://github.com/expo/expo/blob/sdk-56/packages/expo-constants/CHANGELOG.md
+
+- expo-router → https://github.com/expo/expo/blob/sdk-56/packages/expo-router/CHANGELOG.md
+
+- expo-splash-screen → https://github.com/expo/expo/blob/sdk-56/packages/expo-splash-screen/CHANGELOG.md
+
+
+
+5 packages out of date.
+
+Advice:
+
+Use 'npx expo install --check' to review and upgrade your dependencies.
+
+To ignore specific packages, add them to "expo.install.exclude" in package.json. Learn more: https://expo.fyi/dependency-validation
+
+3 checks failed, indicating possible issues with the project.
+
+Command "expo doctor" failed.
+
 npx -y expo-doctor exited with non-zero code: 1".
 ```
 
@@ -3429,8 +3493,10 @@ the repo address is transfered to [Commits · markova-technologies/nuracare](htt
 #### Turn 212 (2026-08-29 - Step 8937)
 ##### 👤 User Prompt:
 ```text
-it just give me this "# Created by Vercel CLI
-VERCEL_OIDC_TOKEN="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1yay00MzAyZWMxYjY3MGY0OGE5OGFkNjFkYWRlNGEyM2JlNyJ9.eyJpc3MiOiJodHRwczovL29pZGMudmVyY2VsLmNvbS96ZWxhbGVtYXptZXJhcy1wcm9qZWN0cyIsInN1YiI6Im93bmVyOnplbGFsZW1hem1lcmFzLXByb2plY3RzOnByb2plY3Q6bnVyYWNhcmU6ZW52aXJvbm1lbnQ6ZGV2ZWxvcG1lbnQiLCJzY29wZSI6Im93bmVyOnplbGFsZW1hem1lcmFzLXByb2plY3RzOnByb2plY3Q6bnVyYWNhcmU6ZW52aXJvbm1lbnQ6ZGV2ZWxvcG1lbnQiLCJhdWQiOiJodHRwczovL3ZlcmNlbC5jb20vemVsYWxlbWF6bWVyYXMtcHJvamVjdHMiLCJvd25lciI6InplbGFsZW1hem1lcmFzLXByb2plY3RzIiwib3duZXJfaWQiOiJ0ZWFtX204YkVQQTdVOElkOFVpTXF3U0tMQWRKMyIsInByb2plY3QiOiJudXJhY2FyZSIsInByb2plY3RfaWQiOiJwcmpfWFFrSm8yeHVPVWhONmU0ZUFlTzdrOHZOYzhsZCIsImVudmlyb25tZW50IjoiZGV2ZWxvcG1lbnQiLCJwbGFuIjoiaG9iYnkiLCJ1c2VyX2lkIjoiWEZQSXNuSm95eGY1NWtzNTlRVTZ2R1NSIiwiY2xpZW50X2lkIjoiY2xfSFl5T1BCTnRGTWZIaGFVbjlMNFFQZlRaejZUUDQ3YnAiLCJhcHBfaWQiOiJjbF9IWXlPUEJOdEZNZkhoYVVuOUw0UVBmVFp6NlRQNDdicCIsIm5iZiI6MTc4ODAxNDI5NCwiaWF0IjoxNzg4MDE0Mjk0LCJleHAiOjE3ODgwNTc0OTR9.GA0XWcUUyDsTsMdD4jl9WLXZRt9js8h5YM3fS4QiHXYCrEBaWe5AmQUF7u6LYMM75KSgEyVteB0QzM7cwOh8-5K-HIU6J9RHVGMaMj4veJYKMncQh84GIksVhhipP4im_aL0g_hTyMi6YVSDGu9k1DdX6AmwXttKRW9ts-3MTzvTtuKn7QhXUvpSXQQMflEksH1o1EKGYrGuBzWkMirA0It3I8qED8xgk99uPhxZX8REDA6XNpH3doVy-Z5h4TCEAHzTGb20KTV6qCvZHwKmM0NLOxqcyNkwkvb7Xxsc-cYwiAVc21MYT29m-j5a5A3sVmnsgGstyKIjmarPLeS0ag"
+it just give me this "# Created by Vercel CLI
+
+VERCEL_OIDC_TOKEN="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1yay00MzAyZWMxYjY3MGY0OGE5OGFkNjFkYWRlNGEyM2JlNyJ9.eyJpc3MiOiJodHRwczovL29pZGMudmVyY2VsLmNvbS96ZWxhbGVtYXptZXJhcy1wcm9qZWN0cyIsInN1YiI6Im93bmVyOnplbGFsZW1hem1lcmFzLXByb2plY3RzOnByb2plY3Q6bnVyYWNhcmU6ZW52aXJvbm1lbnQ6ZGV2ZWxvcG1lbnQiLCJzY29wZSI6Im93bmVyOnplbGFsZW1hem1lcmFzLXByb2plY3RzOnByb2plY3Q6bnVyYWNhcmU6ZW52aXJvbm1lbnQ6ZGV2ZWxvcG1lbnQiLCJhdWQiOiJodHRwczovL3ZlcmNlbC5jb20vemVsYWxlbWF6bWVyYXMtcHJvamVjdHMiLCJvd25lciI6InplbGFsZW1hem1lcmFzLXByb2plY3RzIiwib3duZXJfaWQiOiJ0ZWFtX204YkVQQTdVOElkOFVpTXF3U0tMQWRKMyIsInByb2plY3QiOiJudXJhY2FyZSIsInByb2plY3RfaWQiOiJwcmpfWFFrSm8yeHVPVWhONmU0ZUFlTzdrOHZOYzhsZCIsImVudmlyb25tZW50IjoiZGV2ZWxvcG1lbnQiLCJwbGFuIjoiaG9iYnkiLCJ1c2VyX2lkIjoiWEZQSXNuSm95eGY1NWtzNTlRVTZ2R1NSIiwiY2xpZW50X2lkIjoiY2xfSFl5T1BCTnRGTWZIaGFVbjlMNFFQZlRaejZUUDQ3YnAiLCJhcHBfaWQiOiJjbF9IWXlPUEJOdEZNZkhoYVVuOUw0UVBmVFp6NlRQNDdicCIsIm5iZiI6MTc4ODAxNDI5NCwiaWF0IjoxNzg4MDE0Mjk0LCJleHAiOjE3ODgwNTc0OTR9.GA0XWcUUyDsTsMdD4jl9WLXZRt9js8h5YM3fS4QiHXYCrEBaWe5AmQUF7u6LYMM75KSgEyVteB0QzM7cwOh8-5K-HIU6J9RHVGMaMj4veJYKMncQh84GIksVhhipP4im_aL0g_hTyMi6YVSDGu9k1DdX6AmwXttKRW9ts-3MTzvTtuKn7QhXUvpSXQQMflEksH1o1EKGYrGuBzWkMirA0It3I8qED8xgk99uPhxZX8REDA6XNpH3doVy-Z5h4TCEAHzTGb20KTV6qCvZHwKmM0NLOxqcyNkwkvb7Xxsc-cYwiAVc21MYT29m-j5a5A3sVmnsgGstyKIjmarPLeS0ag"
+
 "
 ```
 
@@ -3441,38 +3507,70 @@ Ah! I know exactly why that happened.   If you look closely at your screenshot, 
 #### Turn 213 (2026-08-29 - Step 8940)
 ##### 👤 User Prompt:
 ```text
-Now it is like this "# Created by Vercel CLI
-CHAPA_SECRET_KEY=""
-FITBIT_CLIENT_ID=""
-FITBIT_CLIENT_SECRET=""
-GROQ_API_KEY=""
-NX_DAEMON="false"
-OURA_CLIENT_ID=""
-OURA_CLIENT_SECRET=""
-STRIPE_SECRET_KEY=""
-SUPABASE_SERVICE_ROLE_KEY=""
-TURBO_CACHE="remote:rw"
-TURBO_DOWNLOAD_LOCAL_ENABLED="true"
-TURBO_REMOTE_ONLY="true"
-TURBO_RUN_SUMMARY="true"
-VERCEL="1"
-VERCEL_ENV="production"
-VERCEL_GIT_COMMIT_AUTHOR_LOGIN=""
-VERCEL_GIT_COMMIT_AUTHOR_NAME=""
-VERCEL_GIT_COMMIT_MESSAGE=""
-VERCEL_GIT_COMMIT_REF=""
-VERCEL_GIT_COMMIT_SHA=""
-VERCEL_GIT_PREVIOUS_SHA=""
-VERCEL_GIT_PROVIDER=""
-VERCEL_GIT_PULL_REQUEST_ID=""
-VERCEL_GIT_REPO_ID=""
-VERCEL_GIT_REPO_OWNER=""
-VERCEL_GIT_REPO_SLUG=""
-VERCEL_OIDC_TOKEN="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1yay00MzAyZWMxYjY3MGY0OGE5OGFkNjFkYWRlNGEyM2JlNyJ9.eyJpc3MiOiJodHRwczovL29pZGMudmVyY2VsLmNvbS96ZWxhbGVtYXptZXJhcy1wcm9qZWN0cyIsInN1YiI6Im93bmVyOnplbGFsZW1hem1lcmFzLXByb2plY3RzOnByb2plY3Q6bnVyYWNhcmU6ZW52aXJvbm1lbnQ6ZGV2ZWxvcG1lbnQiLCJzY29wZSI6Im93bmVyOnplbGFsZW1hem1lcmFzLXByb2plY3RzOnByb2plY3Q6bnVyYWNhcmU6ZW52aXJvbm1lbnQ6ZGV2ZWxvcG1lbnQiLCJhdWQiOiJodHRwczovL3ZlcmNlbC5jb20vemVsYWxlbWF6bWVyYXMtcHJvamVjdHMiLCJvd25lciI6InplbGFsZW1hem1lcmFzLXByb2plY3RzIiwib3duZXJfaWQiOiJ0ZWFtX204YkVQQTdVOElkOFVpTXF3U0tMQWRKMyIsInByb2plY3QiOiJudXJhY2FyZSIsInByb2plY3RfaWQiOiJwcmpfWFFrSm8yeHVPVWhONmU0ZUFlTzdrOHZOYzhsZCIsImVudmlyb25tZW50IjoiZGV2ZWxvcG1lbnQiLCJwbGFuIjoiaG9iYnkiLCJ1c2VyX2lkIjoiWEZQSXNuSm95eGY1NWtzNTlRVTZ2R1NSIiwiY2xpZW50X2lkIjoiY2xfSFl5T1BCTnRGTWZIaGFVbjlMNFFQZlRaejZUUDQ3YnAiLCJhcHBfaWQiOiJjbF9IWXlPUEJOdEZNZkhoYVVuOUw0UVBmVFp6NlRQNDdicCIsIm5iZiI6MTc4ODAxNDM3OSwiaWF0IjoxNzg4MDE0Mzc5LCJleHAiOjE3ODgwNTc1Nzl9.DysMLp27fz0EcxirhQ1q2I5reMBoj8zA3uJJ9qKudp2tZdXUqH8YSnW3TA4iam9jN-1Ov3ly4e-LOT1iqF4p5ti4wKw14iW022HDGIKWaTLXudmYbjege87YmyLzKwyE0n1R2LqCTQZfR9GKLLKTmBcrJ69VPDUXwkwhp9-T0D7HvAKuGX0c_wkyzlACK72iI_RO_HkgBo7mCMlWyt5bPaAxUhIjcZnz83tvqSgGciDJj8RE5eTMRx20UpXEvLkSuGP6gJnXDwMWH49tnQksModzj-AoCj1AaKSQGyhJQdD03utipvrWXJKgkz3VM6OCDAGzEBmwVBBrV8NrB1lunQ"
-VERCEL_TARGET_ENV="production"
-VERCEL_URL=""
-VITE_SUPABASE_ANON_KEY=""
-VITE_SUPABASE_URL=""
+Now it is like this "# Created by Vercel CLI
+
+CHAPA_SECRET_KEY=""
+
+FITBIT_CLIENT_ID=""
+
+FITBIT_CLIENT_SECRET=""
+
+GROQ_API_KEY=""
+
+NX_DAEMON="false"
+
+OURA_CLIENT_ID=""
+
+OURA_CLIENT_SECRET=""
+
+STRIPE_SECRET_KEY=""
+
+SUPABASE_SERVICE_ROLE_KEY=""
+
+TURBO_CACHE="remote:rw"
+
+TURBO_DOWNLOAD_LOCAL_ENABLED="true"
+
+TURBO_REMOTE_ONLY="true"
+
+TURBO_RUN_SUMMARY="true"
+
+VERCEL="1"
+
+VERCEL_ENV="production"
+
+VERCEL_GIT_COMMIT_AUTHOR_LOGIN=""
+
+VERCEL_GIT_COMMIT_AUTHOR_NAME=""
+
+VERCEL_GIT_COMMIT_MESSAGE=""
+
+VERCEL_GIT_COMMIT_REF=""
+
+VERCEL_GIT_COMMIT_SHA=""
+
+VERCEL_GIT_PREVIOUS_SHA=""
+
+VERCEL_GIT_PROVIDER=""
+
+VERCEL_GIT_PULL_REQUEST_ID=""
+
+VERCEL_GIT_REPO_ID=""
+
+VERCEL_GIT_REPO_OWNER=""
+
+VERCEL_GIT_REPO_SLUG=""
+
+VERCEL_OIDC_TOKEN="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1yay00MzAyZWMxYjY3MGY0OGE5OGFkNjFkYWRlNGEyM2JlNyJ9.eyJpc3MiOiJodHRwczovL29pZGMudmVyY2VsLmNvbS96ZWxhbGVtYXptZXJhcy1wcm9qZWN0cyIsInN1YiI6Im93bmVyOnplbGFsZW1hem1lcmFzLXByb2plY3RzOnByb2plY3Q6bnVyYWNhcmU6ZW52aXJvbm1lbnQ6ZGV2ZWxvcG1lbnQiLCJzY29wZSI6Im93bmVyOnplbGFsZW1hem1lcmFzLXByb2plY3RzOnByb2plY3Q6bnVyYWNhcmU6ZW52aXJvbm1lbnQ6ZGV2ZWxvcG1lbnQiLCJhdWQiOiJodHRwczovL3ZlcmNlbC5jb20vemVsYWxlbWF6bWVyYXMtcHJvamVjdHMiLCJvd25lciI6InplbGFsZW1hem1lcmFzLXByb2plY3RzIiwib3duZXJfaWQiOiJ0ZWFtX204YkVQQTdVOElkOFVpTXF3U0tMQWRKMyIsInByb2plY3QiOiJudXJhY2FyZSIsInByb2plY3RfaWQiOiJwcmpfWFFrSm8yeHVPVWhONmU0ZUFlTzdrOHZOYzhsZCIsImVudmlyb25tZW50IjoiZGV2ZWxvcG1lbnQiLCJwbGFuIjoiaG9iYnkiLCJ1c2VyX2lkIjoiWEZQSXNuSm95eGY1NWtzNTlRVTZ2R1NSIiwiY2xpZW50X2lkIjoiY2xfSFl5T1BCTnRGTWZIaGFVbjlMNFFQZlRaejZUUDQ3YnAiLCJhcHBfaWQiOiJjbF9IWXlPUEJOdEZNZkhoYVVuOUw0UVBmVFp6NlRQNDdicCIsIm5iZiI6MTc4ODAxNDM3OSwiaWF0IjoxNzg4MDE0Mzc5LCJleHAiOjE3ODgwNTc1Nzl9.DysMLp27fz0EcxirhQ1q2I5reMBoj8zA3uJJ9qKudp2tZdXUqH8YSnW3TA4iam9jN-1Ov3ly4e-LOT1iqF4p5ti4wKw14iW022HDGIKWaTLXudmYbjege87YmyLzKwyE0n1R2LqCTQZfR9GKLLKTmBcrJ69VPDUXwkwhp9-T0D7HvAKuGX0c_wkyzlACK72iI_RO_HkgBo7mCMlWyt5bPaAxUhIjcZnz83tvqSgGciDJj8RE5eTMRx20UpXEvLkSuGP6gJnXDwMWH49tnQksModzj-AoCj1AaKSQGyhJQdD03utipvrWXJKgkz3VM6OCDAGzEBmwVBBrV8NrB1lunQ"
+
+VERCEL_TARGET_ENV="production"
+
+VERCEL_URL=""
+
+VITE_SUPABASE_ANON_KEY=""
+
+VITE_SUPABASE_URL=""
+
 "
 ```
 
@@ -3700,43 +3798,78 @@ Pull from gitthub and lets be uptodate with tthe repository and there is a mobil
 #### Turn 230 (2026-09-17 - Step 9284)
 ##### 👤 User Prompt:
 ```text
-handleChatWithNura is not defined
-
-The above error occurred in the <AdaptiveHomeScreen(./(tabs)/index.tsx)> component.
-
-React will try to recreate this component tree from scratch using the error boundary you provided, Try.
-
-Component Stack
-  at WrappedScreenComponent (apps/mobile/node_modules/expo-router/build/useScreens.js:212:37)
-  at BaseRoute (apps/mobile/node_modules/expo-router/build/useScreens.js:259:856)
-  at SceneView (apps/mobile/node_modules/expo-router/build/react-navigation/core/SceneView.js:134:572)
-  at render (apps/mobile/node_modules/expo-router/build/react-navigation/core/useDescriptors.js:128:45)
-  at routes.reduce$argument_0 (apps/mobile/node_modules/expo-router/build/react-navigation/core/useDescriptors.js:144:25)
-  at Array.reduce (<anonymous>)
-  at useDescriptors (apps/mobile/node_modules/expo-router/build/react-navigation/core/useDescriptors.js:141:32)
-  at useNavigationBuilder (apps/mobile/node_modules/expo-router/build/react-navigation/core/useNavigationBuilder.js:630:74)
-  at BottomTabNavigator (apps/mobile/node_modules/expo-router/build/react-navigation/bottom-tabs/navigators/createBottomTabNavigator.js:9:100)
-  at <anonymous> (apps/mobile/node_modules/expo-router/build/layouts/withLayoutContext.js:128:133)
-  at Object.assign$argument_0 (apps/mobile/node_modules/expo-router/build/layouts/TabsClient.js:47:33)
-  at TabLayout (apps/mobile/app/(tabs)/_layout.tsx:36:7)
-  at WrappedScreenComponent (apps/mobile/node_modules/expo-router/build/useScreens.js:212:37)
-  at BaseRoute (apps/mobile/node_modules/expo-router/build/useScreens.js:259:856)
-  at SceneView (apps/mobile/node_modules/expo-router/build/react-navigation/core/SceneView.js:134:572)
-  at render (apps/mobile/node_modules/expo-router/build/react-navigation/core/useDescriptors.js:128:45)
-  at routes.reduce$argument_0 (apps/mobile/node_modules/expo-router/build/react-navigation/core/useDescriptors.js:144:25)
-  at Array.reduce (<anonymous>)
+handleChatWithNura is not defined
+
+
+
+The above error occurred in the <AdaptiveHomeScreen(./(tabs)/index.tsx)> component.
+
+
+
+React will try to recreate this component tree from scratch using the error boundary you provided, Try.
+
+
+
+Component Stack
+
+  at WrappedScreenComponent (apps/mobile/node_modules/expo-router/build/useScreens.js:212:37)
+
+  at BaseRoute (apps/mobile/node_modules/expo-router/build/useScreens.js:259:856)
+
+  at SceneView (apps/mobile/node_modules/expo-router/build/react-navigation/core/SceneView.js:134:572)
+
+  at render (apps/mobile/node_modules/expo-router/build/react-navigation/core/useDescriptors.js:128:45)
+
+  at routes.reduce$argument_0 (apps/mobile/node_modules/expo-router/build/react-navigation/core/useDescriptors.js:144:25)
+
+  at Array.reduce (<anonymous>)
+
+  at useDescriptors (apps/mobile/node_modules/expo-router/build/react-navigation/core/useDescriptors.js:141:32)
+
+  at useNavigationBuilder (apps/mobile/node_modules/expo-router/build/react-navigation/core/useNavigationBuilder.js:630:74)
+
+  at BottomTabNavigator (apps/mobile/node_modules/expo-router/build/react-navigation/bottom-tabs/navigators/createBottomTabNavigator.js:9:100)
+
+  at <anonymous> (apps/mobile/node_modules/expo-router/build/layouts/withLayoutContext.js:128:133)
+
+  at Object.assign$argument_0 (apps/mobile/node_modules/expo-router/build/layouts/TabsClient.js:47:33)
+
+  at TabLayout (apps/mobile/app/(tabs)/_layout.tsx:36:7)
+
+  at WrappedScreenComponent (apps/mobile/node_modules/expo-router/build/useScreens.js:212:37)
+
+  at BaseRoute (apps/mobile/node_modules/expo-router/build/useScreens.js:259:856)
+
+  at SceneView (apps/mobile/node_modules/expo-router/build/react-navigation/core/SceneView.js:134:572)
+
+  at render (apps/mobile/node_modules/expo-router/build/react-navigation/core/useDescriptors.js:128:45)
+
+  at routes.reduce$argument_0 (apps/mobile/node_modules/expo-router/build/react-navigation/core/useDescriptors.js:144:25)
+
+  at Array.reduce (<anonymous>)
+
   at useDescriptors (apps/mobile/node_modules/expo-rout
 <truncated 4664 bytes>
-15159:11)
-  at commitLayoutEffectOnFiber (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:14165:11)
-  at recursivelyTraverseLayoutEffects (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:15159:11)
-  at commitLayoutEffectOnFiber (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:14165:11)
-  at recursivelyTraverseLayoutEffects (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:15159:11)
-  at commitLayoutEffectOnFiber (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:13949:11)
-  at recursivelyTraverseLayoutEffects (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:15159:11)
-  at commitLayoutEffectOnFiber (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:13949:11)
-  at recursivelyTraverseLayoutEffects (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:15159:11)
-  at commitLayoutEffectOnFiber (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:13949:11)
+15159:11)
+
+  at commitLayoutEffectOnFiber (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:14165:11)
+
+  at recursivelyTraverseLayoutEffects (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:15159:11)
+
+  at commitLayoutEffectOnFiber (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:14165:11)
+
+  at recursivelyTraverseLayoutEffects (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:15159:11)
+
+  at commitLayoutEffectOnFiber (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:13949:11)
+
+  at recursivelyTraverseLayoutEffects (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:15159:11)
+
+  at commitLayoutEffectOnFiber (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:13949:11)
+
+  at recursivelyTraverseLayoutEffects (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:15159:11)
+
+  at commitLayoutEffectOnFiber (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:13949:11)
+
   at recursivelyTraverseLayoutEffects (apps/mobile/node_modules/react-dom/cjs/react-dom-client.development.js:15159:11)
 ```
 
@@ -3869,68 +4002,128 @@ Here is the complete diagnosis of both issues, why they occurred, and the perman
 ##### 👤 User Prompt:
 ```text
 The problems are not fixed and wheen i see on vercel deployement there has been several deployement error. Here is the three latest depolyement errors (old to latest and three).
-- commit: [9a852b2fix(web): resolve file analysis 500 error with resilient document engine and dynamic app download mo…](https://github.com/markova-technologies/nuracare/commit/9a852b217419d8a50a2be642e27d1faad0423f04) and log "06:35:32.458 Running build in Washington, D.C., USA (East) – iad1
-06:35:32.459 Build machine configuration: 2 cores, 8 GB
-06:35:32.593 Cloning github.com/markova-technologies/nuracare (Branch: main, Commit: 9a852b2)
-06:35:33.536 Cloning completed: 943.000ms
-06:35:33.669 Restored build cache from previous deployment (79ccRCcVU1AsXKfjzcE6LKvbewAY)
-06:35:34.479 Running "vercel build"
-06:35:34.493 Vercel CLI 62.1.0
-06:35:35.285 Installing dependencies...
-06:36:01.813 
-06:36:01.813 added 1 package in 26s
-06:36:01.815 npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
-06:36:01.815 npm warn install-scripts   esbuild@0.21.5 (postinstall: node install.js)
-06:36:01.815 npm warn install-scripts
-06:36:01.816 npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
-06:36:02.086 
-06:36:02.086 > nuracare-react@0.0.0 build
-06:36:02.086 > vite build
-06:36:02.086 
-06:36:02.358 vite v5.4.21 building for production...
-06:36:02.435 transforming...
-06:36:09.788 ✓ 2095 modules transformed.
-06:36:11.137 rendering chunks...
-06:36:11.189 computing gzip size...
-06:36:11.237 dist/index.html                     0.88 kB │ gzip:   0.47 kB
-06:36:11.238 dist/assets/index-B9DgIAcS.css     32.79 kB │ gzip:   6.81 kB
-06:36:11.239 dist/assets/index-CqWZlEbv.js   1,987.41 kB │ gzip: 480.30 kB
-06:36:11.239 ✓ built in 8.84s
-06:36:11.239 
-06:36:11.239 (!) Some chunks are larger than 1200 kB after minification. Consider:
-06:36:11.239 - Using dynamic import() to code-split the application
+- commit: [9a852b2fix(web): resolve file analysis 500 error with resilient document engine and dynamic app download mo…](https://github.com/markova-technologies/nuracare/commit/9a852b217419d8a50a2be642e27d1faad0423f04) and log "06:35:32.458 Running build in Washington, D.C., USA (East) – iad1
+
+06:35:32.459 Build machine configuration: 2 cores, 8 GB
+
+06:35:32.593 Cloning github.com/markova-technologies/nuracare (Branch: main, Commit: 9a852b2)
+
+06:35:33.536 Cloning completed: 943.000ms
+
+06:35:33.669 Restored build cache from previous deployment (79ccRCcVU1AsXKfjzcE6LKvbewAY)
+
+06:35:34.479 Running "vercel build"
+
+06:35:34.493 Vercel CLI 62.1.0
+
+06:35:35.285 Installing dependencies...
+
+06:36:01.813 
+
+06:36:01.813 added 1 package in 26s
+
+06:36:01.815 npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+
+06:36:01.815 npm warn install-scripts   esbuild@0.21.5 (postinstall: node install.js)
+
+06:36:01.815 npm warn install-scripts
+
+06:36:01.816 npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+06:36:02.086 
+
+06:36:02.086 > nuracare-react@0.0.0 build
+
+06:36:02.086 > vite build
+
+06:36:02.086 
+
+06:36:02.358 vite v5.4.21 building for production...
+
+06:36:02.435 transforming...
+
+06:36:09.788 ✓ 2095 modules transformed.
+
+06:36:11.137 rendering chunks...
+
+06:36:11.189 computing gzip size...
+
+06:36:11.237 dist/index.html                     0.88 kB │ gzip:   0.47 kB
+
+06:36:11.238 dist/assets/index-B9DgIAcS.css     32.79 kB │ gzip:   6.81 kB
+
+06:36:11.239 dist/assets/index-CqWZlEbv.js   1,987.41 kB │ gzip: 480.30 kB
+
+06:36:11.239 ✓ built in 8.84s
+
+06:36:11.239 
+
+06:36:11.239 (!) Some chunks are larger than 1200 kB after minification. Consider:
+
+06:36:11.239 - Using dynamic import() to code-split the application
+
 06:36:11.239 - Use
 <truncated 2926 bytes>
-pleted: 595.000ms
-07:29:48.723 Restored build cache from previous deployment (79ccRCcVU1AsXKfjzcE6LKvbewAY)
-07:29:49.007 Running "vercel build"
-07:29:49.018 Vercel CLI 62.7.0
-07:29:49.716 Installing dependencies...
-07:30:14.095 
-07:30:14.096 added 1 package in 24s
-07:30:14.096 npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
-07:30:14.096 npm warn install-scripts   esbuild@0.21.5 (postinstall: node install.js)
-07:30:14.096 npm warn install-scripts
-07:30:14.097 npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
-07:30:14.268 
-07:30:14.268 > nuracare-react@0.0.0 build
-07:30:14.269 > vite build
-07:30:14.269 
-07:30:14.471 vite v5.4.21 building for production...
-07:30:14.520 transforming...
-07:30:20.022 ✓ 2095 modules transformed.
-07:30:20.769 rendering chunks...
-07:30:20.802 computing gzip size...
-07:30:20.847 dist/index.html                     0.88 kB │ gzip:   0.47 kB
-07:30:20.847 dist/assets/index-B9DgIAcS.css     32.79 kB │ gzip:   6.81 kB
-07:30:20.847 dist/assets/index-CqWZlEbv.js   1,987.41 kB │ gzip: 480.30 kB
-07:30:20.847 ✓ built in 6.35s
-07:30:20.847 
-07:30:20.848 (!) Some chunks are larger than 1200 kB after minification. Consider:
-07:30:20.848 - Using dynamic import() to code-split the application
-07:30:20.848 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
-07:30:20.848 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
-07:30:25.036 Build Completed in /vercel/output [35s]
+pleted: 595.000ms
+
+07:29:48.723 Restored build cache from previous deployment (79ccRCcVU1AsXKfjzcE6LKvbewAY)
+
+07:29:49.007 Running "vercel build"
+
+07:29:49.018 Vercel CLI 62.7.0
+
+07:29:49.716 Installing dependencies...
+
+07:30:14.095 
+
+07:30:14.096 added 1 package in 24s
+
+07:30:14.096 npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+
+07:30:14.096 npm warn install-scripts   esbuild@0.21.5 (postinstall: node install.js)
+
+07:30:14.096 npm warn install-scripts
+
+07:30:14.097 npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+07:30:14.268 
+
+07:30:14.268 > nuracare-react@0.0.0 build
+
+07:30:14.269 > vite build
+
+07:30:14.269 
+
+07:30:14.471 vite v5.4.21 building for production...
+
+07:30:14.520 transforming...
+
+07:30:20.022 ✓ 2095 modules transformed.
+
+07:30:20.769 rendering chunks...
+
+07:30:20.802 computing gzip size...
+
+07:30:20.847 dist/index.html                     0.88 kB │ gzip:   0.47 kB
+
+07:30:20.847 dist/assets/index-B9DgIAcS.css     32.79 kB │ gzip:   6.81 kB
+
+07:30:20.847 dist/assets/index-CqWZlEbv.js   1,987.41 kB │ gzip: 480.30 kB
+
+07:30:20.847 ✓ built in 6.35s
+
+07:30:20.847 
+
+07:30:20.848 (!) Some chunks are larger than 1200 kB after minification. Consider:
+
+07:30:20.848 - Using dynamic import() to code-split the application
+
+07:30:20.848 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+
+07:30:20.848 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+07:30:25.036 Build Completed in /vercel/output [35s]
+
 07:30:25.076 Deploying outputs..."
 ```
 
@@ -3957,39 +4150,72 @@ to see ours go to the next ones starting from "[92dbd06fix(vercel): resolve outp
 #### Turn 241 (2026-10-09 - Step 10663)
 ##### 👤 User Prompt:
 ```text
-Still another deployment error 10:26:30.655 Running build in Washington, D.C., USA (East) – iad1
-10:26:30.656 Build machine configuration: 2 cores, 8 GB
-10:26:33.014 Cloning github.com/markova-technologies/nuracare (Branch: main, Commit: dab70e0)
-10:26:35.144 Cloning completed: 2.128s
-10:26:35.512 Restored build cache from previous deployment (79ccRCcVU1AsXKfjzcE6LKvbewAY)
-10:26:36.370 Running "vercel build"
-10:26:36.398 Vercel CLI 62.1.0
-10:26:41.090 Installing dependencies...
-10:27:24.633 
-10:27:24.634 added 1 package in 41s
-10:27:24.635 npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
-10:27:24.635 npm warn install-scripts   esbuild@0.21.5 (postinstall: node install.js)
-10:27:24.635 npm warn install-scripts
-10:27:24.635 npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
-10:27:25.671 
-10:27:25.671 > nuracare-react@0.0.0 build
-10:27:25.672 > vite build
-10:27:25.672 
-10:27:26.159 vite v5.4.21 building for production...
-10:27:26.276 transforming...
-10:27:39.273 ✓ 2095 modules transformed.
-10:27:40.897 rendering chunks...
-10:27:40.971 computing gzip size...
-10:27:41.049 dist/index.html                     0.88 kB │ gzip:   0.47 kB
-10:27:41.055 dist/assets/index-B9DgIAcS.css     32.79 kB │ gzip:   6.81 kB
-10:27:41.055 dist/assets/index-BTi4YLMC.js   1,985.30 kB │ gzip: 479.95 kB
-10:27:41.055 ✓ built in 14.85s
-10:27:41.055 
-10:27:41.055 (!) Some chunks are larger than 1200 kB after minification. Consider:
-10:27:41.055 - Using dynamic import() to code-split the application
-10:27:41.055 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
-10:27:41.056 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
-10:27:54.030 Build Completed in /vercel/output [1m]
+Still another deployment error 10:26:30.655 Running build in Washington, D.C., USA (East) – iad1
+
+10:26:30.656 Build machine configuration: 2 cores, 8 GB
+
+10:26:33.014 Cloning github.com/markova-technologies/nuracare (Branch: main, Commit: dab70e0)
+
+10:26:35.144 Cloning completed: 2.128s
+
+10:26:35.512 Restored build cache from previous deployment (79ccRCcVU1AsXKfjzcE6LKvbewAY)
+
+10:26:36.370 Running "vercel build"
+
+10:26:36.398 Vercel CLI 62.1.0
+
+10:26:41.090 Installing dependencies...
+
+10:27:24.633 
+
+10:27:24.634 added 1 package in 41s
+
+10:27:24.635 npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+
+10:27:24.635 npm warn install-scripts   esbuild@0.21.5 (postinstall: node install.js)
+
+10:27:24.635 npm warn install-scripts
+
+10:27:24.635 npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+10:27:25.671 
+
+10:27:25.671 > nuracare-react@0.0.0 build
+
+10:27:25.672 > vite build
+
+10:27:25.672 
+
+10:27:26.159 vite v5.4.21 building for production...
+
+10:27:26.276 transforming...
+
+10:27:39.273 ✓ 2095 modules transformed.
+
+10:27:40.897 rendering chunks...
+
+10:27:40.971 computing gzip size...
+
+10:27:41.049 dist/index.html                     0.88 kB │ gzip:   0.47 kB
+
+10:27:41.055 dist/assets/index-B9DgIAcS.css     32.79 kB │ gzip:   6.81 kB
+
+10:27:41.055 dist/assets/index-BTi4YLMC.js   1,985.30 kB │ gzip: 479.95 kB
+
+10:27:41.055 ✓ built in 14.85s
+
+10:27:41.055 
+
+10:27:41.055 (!) Some chunks are larger than 1200 kB after minification. Consider:
+
+10:27:41.055 - Using dynamic import() to code-split the application
+
+10:27:41.055 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+
+10:27:41.056 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+10:27:54.030 Build Completed in /vercel/output [1m]
+
 10:27:54.111 Deploying outputs...
 ```
 
@@ -4227,5 +4453,21 @@ Okay good but instead of summerized phase i want a full history of the project t
 - Extracted every substantive turn across the entire project timeline directly from the 14,606-step IDE transcript.
 - Documented all user inquiries, debugging steps, error messages, architectural decisions, and agent code modifications from May 2026 through October 30, 2026.
 - Committed and pushed updated `memory.md` to `origin/main`.
+
+---
+
+#### Turn 258 (November 3, 2026 - Current Turn)
+##### 👤 User Prompt:
+```text
+When i open the app it will close automatically
+```
+
+##### 🤖 Agent Response:
+- Diagnosed root cause of immediate Android startup crashes ('closes automatically' without showing React ErrorBoundary):
+  1. Identified that native signal termination (SIGSEGV/abort) or corrupted MMKV storage cache collisions from previous APK installations (v1.0.6/v1.0.7) prevent Activity initialization.
+  2. Verified APK internal structure of `NuraCare-v1.0.8.apk` (109.4 MB) containing Hermes bytecode v98, NitroMMKV, and `libexpo-av.so`.
+  3. Outlined immediate device-level resolution: clearing App Info -> Storage -> Clear Data / clean reinstall to purge stale binary mmap cache.
+  4. Prepared codebase hardening to remove legacy `expo-av` native module crash vector on New Architecture and provide bulletproof memory store fallbacks.
+- Actions: analyzed APK binaries, inspected native JNI bindings, and executed 25 diagnostic and environment commands.
 
 ---
