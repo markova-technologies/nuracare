@@ -2,21 +2,21 @@
   "expo": {
     "name": "NuraCare",
     "slug": "nuracare",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "orientation": "portrait",
     "scheme": "nuracare",
     "icon": "./assets/images/icon.png",
-    "owner": "darikab71",
+    "owner": "z01a",
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "c8ef278f-9fa4-426b-b682-73785a5bea8d"
+        "projectId": "49bdada9-81ea-438e-8a45-48ad954ecf49"
       }
     },
     "android": {
       "jsEngine": "hermes",
       "package": "com.darikab71.nuracaremobile",
-      "versionCode": 11,
+      "versionCode": 12,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
