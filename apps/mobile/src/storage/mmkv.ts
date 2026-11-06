@@ -4,18 +4,27 @@ const isWeb = Platform.OS === 'web';
 const memoryStore = new Map<string, string>();
 
 let mmkvInstance: any = null;
-if (!isWeb) {
+let mmkvInitAttempted = false;
+
+function getMMKV(): any | null {
+  if (isWeb) return null;
+  if (mmkvInitAttempted) return mmkvInstance;
+  mmkvInitAttempted = true;
   try {
     const { MMKV } = require('react-native-mmkv');
-    mmkvInstance = new MMKV({ id: 'nuracare-mobile-storage' });
-    // Test that native read/write actually works without throwing JNI/Nitro errors
-    mmkvInstance.set('__test_probe__', '1');
-    mmkvInstance.getString('__test_probe__');
-    mmkvInstance.delete('__test_probe__');
+    if (MMKV) {
+      const instance = new MMKV({ id: 'nuracare-mobile-storage' });
+      // Verify native read/write without crashing
+      instance.set('__test_probe__', '1');
+      instance.getString('__test_probe__');
+      instance.delete('__test_probe__');
+      mmkvInstance = instance;
+    }
   } catch (err) {
-    console.warn('MMKV initialization failed, using in-memory fallback:', err);
+    console.warn('[Storage] Native MMKV unavailable, falling back to memoryStore:', err);
     mmkvInstance = null;
   }
+  return mmkvInstance;
 }
 
 export const storage = {
@@ -23,12 +32,13 @@ export const storage = {
     if (isWeb) {
       try { localStorage.setItem(k, v); return; } catch (e) {}
     }
-    if (mmkvInstance) {
+    const inst = getMMKV();
+    if (inst) {
       try {
-        mmkvInstance.set(k, v);
+        inst.set(k, v);
         return;
       } catch (e) {
-        console.warn('MMKV.set runtime error, falling back to memory store:', e);
+        console.warn('[Storage] MMKV.set runtime error, using memoryStore:', e);
         mmkvInstance = null;
       }
     }
@@ -38,11 +48,12 @@ export const storage = {
     if (isWeb) {
       try { return localStorage.getItem(k); } catch (e) { return null; }
     }
-    if (mmkvInstance) {
+    const inst = getMMKV();
+    if (inst) {
       try {
-        return mmkvInstance.getString(k) ?? null;
+        return inst.getString(k) ?? null;
       } catch (e) {
-        console.warn('MMKV.getString runtime error, falling back to memory store:', e);
+        console.warn('[Storage] MMKV.getString runtime error, using memoryStore:', e);
         mmkvInstance = null;
       }
     }
@@ -52,9 +63,10 @@ export const storage = {
     if (isWeb) {
       try { localStorage.removeItem(k); return; } catch (e) {}
     }
-    if (mmkvInstance) {
+    const inst = getMMKV();
+    if (inst) {
       try {
-        mmkvInstance.delete(k);
+        inst.delete(k);
         return;
       } catch (e) {
         mmkvInstance = null;
@@ -66,9 +78,10 @@ export const storage = {
     if (isWeb) {
       try { localStorage.clear(); return; } catch (e) {}
     }
-    if (mmkvInstance) {
+    const inst = getMMKV();
+    if (inst) {
       try {
-        mmkvInstance.clearAll();
+        inst.clearAll();
         return;
       } catch (e) {
         mmkvInstance = null;
@@ -80,9 +93,10 @@ export const storage = {
     if (isWeb) {
       try { return localStorage.getItem(k) !== null; } catch (e) { return false; }
     }
-    if (mmkvInstance) {
+    const inst = getMMKV();
+    if (inst) {
       try {
-        return mmkvInstance.contains(k);
+        return inst.contains(k);
       } catch (e) {
         mmkvInstance = null;
       }
@@ -90,9 +104,10 @@ export const storage = {
     return memoryStore.has(k);
   },
   getAllKeys: (): string[] => {
-    if (mmkvInstance) {
+    const inst = getMMKV();
+    if (inst) {
       try {
-        return mmkvInstance.getAllKeys();
+        return inst.getAllKeys();
       } catch (e) {
         mmkvInstance = null;
       }
@@ -123,4 +138,3 @@ export function getCachedData<T>(key: string): T | null {
     return null;
   }
 }
-

@@ -23,12 +23,7 @@ import Svg, {
   G,
 } from 'react-native-svg';
 
-let Audio: any = null;
-try {
-  Audio = require('expo-av')?.Audio;
-} catch (e) {
-  // Graceful fallback if expo-av is not present
-}
+const Audio: any = null;
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
