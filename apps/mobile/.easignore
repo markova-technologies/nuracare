@@ -6,3 +6,7 @@ web-export/
 .expo/
 *.log
 *.tar.gz
+
+*.apk
+*.aab
+
