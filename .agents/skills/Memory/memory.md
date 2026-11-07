@@ -4681,3 +4681,18 @@ Continue the test and  verification loop and don't stop until you succeed
 - Actions: freed 685 MB of abandoned temp files, installed NuraCare v1.0.9, launched app on connected Samsung Galaxy A05s, verified 0 crashes, inspected live screencaps, and recorded Turn 264 in perpetual memory ledger.
 
 ---
+
+#### Turn 265 (November 7, 2026 - Current Turn)
+##### 👤 User Prompt:
+```text
+Okay good i can see opening, So did you push this working version. And also note the problem to avoid in future version releases
+```
+
+##### 🤖 Agent Response:
+- Confirmed working version repository push:
+  1. Verified that the working commits (`a8acf04`, `48198d1`, `0312a44`) that produced EAS build `3977ae84-9483-4b67-89a2-db3de55bb0a8` and `NuraCare-v1.0.9.apk` were already pushed to `origin/main` on GitHub.
+  2. Created comprehensive architectural documentation in `apps/mobile/RELEASE_AND_COMPATIBILITY_GUIDELINES.md` documenting the root cause of the v1.0.8 crash, zero-crash invariants, monorepo scratch routing, pre-release checklists, and post-release ADB sanity protocols.
+  3. Committed the new guidelines, build scripts (`scripts/build_android_eas.bat`, `scripts/await_and_install_v1_0_9.js`), and memory ledger in commit `eca82bd` and successfully pushed to `origin/main`.
+- Actions: created RELEASE_AND_COMPATIBILITY_GUIDELINES.md, committed changes, pushed to GitHub remote, and recorded Turn 265 in perpetual memory ledger.
+
+---
