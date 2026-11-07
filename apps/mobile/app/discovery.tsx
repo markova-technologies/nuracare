@@ -12,6 +12,8 @@ import {
   Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from '../src/context/ThemeContext';
 import {
   ArrowLeft,
   Search,
@@ -53,6 +55,8 @@ const AVAILABLE_TAGS = [
 
 export default function DiscoveryScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { theme, isDark } = useTheme();
   const [activeTab, setActiveTab] = useState<'all' | 'local'>('all');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -90,42 +94,54 @@ export default function DiscoveryScreen() {
   }, [activeTab, selectedTags, searchQuery]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Top Header */}
-      <View style={styles.header}>
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: Math.max(insets.top, 16) + 8,
+            backgroundColor: theme.surface,
+            borderBottomColor: theme.border,
+          },
+        ]}
+      >
         <TouchableOpacity
           onPress={() => router.back()}
-          style={styles.backBtn}
+          style={[styles.backBtn, { backgroundColor: theme.surfaceElevated }]}
           accessibilityLabel="Back to Home"
           activeOpacity={0.7}
         >
-          <ArrowLeft size={22} color="#0f172a" />
+          <ArrowLeft size={22} color={theme.textPrimary} />
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
-          <Text style={styles.pageTitle}>Discovery Feed</Text>
-          <Text style={styles.pageSubtitle}>Your personalized, dynamic health knowledge</Text>
+          <Text style={[styles.pageTitle, { color: theme.textPrimary }]}>Discovery Feed</Text>
+          <Text style={[styles.pageSubtitle, { color: theme.textSecondary }]}>Your personalized, dynamic health knowledge</Text>
         </View>
       </View>
 
       <ScrollView
         style={styles.scrollArea}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingBottom: Math.max(insets.bottom, 16) + 40 },
+        ]}
         showsVerticalScrollIndicator={false}
       >
         {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <Search size={18} color="#64748b" style={styles.searchIcon} />
+        <View style={[styles.searchContainer, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+          <Search size={18} color={theme.textTertiary} style={styles.searchIcon} />
           <TextInput
-            style={styles.searchInput}
+            style={[styles.searchInput, { color: theme.inputText }]}
             placeholder="Search Damakesse, Moringa, sleep, stress..."
-            placeholderTextColor="#94a3b8"
+            placeholderTextColor={theme.placeholderText}
             value={searchQuery}
             onChangeText={setSearchQuery}
             returnKeyType="search"
           />
           {searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => setSearchQuery('')} style={styles.searchClearBtn}>
-              <X size={16} color="#64748b" />
+              <X size={16} color={theme.textTertiary} />
             </TouchableOpacity>
           )}
         </View>
@@ -389,10 +405,9 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   backBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: '#f1f5f9',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },

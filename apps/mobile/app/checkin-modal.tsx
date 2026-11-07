@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWellnessStore } from '../src/store';
 import { useProfile } from '../src/context/ProfileContext';
+import { useTheme } from '../src/context/ThemeContext';
 import { compute5CoreWellness } from '../src/lib/wellnessEngine';
 import { ChevronRight, ChevronLeft, CheckCircle, Smartphone } from 'lucide-react-native';
 
@@ -11,6 +12,7 @@ const TOTAL_STEPS = 5;
 
 export default function CheckInModal() {
   const insets = useSafeAreaInsets();
+  const { theme, isDark } = useTheme();
   const { setScore, addCheckIn, checkIns } = useWellnessStore();
   const { profile } = useProfile();
   const [step, setStep] = useState(1);
@@ -39,7 +41,6 @@ export default function CheckInModal() {
 
   const handleSyncWearable = async () => {
     try {
-      // simulate sync
       setTimeout(() => {
         setWearableSynced(true);
         Alert.alert("Success", "Wearable data synced successfully.");
@@ -57,7 +58,7 @@ export default function CheckInModal() {
       painLevel,
       stiffness,
       activity,
-      energy: Math.round(activity / 12), // convert 0-120 mins to 0-10 energy
+      energy: Math.round(activity / 12),
       stress,
       mood,
       sleep,
@@ -76,7 +77,6 @@ export default function CheckInModal() {
 
     addCheckIn(entry);
     
-    // Calculate new overall score
     const newScore = compute5CoreWellness(entry, profile || {});
     setScore(newScore.total);
 
@@ -86,18 +86,26 @@ export default function CheckInModal() {
   const renderSlider = (label: string, value: number, setValue: (val: number) => void, max: number = 10, min: number = 0) => (
     <View style={styles.inputGroup} key={label}>
       <View style={styles.labelRow}>
-        <Text style={styles.label}>{label}</Text>
-        <Text style={styles.valueText}>{value} / {max}</Text>
+        <Text style={[styles.label, { color: theme.textPrimary }]}>{label}</Text>
+        <Text style={[styles.valueText, { color: theme.accent }]}>{value} / {max}</Text>
       </View>
       <View style={styles.stepperRow}>
-        <TouchableOpacity style={styles.stepperBtn} onPress={() => setValue(Math.max(min, value - 1))}>
-          <Text style={styles.stepperIcon}>-</Text>
+        <TouchableOpacity
+          style={[styles.stepperBtn, { backgroundColor: theme.surfaceElevated }]}
+          onPress={() => setValue(Math.max(min, value - 1))}
+          activeOpacity={0.7}
+        >
+          <Text style={[styles.stepperIcon, { color: theme.textPrimary }]}>-</Text>
         </TouchableOpacity>
-        <View style={styles.track}>
-          <View style={[styles.fill, { width: `${(value / max) * 100}%` }]} />
+        <View style={[styles.track, { backgroundColor: theme.inputBorder }]}>
+          <View style={[styles.fill, { width: `${(value / max) * 100}%`, backgroundColor: theme.accent }]} />
         </View>
-        <TouchableOpacity style={styles.stepperBtn} onPress={() => setValue(Math.min(max, value + 1))}>
-          <Text style={styles.stepperIcon}>+</Text>
+        <TouchableOpacity
+          style={[styles.stepperBtn, { backgroundColor: theme.surfaceElevated }]}
+          onPress={() => setValue(Math.min(max, value + 1))}
+          activeOpacity={0.7}
+        >
+          <Text style={[styles.stepperIcon, { color: theme.textPrimary }]}>+</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -105,8 +113,8 @@ export default function CheckInModal() {
 
   const renderStep1 = () => (
     <View style={styles.stepContainer}>
-      <Text style={styles.stepTitle}>Physical Well-being</Text>
-      <Text style={styles.stepSubtitle}>How is your body feeling?</Text>
+      <Text style={[styles.stepTitle, { color: theme.textPrimary }]}>Physical Well-being</Text>
+      <Text style={[styles.stepSubtitle, { color: theme.textSecondary }]}>How is your body feeling?</Text>
       {renderSlider('Pain Level', painLevel, setPainLevel, 10)}
       {renderSlider('Joint Stiffness', stiffness, setStiffness, 10)}
       {renderSlider('Activity (Minutes)', activity, setActivity, 120, 0)}
@@ -115,26 +123,40 @@ export default function CheckInModal() {
 
   const renderStep2 = () => (
     <View style={styles.stepContainer}>
-      <Text style={styles.stepTitle}>Mental State</Text>
-      <Text style={styles.stepSubtitle}>Check in with your mind.</Text>
+      <Text style={[styles.stepTitle, { color: theme.textPrimary }]}>Mental State</Text>
+      <Text style={[styles.stepSubtitle, { color: theme.textSecondary }]}>Check in with your mind.</Text>
       {renderSlider('Stress Level', stress, setStress, 10)}
-      {renderSlider('Overall Mood', mood, setMood, 10)}
-      {renderSlider('Sleep (Hours)', sleep, setSleep, 12)}
+      {renderSlider('Mood Valence', mood, setMood, 10)}
+      {renderSlider('Sleep (Hours)', sleep, setSleep, 12, 0)}
     </View>
   );
 
   const renderStep3 = () => (
     <View style={styles.stepContainer}>
-      <Text style={styles.stepTitle}>Nutrition & Hydration</Text>
-      <Text style={styles.stepSubtitle}>Fueling your body.</Text>
-      {renderSlider('Meals Eaten', meals, setMeals, 6)}
-      {renderSlider('Glasses of Water', hydration, setHydration, 15)}
+      <Text style={[styles.stepTitle, { color: theme.textPrimary }]}>Nourishment</Text>
+      <Text style={[styles.stepSubtitle, { color: theme.textSecondary }]}>Fueling your vitality.</Text>
+      {renderSlider('Main Meals', meals, setMeals, 6, 0)}
+      {renderSlider('Hydration (Glasses)', hydration, setHydration, 15, 0)}
+      
       <View style={styles.inputGroup}>
-        <Text style={styles.label}>Portion Size</Text>
+        <Text style={[styles.label, { color: theme.textPrimary, marginBottom: 12 }]}>Portion Scale</Text>
         <View style={styles.chipsRow}>
-          {['Light', 'Moderate', 'Heavy (Overate)'].map(p => (
-            <TouchableOpacity key={p} style={[styles.chip, portion === p && styles.chipActive]} onPress={() => setPortion(p)}>
-              <Text style={[styles.chipText, portion === p && styles.chipTextActive]}>{p}</Text>
+          {['Light', 'Moderate', 'Substantial'].map(p => (
+            <TouchableOpacity 
+              key={p} 
+              style={[
+                styles.chip,
+                { backgroundColor: theme.surfaceElevated, borderColor: theme.border },
+                portion === p && { backgroundColor: theme.accentDeep, borderColor: theme.accent }
+              ]} 
+              onPress={() => setPortion(p)}
+              activeOpacity={0.7}
+            >
+              <Text style={[
+                styles.chipText,
+                { color: theme.textSecondary },
+                portion === p && { color: theme.accent, fontWeight: '700' }
+              ]}>{p}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -144,123 +166,172 @@ export default function CheckInModal() {
 
   const renderStep4 = () => (
     <View style={styles.stepContainer}>
-      <Text style={styles.stepTitle}>Context & Digital Wellness</Text>
-      <Text style={styles.stepSubtitle}>Check your workload strain and screen relationship.</Text>
-      
+      <Text style={[styles.stepTitle, { color: theme.textPrimary }]}>Context & Digital Load</Text>
+      <Text style={[styles.stepSubtitle, { color: theme.textSecondary }]}>Protecting your cognitive flow.</Text>
+
       <View style={styles.inputGroup}>
-        <Text style={styles.label}>Today's Phone Use Feeling</Text>
+        <Text style={[styles.label, { color: theme.textPrimary, marginBottom: 8 }]}>Daily Screen Load (Hours)</Text>
+        {renderSlider('Est. Screen Time', screenTimeEstHours, setScreenTimeEstHours, 16, 1)}
+      </View>
+
+      <View style={styles.inputGroup}>
+        <Text style={[styles.label, { color: theme.textPrimary, marginBottom: 12 }]}>Device Stress Impact</Text>
         <View style={styles.chipsRow}>
-          {(['Restorative', 'Neutral', 'Draining'] as const).map(item => (
-            <TouchableOpacity
-              key={item}
-              style={[styles.chip, phoneStrain === item && styles.chipActive]}
-              onPress={() => setPhoneStrain(item)}
+          {(['Restorative', 'Neutral', 'Draining'] as const).map(s => (
+            <TouchableOpacity 
+              key={s} 
+              style={[
+                styles.chip,
+                { backgroundColor: theme.surfaceElevated, borderColor: theme.border },
+                phoneStrain === s && { backgroundColor: theme.accentDeep, borderColor: theme.accent }
+              ]} 
+              onPress={() => setPhoneStrain(s)}
+              activeOpacity={0.7}
             >
-              <Text style={[styles.chipText, phoneStrain === item && styles.chipTextActive]}>{item}</Text>
+              <Text style={[
+                styles.chipText,
+                { color: theme.textSecondary },
+                phoneStrain === s && { color: theme.accent, fontWeight: '700' }
+              ]}>{s}</Text>
             </TouchableOpacity>
           ))}
         </View>
       </View>
 
-      {renderSlider('Work / Study Strain', workDrain, setWorkDrain, 10)}
-      {renderSlider('Estimated Screen Time (Hours)', screenTimeEstHours, setScreenTimeEstHours, 14, 0)}
-
       <View style={styles.inputGroup}>
-        <Text style={styles.label}>Ability to Disconnect This Evening</Text>
+        <Text style={[styles.label, { color: theme.textPrimary, marginBottom: 12 }]}>Ability to Disconnect</Text>
         <View style={styles.chipsRow}>
-          {(['Easily', 'With effort', 'Cannot'] as const).map(item => (
-            <TouchableOpacity
-              key={item}
-              style={[styles.chip, canDisconnect === item && styles.chipActive]}
-              onPress={() => setCanDisconnect(item)}
+          {(['Easily', 'With effort', 'Cannot'] as const).map(d => (
+            <TouchableOpacity 
+              key={d} 
+              style={[
+                styles.chip,
+                { backgroundColor: theme.surfaceElevated, borderColor: theme.border },
+                canDisconnect === d && { backgroundColor: theme.accentDeep, borderColor: theme.accent }
+              ]} 
+              onPress={() => setCanDisconnect(d)}
+              activeOpacity={0.7}
             >
-              <Text style={[styles.chipText, canDisconnect === item && styles.chipTextActive]}>{item}</Text>
+              <Text style={[
+                styles.chipText,
+                { color: theme.textSecondary },
+                canDisconnect === d && { color: theme.accent, fontWeight: '700' }
+              ]}>{d}</Text>
             </TouchableOpacity>
           ))}
         </View>
       </View>
 
-      <View style={styles.syncCard}>
-        <Smartphone size={24} color="#64748b" />
-        <View style={{ flex: 1, marginLeft: 12 }}>
-          <Text style={styles.syncTitle}>Wearable & Digital Sensor</Text>
-          <Text style={styles.syncDesc}>Sync heart rate variability, steps & background focus logs.</Text>
-        </View>
-        <TouchableOpacity style={[styles.syncBtn, wearableSynced && styles.syncBtnActive]} onPress={handleSyncWearable}>
-          <Text style={[styles.syncBtnText, wearableSynced && styles.syncBtnTextActive]}>
-            {wearableSynced ? 'Synced' : 'Sync'}
+      <View style={[styles.syncCard, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}>
+        <Smartphone size={32} color={theme.accent} />
+        <Text style={[styles.syncTitle, { color: theme.textPrimary }]}>Device Integration</Text>
+        <Text style={[styles.syncDesc, { color: theme.textSecondary }]}>Sync health data directly from your device sensor hub.</Text>
+        <TouchableOpacity 
+          style={[
+            styles.syncBtn,
+            { backgroundColor: wearableSynced ? theme.accentDeep : theme.surface },
+            wearableSynced && { borderColor: theme.accent, borderWidth: 1 }
+          ]} 
+          onPress={handleSyncWearable}
+          activeOpacity={0.8}
+        >
+          <Text style={[
+            styles.syncBtnText,
+            { color: theme.textSecondary },
+            wearableSynced && { color: theme.accent, fontWeight: '700' }
+          ]}>
+            {wearableSynced ? 'Sensors Synchronized' : 'Sync Wearable Data'}
           </Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 
-  const renderStep5 = () => {
-    const digitalBalanceEstimate = Math.max(20, Math.min(98, 100 - (screenTimeEstHours * 8) - (phoneStrain === 'Draining' ? 15 : 0)));
-    const recoveryReadinessEstimate = Math.max(25, Math.min(96, Math.round((sleep * 7) + ((10 - stress) * 3) - (workDrain * 2))));
+  const renderStep5 = () => (
+    <View style={styles.stepContainer}>
+      <View style={styles.successIcon}>
+        <CheckCircle size={64} color="#16a34a" />
+      </View>
+      <Text style={[styles.stepTitle, { textAlign: 'center', color: theme.textPrimary }]}>Daily Check-in Ready</Text>
+      <Text style={[styles.stepSubtitle, { textAlign: 'center', color: theme.textSecondary }]}>Your 5-Core Wellness Index is updating.</Text>
 
-    return (
-      <View style={styles.stepContainer}>
-        <View style={styles.successIcon}>
-          <CheckCircle size={48} color="#16a34a" />
+      <View style={[styles.summaryBox, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}>
+        <View style={styles.summaryItem}>
+          <Text style={[styles.summaryItemLabel, { color: theme.textSecondary }]}>Physical Energy:</Text>
+          <Text style={[styles.summaryItemVal, { color: theme.textPrimary }]}>{Math.round(activity / 12)} / 10</Text>
         </View>
-        <Text style={[styles.stepTitle, { textAlign: 'center' }]}>You're all set!</Text>
-        <Text style={[styles.stepSubtitle, { textAlign: 'center', marginBottom: 20 }]}>
-          Your daily check-in is complete. Nura has updated your 5-dimensional wellness balance.
-        </Text>
-
-        {/* 5-Dimensional Multi-Score Summary */}
-        <View style={styles.summaryBox}>
-          <View style={styles.summaryItem}>
-            <Text style={styles.summaryItemLabel}>Physical</Text>
-            <Text style={styles.summaryItemVal}>{Math.max(10, 100 - (painLevel * 8))}%</Text>
-          </View>
-          <View style={styles.summaryItem}>
-            <Text style={styles.summaryItemLabel}>Mental</Text>
-            <Text style={styles.summaryItemVal}>{Math.max(10, (mood * 10))}%</Text>
-          </View>
-          <View style={styles.summaryItem}>
-            <Text style={styles.summaryItemLabel}>Sleep</Text>
-            <Text style={styles.summaryItemVal}>{Math.min(100, Math.round(sleep * 12.5))}%</Text>
-          </View>
-          <View style={styles.summaryItem}>
-            <Text style={styles.summaryItemLabel}>Digital Balance</Text>
-            <Text style={[styles.summaryItemVal, { color: digitalBalanceEstimate > 70 ? '#16a34a' : '#f59e0b' }]}>
-              {digitalBalanceEstimate}
-            </Text>
-          </View>
-          <View style={styles.summaryItem}>
-            <Text style={styles.summaryItemLabel}>Recovery</Text>
-            <Text style={[styles.summaryItemVal, { color: recoveryReadinessEstimate > 70 ? '#16a34a' : '#6366f1' }]}>
-              {recoveryReadinessEstimate}%
-            </Text>
-          </View>
+        <View style={styles.summaryItem}>
+          <Text style={[styles.summaryItemLabel, { color: theme.textSecondary }]}>Cognitive Stress:</Text>
+          <Text style={[styles.summaryItemVal, { color: theme.textPrimary }]}>{stress} / 10</Text>
+        </View>
+        <View style={styles.summaryItem}>
+          <Text style={[styles.summaryItemLabel, { color: theme.textSecondary }]}>Mood Valence:</Text>
+          <Text style={[styles.summaryItemVal, { color: theme.textPrimary }]}>{mood} / 10</Text>
+        </View>
+        <View style={styles.summaryItem}>
+          <Text style={[styles.summaryItemLabel, { color: theme.textSecondary }]}>Restorative Sleep:</Text>
+          <Text style={[styles.summaryItemVal, { color: theme.textPrimary }]}>{sleep} hrs</Text>
+        </View>
+        <View style={styles.summaryItem}>
+          <Text style={[styles.summaryItemLabel, { color: theme.textSecondary }]}>Digital Load:</Text>
+          <Text style={[styles.summaryItemVal, { color: theme.textPrimary }]}>{screenTimeEstHours}h ({phoneStrain})</Text>
         </View>
       </View>
-    );
-  };
+    </View>
+  );
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.header, { paddingTop: Math.max(insets.top, 16) + 10 }]}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {/* Header */}
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: Math.max(insets.top, 16) + 10,
+            backgroundColor: theme.surface,
+            borderBottomColor: theme.border,
+          },
+        ]}
+      >
         {step > 1 ? (
-          <TouchableOpacity onPress={() => setStep(s => s - 1)} style={styles.iconBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-            <ChevronLeft size={24} color="#0f172a" />
+          <TouchableOpacity
+            style={styles.iconBtn}
+            onPress={() => setStep(s => s - 1)}
+            activeOpacity={0.7}
+          >
+            <ChevronLeft size={24} color={theme.textPrimary} />
           </TouchableOpacity>
-        ) : <View style={styles.iconBtnSpacer} />}
+        ) : (
+          <TouchableOpacity
+            style={styles.iconBtn}
+            onPress={() => router.back()}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.cancelText, { color: theme.textSecondary }]}>Cancel</Text>
+          </TouchableOpacity>
+        )}
         
         <View style={styles.progressWrap}>
-          {[1,2,3,4,5].map(i => (
-            <View key={i} style={[styles.progressDot, step >= i && styles.progressDotActive]} />
+          {[1, 2, 3, 4, 5].map(i => (
+            <View 
+              key={i} 
+              style={[
+                styles.progressDot,
+                { backgroundColor: theme.inputBorder },
+                step === i && [styles.progressDotActive, { backgroundColor: theme.accent }]
+              ]} 
+            />
           ))}
         </View>
 
-        <TouchableOpacity onPress={() => router.back()} style={styles.iconBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-          <Text style={styles.cancelText}>Skip</Text>
-        </TouchableOpacity>
+        <View style={styles.iconBtnSpacer} />
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={[styles.contentInner, { paddingBottom: Math.max(insets.bottom, 16) + 20 }]}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentInner}
+        showsVerticalScrollIndicator={false}
+      >
         {step === 1 && renderStep1()}
         {step === 2 && renderStep2()}
         {step === 3 && renderStep3()}
@@ -268,14 +339,31 @@ export default function CheckInModal() {
         {step === 5 && renderStep5()}
       </ScrollView>
 
-      <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 16) + 16 }]}>
+      <View
+        style={[
+          styles.footer,
+          {
+            paddingBottom: Math.max(insets.bottom, 16) + 16,
+            backgroundColor: theme.surface,
+            borderTopColor: theme.border,
+          },
+        ]}
+      >
         {step < TOTAL_STEPS ? (
-          <TouchableOpacity style={styles.primaryBtn} onPress={() => setStep(s => s + 1)}>
+          <TouchableOpacity
+            style={[styles.primaryBtn, { backgroundColor: theme.accent }]}
+            onPress={() => setStep(s => s + 1)}
+            activeOpacity={0.85}
+          >
             <Text style={styles.primaryBtnText}>Continue</Text>
             <ChevronRight size={20} color="#ffffff" />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity style={styles.primaryBtn} onPress={handleSubmit}>
+          <TouchableOpacity
+            style={[styles.primaryBtn, { backgroundColor: theme.accent }]}
+            onPress={handleSubmit}
+            activeOpacity={0.85}
+          >
             <Text style={styles.primaryBtnText}>Finish</Text>
           </TouchableOpacity>
         )}
@@ -285,46 +373,56 @@ export default function CheckInModal() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#ffffff' },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 20, paddingTop: 60, borderBottomWidth: 1, borderColor: '#f1f5f9' },
+  container: { flex: 1 },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+  },
   iconBtn: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
-  iconBtnSpacer: { width: 40 },
-  cancelText: { color: '#64748b', fontSize: 16, fontWeight: '500' },
+  iconBtnSpacer: { width: 44 },
+  cancelText: { fontSize: 16, fontWeight: '500' },
   progressWrap: { flexDirection: 'row', gap: 6 },
-  progressDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#e2e8f0' },
-  progressDotActive: { backgroundColor: '#16a34a', width: 24 },
+  progressDot: { width: 8, height: 8, borderRadius: 4 },
+  progressDotActive: { width: 24 },
   content: { flex: 1 },
   contentInner: { padding: 24 },
   stepContainer: { flex: 1 },
-  stepTitle: { fontSize: 24, fontWeight: 'bold', color: '#0f172a', marginBottom: 8 },
-  stepSubtitle: { fontSize: 16, color: '#64748b', marginBottom: 32 },
-  inputGroup: { marginBottom: 28 },
+  stepTitle: { fontSize: 24, fontWeight: 'bold', marginBottom: 8 },
+  stepSubtitle: { fontSize: 15, marginBottom: 28 },
+  inputGroup: { marginBottom: 26 },
   labelRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 },
-  label: { fontSize: 16, fontWeight: '600', color: '#1e293b' },
-  valueText: { fontSize: 16, color: '#16a34a', fontWeight: '700' },
+  label: { fontSize: 16, fontWeight: '600' },
+  valueText: { fontSize: 16, fontWeight: '700' },
   stepperRow: { flexDirection: 'row', alignItems: 'center', gap: 16 },
-  stepperBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#f1f5f9', alignItems: 'center', justifyContent: 'center' },
-  stepperIcon: { fontSize: 24, color: '#475569', fontWeight: '500' },
-  track: { flex: 1, height: 8, backgroundColor: '#e2e8f0', borderRadius: 4, overflow: 'hidden' },
-  fill: { height: '100%', backgroundColor: '#16a34a' },
+  stepperBtn: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  stepperIcon: { fontSize: 24, fontWeight: '500' },
+  track: { flex: 1, height: 8, borderRadius: 4, overflow: 'hidden' },
+  fill: { height: '100%' },
   chipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 },
-  chip: { paddingVertical: 10, paddingHorizontal: 16, borderRadius: 20, backgroundColor: '#f1f5f9', borderWidth: 1, borderColor: '#e2e8f0' },
-  chipActive: { backgroundColor: '#dcfce7', borderColor: '#4ade80' },
-  chipText: { color: '#475569', fontWeight: '500' },
-  chipTextActive: { color: '#16a34a', fontWeight: '700' },
-  syncCard: { backgroundColor: '#f8fafc', padding: 24, borderRadius: 16, alignItems: 'center', borderWidth: 1, borderColor: '#e2e8f0' },
-  syncTitle: { fontSize: 18, fontWeight: '600', color: '#0f172a', marginTop: 16, marginBottom: 8 },
-  syncDesc: { fontSize: 14, color: '#64748b', textAlign: 'center', marginBottom: 24 },
-  syncBtn: { backgroundColor: '#e2e8f0', paddingVertical: 12, paddingHorizontal: 24, borderRadius: 12 },
-  syncBtnActive: { backgroundColor: '#dcfce7' },
-  syncBtnText: { color: '#475569', fontWeight: '600' },
-  syncBtnTextActive: { color: '#16a34a' },
-  successIcon: { alignItems: 'center', marginBottom: 24, marginTop: 40 },
-  summaryBox: { backgroundColor: '#f8fafc', borderRadius: 16, padding: 16, borderWidth: 1, borderColor: '#e2e8f0', gap: 10, marginTop: 12 },
+  chip: { paddingVertical: 10, paddingHorizontal: 16, borderRadius: 20, borderWidth: 1 },
+  chipText: { fontWeight: '500' },
+  syncCard: { padding: 24, borderRadius: 18, alignItems: 'center', borderWidth: 1, marginTop: 8 },
+  syncTitle: { fontSize: 18, fontWeight: '700', marginTop: 14, marginBottom: 6 },
+  syncDesc: { fontSize: 13, textAlign: 'center', marginBottom: 20 },
+  syncBtn: { paddingVertical: 12, paddingHorizontal: 24, borderRadius: 12 },
+  syncBtnText: { fontWeight: '600' },
+  successIcon: { alignItems: 'center', marginBottom: 20, marginTop: 24 },
+  summaryBox: { borderRadius: 18, padding: 18, borderWidth: 1, gap: 10, marginTop: 12 },
   summaryItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 4 },
-  summaryItemLabel: { fontSize: 14, color: '#64748b', fontWeight: '500' },
-  summaryItemVal: { fontSize: 15, fontWeight: '700', color: '#0f172a' },
-  footer: { padding: 24, borderTopWidth: 1, borderColor: '#f1f5f9', backgroundColor: '#ffffff' },
-  primaryBtn: { backgroundColor: '#16a34a', padding: 16, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
-  primaryBtnText: { color: '#ffffff', fontSize: 18, fontWeight: 'bold' }
+  summaryItemLabel: { fontSize: 14, fontWeight: '500' },
+  summaryItemVal: { fontSize: 15, fontWeight: '700' },
+  footer: { padding: 20, borderTopWidth: 1 },
+  primaryBtn: {
+    height: 52,
+    borderRadius: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  primaryBtnText: { color: '#ffffff', fontSize: 17, fontWeight: 'bold' }
 });

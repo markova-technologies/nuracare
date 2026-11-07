@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from '../src/context/ThemeContext';
 import { ArrowLeft, Shield, FileText, AlertTriangle, Cookie, HeartPulse, UserX, Users, Mail } from 'lucide-react-native';
 
 export default function LegalScreen() {
   const { type } = useLocalSearchParams();
+  const insets = useSafeAreaInsets();
+  const { theme, isDark } = useTheme();
   
   const getContent = () => {
     switch(type) {
@@ -59,27 +63,26 @@ export default function LegalScreen() {
         };
       case 'data-deletion':
         return {
-          title: 'Data Deletion Rights',
+          title: 'Data Deletion Policy',
           icon: <UserX size={32} color="#dc2626" />,
           sections: [
-            { heading: '1. Right to Erasure', body: 'You can erase your account directly within the app at Settings → Privacy & Security → Delete Account.' },
-            { heading: '2. Web Deletion Portal', body: 'Non-app users or individuals who have uninstalled the app may submit an external deletion request at nuracare.pro.et/data-deletion.' }
+            { heading: '1. Right to Erasure', body: 'You can request immediate and permanent deletion of your profile, biometric history, and AI chat logs directly from the Privacy Center or by emailing privacy@nuracare.pro.et.' },
+            { heading: '2. Timeline', body: 'Upon confirmation, all cloud database records and local cache partitions are wiped within 24 hours in compliance with global app store privacy guidelines.' }
           ]
         };
       case 'community-guidelines':
         return {
           title: 'Community Guidelines',
-          icon: <Users size={32} color="#8b5cf6" />,
+          icon: <Users size={32} color="#16a34a" />,
           sections: [
-            { heading: '1. Mutual Respect', body: 'NuraCare community members treat all participants with kindness, respect, and encouragement.' },
-            { heading: '2. Authentic Wellness Sharing', body: 'Do not share dangerous unverified medical claims or promote illegal substances.' }
+            { heading: '1. Respectful Dialogue', body: 'Our wellness circles and challenges exist to uplift, encourage, and support. Harassment, hate speech, or disparaging remarks will result in account suspension.' },
+            { heading: '2. No Medical Prescribing', body: 'Do not attempt to prescribe pharmaceuticals or clinical regimens to other community members. Share personal habits and encouragement only.' }
           ]
         };
-      case 'contact':
       default:
         return {
           title: 'Contact & Support',
-          icon: <Mail size={32} color="#0f172a" />,
+          icon: <Mail size={32} color="#16a34a" />,
           sections: [
             { heading: '1. Support Inquiries', body: 'Email: support@nuracare.pro.et\nAddis Ababa, Ethiopia' },
             { heading: '2. Data Protection Officer', body: 'For privacy inquiries or compliance matters regarding Proclamation 1321/2024: privacy@nuracare.pro.et' }
@@ -91,24 +94,61 @@ export default function LegalScreen() {
   const info = getContent();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn} activeOpacity={0.7}>
-          <ArrowLeft size={22} color="#0f172a" />
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <View
+        style={[
+          styles.header,
+          {
+            paddingTop: Math.max(insets.top, 16) + 10,
+            backgroundColor: theme.surface,
+            borderBottomColor: theme.border,
+          },
+        ]}
+      >
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={[styles.backBtn, { backgroundColor: theme.surfaceElevated }]}
+          activeOpacity={0.7}
+        >
+          <ArrowLeft size={22} color={theme.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.title}>{info.title}</Text>
-        <View style={{ width: 40 }} />
+        <Text style={[styles.title, { color: theme.textPrimary }]}>{info.title}</Text>
+        <View style={{ width: 44 }} />
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentInner} showsVerticalScrollIndicator={false}>
-        <View style={styles.iconWrap}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={[
+          styles.contentInner,
+          { paddingBottom: Math.max(insets.bottom, 16) + 40 },
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
+        <View
+          style={[
+            styles.iconWrap,
+            {
+              backgroundColor: theme.surfaceElevated,
+              borderColor: theme.border,
+            },
+          ]}
+        >
           {info.icon}
         </View>
 
         {info.sections.map((sec, idx) => (
-          <View key={idx} style={styles.sectionBlock}>
-            <Text style={styles.sectionHeading}>{sec.heading}</Text>
-            <Text style={styles.sectionBody}>{sec.body}</Text>
+          <View
+            key={idx}
+            style={[
+              styles.sectionBlock,
+              {
+                backgroundColor: theme.surface,
+                borderColor: theme.border,
+              },
+            ]}
+          >
+            <Text style={[styles.sectionHeading, { color: theme.textPrimary }]}>{sec.heading}</Text>
+            <Text style={[styles.sectionBody, { color: theme.textSecondary }]}>{sec.body}</Text>
           </View>
         ))}
       </ScrollView>
@@ -117,14 +157,41 @@ export default function LegalScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8fafc' },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 52, paddingBottom: 16, backgroundColor: '#ffffff', borderBottomWidth: 1, borderColor: '#e2e8f0' },
-  backBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: '#f1f5f9', alignItems: 'center', justifyContent: 'center' },
-  title: { fontSize: 18, fontWeight: '800', color: '#0f172a' },
+  container: { flex: 1 },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+  },
+  backBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: { fontSize: 18, fontWeight: '800' },
   content: { flex: 1 },
-  contentInner: { padding: 20, paddingBottom: 40 },
-  iconWrap: { width: 64, height: 64, borderRadius: 32, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginBottom: 20, borderWidth: 1, borderColor: '#e2e8f0' },
-  sectionBlock: { backgroundColor: '#ffffff', padding: 18, borderRadius: 16, marginBottom: 14, borderWidth: 1, borderColor: '#e2e8f0' },
-  sectionHeading: { fontSize: 15, fontWeight: '700', color: '#0f172a', marginBottom: 6 },
-  sectionBody: { fontSize: 14, color: '#475569', lineHeight: 22 }
+  contentInner: { padding: 20 },
+  iconWrap: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginBottom: 20,
+    borderWidth: 1,
+  },
+  sectionBlock: {
+    padding: 18,
+    borderRadius: 16,
+    marginBottom: 14,
+    borderWidth: 1,
+  },
+  sectionHeading: { fontSize: 15, fontWeight: '700', marginBottom: 6 },
+  sectionBody: { fontSize: 14, lineHeight: 22 },
 });

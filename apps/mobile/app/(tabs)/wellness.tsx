@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from '../../src/context/ThemeContext';
 import { LineChart } from 'react-native-chart-kit';
 import { Activity, Brain, Moon, Droplets, Shield, Flame, Sparkles } from 'lucide-react-native';
 import { useWellnessStore } from '../../src/store';
@@ -11,6 +13,8 @@ const screenWidth = Dimensions.get('window').width;
 
 export default function WellnessScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { theme, isDark } = useTheme();
   const { checkIns } = useWellnessStore();
   const { profile } = useProfile();
   
@@ -36,121 +40,134 @@ export default function WellnessScreen() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={[styles.container, { backgroundColor: theme.background }]}
+      contentContainerStyle={[
+        styles.contentInner,
+        {
+          paddingTop: Math.max(insets.top, 16) + 12,
+          paddingBottom: Math.max(insets.bottom, 16) + 95,
+        },
+      ]}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.header}>
-        <View>
-          <Text style={styles.title}>Wellness Intelligence</Text>
-          <Text style={styles.subtitle}>Your AI-powered health & burnout tracker</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={[styles.title, { color: theme.textPrimary }]}>Wellness Intelligence</Text>
+          <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Your AI-powered health & burnout tracker</Text>
         </View>
-        <TouchableOpacity style={styles.addBtn} onPress={() => router.push('/checkin-modal')}>
-          <Text style={{color: 'white', fontWeight: 'bold', fontSize: 18}}>+</Text>
+        <TouchableOpacity
+          style={[styles.addBtn, { backgroundColor: theme.accent }]}
+          onPress={() => router.push('/checkin-modal')}
+          activeOpacity={0.8}
+        >
+          <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 20 }}>+</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.gridContainer}>
         {/* 5-Core Wellness */}
-        <View style={styles.card}>
-          <Text style={styles.cardHeader}>5-CORE WELLNESS SCORE</Text>
-          <View style={styles.circleContainer}>
-            <Text style={[styles.circleText, {color: wellness.color}]}>{wellness.total}</Text>
+        <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+          <Text style={[styles.cardHeader, { color: theme.textSecondary }]}>5-CORE WELLNESS SCORE</Text>
+          <View style={[styles.circleContainer, { borderColor: isDark ? theme.surfaceElevated : '#f0fdf4' }]}>
+            <Text style={[styles.circleText, { color: wellness.color }]}>{wellness.total}</Text>
           </View>
-          <Text style={[styles.cardLabel, {color: wellness.color}]}>{wellness.label}</Text>
+          <Text style={[styles.cardLabel, { color: wellness.color }]}>{wellness.label}</Text>
         </View>
 
         {/* Burnout Risk */}
-        <View style={[styles.card, { backgroundColor: burnout.score > 65 ? '#fee2e2' : '#ffffff' }]}>
-          <Text style={styles.cardHeader}>BURNOUT RISK</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 8 }}>
-            <Flame size={48} color={burnout.color} />
-            <View>
-              <Text style={{ fontSize: 24, fontWeight: '800', color: burnout.color }}>{burnout.score}%</Text>
-              <Text style={{ fontSize: 14, fontWeight: '600', color: burnout.color }}>{burnout.label}</Text>
-            </View>
+        <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+          <Text style={[styles.cardHeader, { color: theme.textSecondary }]}>BURNOUT RISK TIER</Text>
+          <View style={[styles.circleContainer, { borderColor: isDark ? theme.surfaceElevated : '#fff1f2' }]}>
+            <Text style={[styles.circleText, { color: burnout.color }]}>{burnout.label}</Text>
           </View>
+          <Text style={[styles.cardLabel, { color: burnout.color }]}>{burnout.score} / 100</Text>
         </View>
       </View>
 
-      {latest && (
-        <View style={styles.insightSummary}>
-          <Activity size={28} color="#16a34a" />
-          <View style={{ flex: 1, marginLeft: 12 }}>
-            <Text style={{ fontSize: 16, fontWeight: '700', color: '#16a34a', marginBottom: 4 }}>Weekly Insight Summary</Text>
-            <Text style={{ fontSize: 14, color: '#0f172a', lineHeight: 20 }}>
-              {burnout.score > 65 
-                ? "Your burnout risk is elevated. High stress and lower energy levels are impacting your overall resilience. Focus heavily on active recovery and prioritize sleep."
-                : wellness.total > 70 
-                ? "Your overall wellness is very strong right now. You have good mental resilience and solid physical vitality. Maintain this balance to keep burnout low."
-                : "You are in a balanced state but there's room for improvement. Small enhancements in sleep and hydration will bring up your baseline wellness."}
-            </Text>
-          </View>
+      {/* Insight Summary */}
+      <View
+        style={[
+          styles.insightSummary,
+          {
+            backgroundColor: isDark ? theme.surface : '#f0fdf4',
+            borderColor: theme.accent,
+          },
+        ]}
+      >
+        <Sparkles size={24} color={theme.accent} style={{ marginRight: 12, marginTop: 2 }} />
+        <View style={{ flex: 1 }}>
+          <Text style={[styles.insightTitle, { color: theme.accent }]}>Nura Recovery Assessment</Text>
+          <Text style={[styles.insightDesc, { color: theme.textSecondary }]}>
+            {burnout.label ? `Burnout indicator: ${burnout.label}. Complete regular check-ins to track recovery.` : 'Complete regular check-ins to unlock deep biometric correlation and restorative recovery suggestions.'}
+          </Text>
         </View>
-      )}
-
-      <Text style={styles.sectionTitle}>5-Core Breakdown</Text>
-      <View style={styles.breakdownCard}>
-        <CoreStat label="Physical Vitality" score={wellness.cores.physical} icon={<Activity size={18} color="#16a34a" />} />
-        <CoreStat label="Mental Resilience" score={wellness.cores.mental} icon={<Brain size={18} color="#16a34a" />} />
-        <CoreStat label="Recovery & Sleep" score={wellness.cores.recovery} icon={<Moon size={18} color="#16a34a" />} />
-        <CoreStat label="Nutrition & Hydration" score={wellness.cores.nutrition} icon={<Droplets size={18} color="#16a34a" />} />
-        <CoreStat label="Preventive Maintenance" score={wellness.cores.preventive} icon={<Shield size={18} color="#16a34a" />} />
       </View>
 
-      <Text style={styles.sectionTitle}>7-Day Trends</Text>
-      {recentCheckins.length < 2 ? (
-        <Text style={styles.emptyState}>Need at least 2 days of check-ins to show trends.</Text>
+      {/* Core Breakdown */}
+      <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>Core System Breakdown</Text>
+      <View style={[styles.breakdownCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+        <StatRow icon={<Moon size={18} color="#6366f1" />} label="Sleep Restoration" value={wellness.cores.recovery} color="#6366f1" theme={theme} isDark={isDark} />
+        <StatRow icon={<Brain size={18} color="#0ea5e9" />} label="Cognitive Resilience" value={wellness.cores.mental} color="#0ea5e9" theme={theme} isDark={isDark} />
+        <StatRow icon={<Activity size={18} color="#16a34a" />} label="Physical Vitality" value={wellness.cores.physical} color="#16a34a" theme={theme} isDark={isDark} />
+        <StatRow icon={<Flame size={18} color="#f59e0b" />} label="Preventive Balance" value={wellness.cores.preventive} color="#f59e0b" theme={theme} isDark={isDark} />
+        <StatRow icon={<Droplets size={18} color="#14b8a6" />} label="Hydration & Fuel" value={wellness.cores.nutrition} color="#14b8a6" theme={theme} isDark={isDark} isLast />
+      </View>
+
+      {/* Recovery Recommendations */}
+      <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>Proactive Restorative Actions</Text>
+      {recommendations.length === 0 ? (
+        <Text style={[styles.emptyState, { color: theme.textTertiary }]}>No critical actions needed right now. System in equilibrium.</Text>
       ) : (
-        <View>
-          <ChartCard title="Energy" data={getChartData('energy')} color="#f59e0b" />
-          <ChartCard title="Stress" data={getChartData('stress')} color="#ef4444" />
-        </View>
+        recommendations.map((rec, i) => (
+          <View key={i} style={[styles.recCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+            <Shield size={20} color={theme.accent} />
+            <Text style={[styles.recText, { color: theme.textPrimary }]}>{rec}</Text>
+          </View>
+        ))
       )}
 
-      <Text style={[styles.sectionTitle, { marginTop: 20 }]}>AI Recommendations</Text>
-      {recommendations.map((rec, i) => (
-        <View key={i} style={styles.recCard}>
-          <Sparkles size={20} color="#16a34a" />
-          <Text style={styles.recText}>{rec}</Text>
-        </View>
-      ))}
-      <View style={{ height: 40 }} />
+      {/* 7-Day Trend Chart */}
+      <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>7-Day Energy & Recovery Trajectory</Text>
+      <View style={[styles.chartCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+        <MetricChart label="Daily Energy" data={getChartData('energy')} color={theme.accent} theme={theme} isDark={isDark} />
+      </View>
     </ScrollView>
   );
 }
 
-function CoreStat({ label, score, icon }: { label: string, score: number, icon: any }) {
+function StatRow({ icon, label, value, color, theme, isDark, isLast }: { icon: any; label: string; value: number; color: string; theme: any; isDark: boolean; isLast?: boolean }) {
   return (
-    <View style={styles.coreStatContainer}>
-      <View style={styles.coreStatIconBg}>
+    <View style={[styles.coreStatContainer, !isLast && { borderBottomColor: theme.borderSubtle, borderBottomWidth: 1, paddingBottom: 14 }]}>
+      <View style={[styles.coreStatIconBg, { backgroundColor: isDark ? theme.surfaceElevated : `${color}15` }]}>
         {icon}
       </View>
-      <View style={{ flex: 1 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
-          <Text style={{ fontSize: 14, fontWeight: '600', color: '#0f172a' }}>{label}</Text>
-          <Text style={{ fontSize: 14, fontWeight: '700', color: '#16a34a' }}>{score}</Text>
-        </View>
-        <View style={{ width: '100%', height: 8, backgroundColor: '#e2e8f0', borderRadius: 4 }}>
-          <View style={{ width: `${score}%`, height: '100%', backgroundColor: score < 40 ? '#ef4444' : score < 70 ? '#f59e0b' : '#16a34a', borderRadius: 4 }} />
+      <View style={{ flex: 1, marginLeft: 12 }}>
+        <Text style={[styles.statLabel, { color: theme.textPrimary }]}>{label}</Text>
+        <View style={[styles.progressBar, { backgroundColor: theme.inputBorder }]}>
+          <View style={[styles.progressFill, { width: `${value}%`, backgroundColor: color }]} />
         </View>
       </View>
+      <Text style={[styles.statValue, { color }]}>{value}%</Text>
     </View>
   );
 }
 
-function ChartCard({ title, data, color }: { title: string, data: any, color: string }) {
+function MetricChart({ label, data, color, theme, isDark }: { label: string; data: any; color: string; theme: any; isDark: boolean }) {
   return (
-    <View style={styles.chartCard}>
-      <Text style={[styles.cardHeader, { marginBottom: 12, fontSize: 14, color: '#64748b' }]}>{title}</Text>
+    <View style={{ width: '100%', alignItems: 'center' }}>
+      <Text style={[styles.chartLabel, { color: theme.textSecondary }]}>{label}</Text>
       <LineChart
         data={data}
         width={screenWidth - 72}
-        height={160}
+        height={180}
         chartConfig={{
-          backgroundColor: '#ffffff',
-          backgroundGradientFrom: '#ffffff',
-          backgroundGradientTo: '#ffffff',
+          backgroundColor: isDark ? theme.surface : '#ffffff',
+          backgroundGradientFrom: isDark ? theme.surface : '#ffffff',
+          backgroundGradientTo: isDark ? theme.surface : '#ffffff',
           decimalPlaces: 0,
           color: (opacity = 1) => color,
-          labelColor: (opacity = 1) => '#94a3b8',
+          labelColor: (opacity = 1) => theme.textTertiary,
           style: { borderRadius: 16 },
           propsForDots: { r: '4', strokeWidth: '2', stroke: color }
         }}
@@ -164,30 +181,94 @@ function ChartCard({ title, data, color }: { title: string, data: any, color: st
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8fafc', padding: 20 },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, marginTop: 40 },
-  title: { fontSize: 24, fontWeight: '800', color: '#0f172a' },
-  subtitle: { fontSize: 14, color: '#64748b', marginTop: 4 },
-  addBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#16a34a', alignItems: 'center', justifyContent: 'center' },
-  
-  gridContainer: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 24 },
-  card: { flex: 1, minWidth: '45%', backgroundColor: '#ffffff', padding: 16, borderRadius: 16, alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 8, elevation: 2 },
-  cardHeader: { fontSize: 11, fontWeight: '700', color: '#64748b', letterSpacing: 1, marginBottom: 12, textAlign: 'center' },
-  circleContainer: { width: 80, height: 80, borderRadius: 40, borderWidth: 8, borderColor: '#f0fdf4', alignItems: 'center', justifyContent: 'center', marginBottom: 8 },
-  circleText: { fontSize: 22, fontWeight: '800' },
-  cardLabel: { fontSize: 14, fontWeight: '600' },
-  
-  insightSummary: { backgroundColor: '#f0fdf4', borderColor: '#16a34a', borderWidth: 1, borderRadius: 16, padding: 20, flexDirection: 'row', marginBottom: 24 },
-  sectionTitle: { fontSize: 18, fontWeight: '700', color: '#0f172a', marginBottom: 12, marginTop: 8 },
-  
-  breakdownCard: { backgroundColor: '#ffffff', borderRadius: 16, padding: 16, marginBottom: 24 },
-  coreStatContainer: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 },
-  coreStatIconBg: { width: 36, height: 36, borderRadius: 8, backgroundColor: '#f0fdf4', alignItems: 'center', justifyContent: 'center' },
-  
-  chartCard: { backgroundColor: '#ffffff', borderRadius: 16, padding: 16, marginBottom: 16, alignItems: 'center' },
-  
-  recCard: { backgroundColor: '#ffffff', padding: 16, borderRadius: 12, marginBottom: 12, flexDirection: 'row', alignItems: 'center', gap: 12, borderLeftWidth: 4, borderLeftColor: '#16a34a' },
-  recText: { fontSize: 14, color: '#334155', flex: 1, lineHeight: 20 },
-  
-  emptyState: { textAlign: 'center', color: '#94a3b8', fontStyle: 'italic', marginBottom: 24 }
+  container: { flex: 1 },
+  contentInner: { paddingHorizontal: 20 },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  title: { fontSize: 22, fontWeight: '800' },
+  subtitle: { fontSize: 13, marginTop: 2 },
+  addBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  gridContainer: { flexDirection: 'row', gap: 12, marginBottom: 20 },
+  card: {
+    flex: 1,
+    padding: 16,
+    borderRadius: 18,
+    alignItems: 'center',
+    borderWidth: 1,
+    shadowColor: '#000',
+    shadowOpacity: 0.04,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  cardHeader: { fontSize: 10, fontWeight: '700', letterSpacing: 0.8, marginBottom: 10, textAlign: 'center' },
+  circleContainer: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    borderWidth: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+  },
+  circleText: { fontSize: 20, fontWeight: '800' },
+  cardLabel: { fontSize: 13, fontWeight: '700' },
+  insightSummary: {
+    borderWidth: 1.5,
+    borderRadius: 18,
+    padding: 16,
+    flexDirection: 'row',
+    marginBottom: 24,
+  },
+  insightTitle: { fontSize: 15, fontWeight: '700', marginBottom: 4 },
+  insightDesc: { fontSize: 13, lineHeight: 18 },
+  sectionTitle: { fontSize: 17, fontWeight: '700', marginBottom: 12, marginTop: 4 },
+  breakdownCard: {
+    borderRadius: 18,
+    padding: 18,
+    marginBottom: 24,
+    borderWidth: 1,
+  },
+  coreStatContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 14 },
+  coreStatIconBg: {
+    width: 38,
+    height: 38,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  statLabel: { fontSize: 14, fontWeight: '600', marginBottom: 6 },
+  progressBar: { height: 6, borderRadius: 3, overflow: 'hidden' },
+  progressFill: { height: '100%', borderRadius: 3 },
+  statValue: { fontSize: 14, fontWeight: '700', marginLeft: 12 },
+  chartCard: {
+    borderRadius: 18,
+    padding: 16,
+    marginBottom: 20,
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+  chartLabel: { fontSize: 13, fontWeight: '600', marginBottom: 10 },
+  recCard: {
+    padding: 16,
+    borderRadius: 14,
+    marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    borderWidth: 1,
+    borderLeftWidth: 4,
+    borderLeftColor: '#16a34a',
+  },
+  recText: { fontSize: 13.5, flex: 1, lineHeight: 19 },
+  emptyState: { textAlign: 'center', fontStyle: 'italic', marginBottom: 20 },
 });

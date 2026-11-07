@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from '../src/context/ThemeContext';
 import { 
   ShieldCheck, 
   Lock, 
@@ -18,6 +19,7 @@ import {
 export default function PrivacyCenterScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { theme, isDark } = useTheme();
 
   const handleDownloadData = () => {
     Alert.alert(
@@ -35,109 +37,152 @@ export default function PrivacyCenterScreen() {
 
   return (
     <ScrollView 
-      style={styles.container} 
+      style={[styles.container, { backgroundColor: theme.background }]} 
       contentContainerStyle={[styles.contentContainer, { paddingBottom: Math.max(insets.bottom, 16) + 36 }]} 
       showsVerticalScrollIndicator={false}
     >
       {/* Top Navigation */}
-      <View style={[styles.topNav, { paddingTop: Math.max(insets.top, 16) + 10 }]}>
-        <TouchableOpacity style={styles.backBtn} onPress={() => router.back()} activeOpacity={0.7}>
-          <ArrowLeft size={22} color="#0f172a" />
+      <View
+        style={[
+          styles.topNav,
+          {
+            paddingTop: Math.max(insets.top, 16) + 10,
+            backgroundColor: theme.surface,
+            borderBottomColor: theme.border,
+          },
+        ]}
+      >
+        <TouchableOpacity
+          style={[styles.backBtn, { backgroundColor: theme.surfaceElevated }]}
+          onPress={() => router.back()}
+          activeOpacity={0.7}
+        >
+          <ArrowLeft size={22} color={theme.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.topNavTitle}>Privacy & Security</Text>
-        <View style={{ width: 40 }} />
+        <Text style={[styles.topNavTitle, { color: theme.textPrimary }]}>Privacy & Security</Text>
+        <View style={{ width: 44 }} />
       </View>
 
       {/* Hero Badge */}
-      <View style={styles.heroBox}>
-        <View style={styles.heroIconCircle}>
+      <View
+        style={[
+          styles.heroBox,
+          {
+            backgroundColor: isDark ? theme.surface : '#f0fdf4',
+            borderColor: isDark ? theme.border : '#dcfce7',
+          },
+        ]}
+      >
+        <View style={[styles.heroIconCircle, { backgroundColor: isDark ? theme.surfaceElevated : '#dcfce7' }]}>
           <ShieldCheck size={28} color="#16a34a" />
         </View>
-        <Text style={styles.heroTitle}>Privacy by Design</Text>
-        <Text style={styles.heroSub}>
+        <Text style={[styles.heroTitle, { color: theme.accent }]}>Privacy by Design</Text>
+        <Text style={[styles.heroSub, { color: theme.textSecondary }]}>
           Compliant with Ethiopian Personal Data Protection Proclamation No. 1321/2024. Your health data belongs to you.
         </Text>
       </View>
 
       {/* Section: Your Data & Controls */}
-      <Text style={styles.sectionTitle}>Your Data & Consent</Text>
-      <View style={styles.menuGroup}>
+      <Text style={[styles.sectionTitle, { color: theme.textTertiary }]}>Your Data & Consent</Text>
+      <View style={[styles.menuGroup, { backgroundColor: theme.surface, borderColor: theme.border }]}>
         <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/consent-settings')} activeOpacity={0.7}>
-          <View style={styles.menuIconWrap}><Sliders size={20} color="#16a34a" /></View>
-          <View style={{ flex: 1, marginLeft: 12 }}>
-            <Text style={styles.menuLabel}>Granular Consent Settings</Text>
-            <Text style={styles.menuSub}>Control AI context, wearable sync, and telemetry</Text>
+          <View style={[styles.menuIconWrap, { backgroundColor: theme.accentGlow }]}>
+            <Sliders size={20} color="#16a34a" />
           </View>
-          <ChevronRight size={18} color="#94a3b8" />
+          <View style={{ flex: 1, marginLeft: 12 }}>
+            <Text style={[styles.menuLabel, { color: theme.textPrimary }]}>Granular Consent Settings</Text>
+            <Text style={[styles.menuSub, { color: theme.textSecondary }]}>Control AI context, wearable sync, and telemetry</Text>
+          </View>
+          <ChevronRight size={18} color={theme.textTertiary} />
         </TouchableOpacity>
 
-        <View style={styles.divider} />
+        <View style={[styles.divider, { backgroundColor: theme.borderSubtle }]} />
 
         <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/permissions-management')} activeOpacity={0.7}>
-          <View style={styles.menuIconWrap}><Smartphone size={20} color="#16a34a" /></View>
-          <View style={{ flex: 1, marginLeft: 12 }}>
-            <Text style={styles.menuLabel}>Device Permissions</Text>
-            <Text style={styles.menuSub}>Review Camera, Microphone, and Health Connect</Text>
+          <View style={[styles.menuIconWrap, { backgroundColor: isDark ? theme.surfaceElevated : '#eff6ff' }]}>
+            <Smartphone size={20} color="#3b82f6" />
           </View>
-          <ChevronRight size={18} color="#94a3b8" />
+          <View style={{ flex: 1, marginLeft: 12 }}>
+            <Text style={[styles.menuLabel, { color: theme.textPrimary }]}>Device Permissions</Text>
+            <Text style={[styles.menuSub, { color: theme.textSecondary }]}>Review microphone, camera, and notification access</Text>
+          </View>
+          <ChevronRight size={18} color={theme.textTertiary} />
         </TouchableOpacity>
 
-        <View style={styles.divider} />
+        <View style={[styles.divider, { backgroundColor: theme.borderSubtle }]} />
 
         <TouchableOpacity style={styles.menuItem} onPress={handleDownloadData} activeOpacity={0.7}>
-          <View style={styles.menuIconWrap}><Download size={20} color="#16a34a" /></View>
-          <View style={{ flex: 1, marginLeft: 12 }}>
-            <Text style={styles.menuLabel}>Download My Data</Text>
-            <Text style={styles.menuSub}>Export all records in machine-readable JSON format</Text>
+          <View style={[styles.menuIconWrap, { backgroundColor: isDark ? theme.surfaceElevated : '#f5f3ff' }]}>
+            <Download size={20} color="#8b5cf6" />
           </View>
-          <ChevronRight size={18} color="#94a3b8" />
+          <View style={{ flex: 1, marginLeft: 12 }}>
+            <Text style={[styles.menuLabel, { color: theme.textPrimary }]}>Export Personal Data</Text>
+            <Text style={[styles.menuSub, { color: theme.textSecondary }]}>Download portable JSON archive of your records</Text>
+          </View>
+          <ChevronRight size={18} color={theme.textTertiary} />
         </TouchableOpacity>
       </View>
 
-      {/* Section: Legal & Disclaimers */}
-      <Text style={styles.sectionTitle}>Legal & Compliance</Text>
-      <View style={styles.menuGroup}>
+      {/* Section: Legal & Policies */}
+      <Text style={[styles.sectionTitle, { color: theme.textTertiary }]}>Legal & Compliance</Text>
+      <View style={[styles.menuGroup, { backgroundColor: theme.surface, borderColor: theme.border }]}>
         <TouchableOpacity style={styles.menuItem} onPress={() => router.push({ pathname: '/legal', params: { type: 'privacy' } })} activeOpacity={0.7}>
-          <View style={styles.menuIconWrap}><FileText size={20} color="#64748b" /></View>
-          <Text style={styles.legalLabel}>Privacy Policy (Ethiopia & Global)</Text>
-          <ChevronRight size={18} color="#94a3b8" />
+          <View style={[styles.menuIconWrap, { backgroundColor: theme.accentGlow }]}>
+            <ShieldCheck size={20} color="#16a34a" />
+          </View>
+          <Text style={[styles.legalLabel, { color: theme.textPrimary }]}>Privacy Policy</Text>
+          <ChevronRight size={18} color={theme.textTertiary} />
         </TouchableOpacity>
 
-        <View style={styles.divider} />
+        <View style={[styles.divider, { backgroundColor: theme.borderSubtle }]} />
 
         <TouchableOpacity style={styles.menuItem} onPress={() => router.push({ pathname: '/legal', params: { type: 'terms' } })} activeOpacity={0.7}>
-          <View style={styles.menuIconWrap}><FileText size={20} color="#64748b" /></View>
-          <Text style={styles.legalLabel}>Terms of Service</Text>
-          <ChevronRight size={18} color="#94a3b8" />
+          <View style={[styles.menuIconWrap, { backgroundColor: isDark ? theme.surfaceElevated : '#eff6ff' }]}>
+            <FileText size={20} color="#3b82f6" />
+          </View>
+          <Text style={[styles.legalLabel, { color: theme.textPrimary }]}>Terms of Service</Text>
+          <ChevronRight size={18} color={theme.textTertiary} />
         </TouchableOpacity>
 
-        <View style={styles.divider} />
+        <View style={[styles.divider, { backgroundColor: theme.borderSubtle }]} />
 
-        <TouchableOpacity style={styles.menuItem} onPress={() => router.push({ pathname: '/legal', params: { type: 'disclaimer' } })} activeOpacity={0.7}>
-          <View style={styles.menuIconWrap}><FileText size={20} color="#64748b" /></View>
-          <Text style={styles.legalLabel}>Medical & AI Safety Disclaimer</Text>
-          <ChevronRight size={18} color="#94a3b8" />
+        <TouchableOpacity style={styles.menuItem} onPress={() => router.push({ pathname: '/legal', params: { type: 'health-safety' } })} activeOpacity={0.7}>
+          <View style={[styles.menuIconWrap, { backgroundColor: isDark ? theme.surfaceElevated : '#fff7ed' }]}>
+            <Lock size={20} color="#f97316" />
+          </View>
+          <Text style={[styles.legalLabel, { color: theme.textPrimary }]}>Health & Clinical Safety Disclaimer</Text>
+          <ChevronRight size={18} color={theme.textTertiary} />
         </TouchableOpacity>
 
-        <View style={styles.divider} />
+        <View style={[styles.divider, { backgroundColor: theme.borderSubtle }]} />
 
         <TouchableOpacity style={styles.menuItem} onPress={() => router.push({ pathname: '/legal', params: { type: 'cookies' } })} activeOpacity={0.7}>
-          <View style={styles.menuIconWrap}><FileText size={20} color="#64748b" /></View>
-          <Text style={styles.legalLabel}>Cookie & Storage Policy</Text>
-          <ChevronRight size={18} color="#94a3b8" />
+          <View style={[styles.menuIconWrap, { backgroundColor: theme.surfaceElevated }]}>
+            <FileText size={20} color={theme.textSecondary} />
+          </View>
+          <Text style={[styles.legalLabel, { color: theme.textPrimary }]}>Cookie & Storage Policy</Text>
+          <ChevronRight size={18} color={theme.textTertiary} />
         </TouchableOpacity>
       </View>
 
       {/* Section: Account Danger Zone */}
       <Text style={[styles.sectionTitle, { color: '#dc2626' }]}>Account Management</Text>
-      <View style={[styles.menuGroup, { borderColor: '#fecaca' }]}>
+      <View
+        style={[
+          styles.menuGroup,
+          {
+            backgroundColor: theme.surface,
+            borderColor: isDark ? '#7f1d1d' : '#fecaca',
+          },
+        ]}
+      >
         <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/delete-account')} activeOpacity={0.7}>
-          <View style={[styles.menuIconWrap, { backgroundColor: '#fef2f2' }]}>
+          <View style={[styles.menuIconWrap, { backgroundColor: isDark ? '#7f1d1d30' : '#fef2f2' }]}>
             <Trash2 size={20} color="#dc2626" />
           </View>
           <View style={{ flex: 1, marginLeft: 12 }}>
             <Text style={[styles.menuLabel, { color: '#dc2626' }]}>Delete Account & Health Data</Text>
-            <Text style={styles.menuSub}>Irrevocably erase profile, history, and AI conversations</Text>
+            <Text style={[styles.menuSub, { color: theme.textSecondary }]}>Irrevocably erase profile, history, and AI conversations</Text>
           </View>
           <ChevronRight size={18} color="#dc2626" />
         </TouchableOpacity>
@@ -147,21 +192,66 @@ export default function PrivacyCenterScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8fafc' },
+  container: { flex: 1 },
   contentContainer: { paddingBottom: 40 },
-  topNav: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 52, paddingBottom: 16, backgroundColor: '#ffffff', borderBottomWidth: 1, borderColor: '#e2e8f0' },
-  backBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#f1f5f9', alignItems: 'center', justifyContent: 'center' },
-  topNavTitle: { fontSize: 18, fontWeight: '800', color: '#0f172a' },
-  heroBox: { margin: 16, padding: 20, backgroundColor: '#f0fdf4', borderRadius: 20, borderWidth: 1, borderColor: '#dcfce7', alignItems: 'center' },
-  heroIconCircle: { width: 52, height: 52, borderRadius: 26, backgroundColor: '#dcfce7', alignItems: 'center', justifyContent: 'center', marginBottom: 10 },
-  heroTitle: { fontSize: 18, fontWeight: '800', color: '#166534', marginBottom: 4 },
-  heroSub: { fontSize: 13, color: '#15803d', textAlign: 'center', lineHeight: 18 },
-  sectionTitle: { fontSize: 14, fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: 0.8, marginHorizontal: 20, marginTop: 20, marginBottom: 8 },
-  menuGroup: { backgroundColor: '#ffffff', marginHorizontal: 16, borderRadius: 18, borderWidth: 1, borderColor: '#e2e8f0', overflow: 'hidden' },
-  menuItem: { flexDirection: 'row', alignItems: 'center', padding: 16 },
-  menuIconWrap: { width: 38, height: 38, borderRadius: 19, backgroundColor: '#f0fdf4', alignItems: 'center', justifyContent: 'center' },
-  menuLabel: { fontSize: 15, fontWeight: '700', color: '#0f172a' },
-  menuSub: { fontSize: 12, color: '#64748b', marginTop: 2 },
-  legalLabel: { flex: 1, fontSize: 14, fontWeight: '600', color: '#334155', marginLeft: 12 },
-  divider: { height: 1, backgroundColor: '#f1f5f9', marginLeft: 66 }
+  topNav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+  },
+  backBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  topNavTitle: { fontSize: 18, fontWeight: '800' },
+  heroBox: {
+    margin: 16,
+    padding: 20,
+    borderRadius: 20,
+    borderWidth: 1,
+    alignItems: 'center',
+  },
+  heroIconCircle: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  heroTitle: { fontSize: 18, fontWeight: '800', marginBottom: 4 },
+  heroSub: { fontSize: 13, textAlign: 'center', lineHeight: 18 },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    marginHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 8,
+  },
+  menuGroup: {
+    marginHorizontal: 16,
+    borderRadius: 18,
+    borderWidth: 1,
+    overflow: 'hidden',
+  },
+  menuItem: { flexDirection: 'row', alignItems: 'center', padding: 16, minHeight: 52 },
+  menuIconWrap: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  menuLabel: { fontSize: 15, fontWeight: '700' },
+  menuSub: { fontSize: 12, marginTop: 2 },
+  legalLabel: { flex: 1, fontSize: 14, fontWeight: '600', marginLeft: 12 },
+  divider: { height: 1, marginLeft: 66 },
 });
