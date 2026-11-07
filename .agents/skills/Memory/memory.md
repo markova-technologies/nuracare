@@ -4806,3 +4806,36 @@ px tsc -p apps/mobile/tsconfig.json --noEmit exits with **0 errors**.
 - Actions: refactored all 13 secondary/modal screens, achieved 0 TypeScript errors, committed and pushed to GitHub remote, kept device screen awake, and appended Turn 269 to perpetual memory ledger.
 
 ---
+
+
+#### Turn 270 (November 7, 2026 - Current Turn)
+##### 👤 User Prompt:
+```text
+/goal done that , continuee
+[Attachments: 3 device screenshots confirming Samsung Galaxy A05s, One UI 7.0, Android 15, AP3A.240905.015.A2.A057FXXUFDZH2, and previous crash cache prompt]
+```
+
+##### 🤖 Agent Response:
+- Diagnosed Root Architectural Contrast & Double-Header Defect:
+  1. Identified why previous dark-mode screens showed white backgrounds with light/invisible text: React Navigation's default card container was rendering `#f2f2f2` underneath screen views that had `backgroundColor: 'transparent'`, causing white-on-white text collisions across the Home dashboard, Community hubs, and Checkup screens.
+  2. Identified redundant top inset padding (`paddingTop: Math.max(insets.top, 16)`) being applied inside tab screens under Expo Router's already-visible navigation headers, causing 50+ pixel excessive gaps and double headers.
+- Comprehensive Full-Stack Mobile Upgrades Executed:
+  1. `_layout.tsx`: Wired up `useTheme()`, set Stack `contentStyle: { backgroundColor: theme.background }` and root container background.
+  2. `(tabs)/_layout.tsx`: Injected both `sceneStyle: { backgroundColor: theme.background }` and `sceneContainerStyle: { backgroundColor: theme.background }` to guarantee dark background persistence on all 5 tabs.
+  3. `(tabs)/index.tsx`: Cleaned TS1117 duplicate property, locked `screenWrapper` and `container` to `theme.background`, normalized `paddingTop: 16`, and resolved `CircleInfoTeller` text-wrapping.
+  4. `(tabs)/checkups.tsx`: Eliminated double header and extra top inset; fully themed all checkup cards (Mood avatars, Energy battery, Sleep duration, Stress barometer, Hydration pace, Musculoskeletal comfort, Trend summary, and Clinical planner screenings/history).
+  5. `(tabs)/medication.tsx`: Eliminated double header padding, fully themed doses, cabinet list, empty state, and modal with dynamic `theme` tokens.
+  6. `(tabs)/community.tsx`: Normalized `topAppBar` padding (`paddingTop: 10, paddingBottom: 10`), removed double top insets.
+  7. `ChallengesHub.tsx`, `CommunityGroupsHub.tsx`, `DiscoveryHub.tsx`, `InboxHub.tsx`: Replaced hardcoded `#f8fafc` light containers with transparent/theme backgrounds, fully themed action badges, Nura AI architect card, and search inputs.
+  8. `LifestyleHeader.tsx`: Eliminated redundant top inset under the Expo Router header.
+  9. `(auth)/login.tsx`: Fully themed with `useTheme()`, dynamic input background, text, borders, Google OAuth button, and privacy shield.
+  10. `(auth)/onboarding/step1.tsx` to `step4.tsx`: Fully themed across all 4 onboarding steps with dark/light mode responsive cards, chips, text inputs, and action buttons.
+- Verification & Release v1.0.11 Automation:
+  1. Verified 0 TypeScript errors across the entire codebase (`npx tsc -p apps/mobile/tsconfig.json --noEmit` exited 0).
+  2. Bumped version to `1.0.11` (`versionCode: 14`) in `apps/mobile/app.json`.
+  3. Committed all changes (`5687e1b`) and pushed to GitHub remote `origin/main`.
+  4. Triggered EAS Cloud Build `40d7be10-c049-40bc-87b6-ca0745bba2ea` for Android preview.
+  5. Launched automated background monitor (`scripts/await_and_install_v1_0_11.js`) to stream download, ADB install, launch `MainActivity`, and verify zero crashes on the connected Samsung Galaxy A05s.
+- Actions: refactored all core tabs, hubs, auth, and onboarding screens; achieved 0 TypeScript errors; bumped to v1.0.11; triggered EAS cloud build; launched auto-install worker; and recorded Turn 270 in perpetual memory ledger.
+
+---
