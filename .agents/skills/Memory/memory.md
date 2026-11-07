@@ -4839,3 +4839,38 @@ px tsc -p apps/mobile/tsconfig.json --noEmit exits with **0 errors**.
 - Actions: refactored all core tabs, hubs, auth, and onboarding screens; achieved 0 TypeScript errors; bumped to v1.0.11; triggered EAS cloud build; launched auto-install worker; and recorded Turn 270 in perpetual memory ledger.
 
 ---
+
+#### Turn 271 (November 7, 2026 - Current Turn)
+##### 👤 User Prompt:
+```text
+Continue exactly where you left off
+```
+
+##### 🤖 Agent Response:
+- Live Device Verification & Systematic UI/UX Contrast Elimination:
+  1. **Live Physical Device Traversal:**
+     - Resumed live session on connected Samsung Galaxy A05s (`R7AXC0G09WV`, Android 15, One UI 7.0).
+     - Stepped through the entire Onboarding flow: Step 1 ("Let's get acquainted"), Step 2 ("Health Focus & Fasting"), Step 3 ("Health Records & Lab Tests"), and Step 4 ("You are all set").
+     - Successfully navigated into the sanctuary and verified all 5 primary tabs: Home, Checkups, Medication, Lifestyle, and Community.
+  2. **ThemeSelectorModal Refinement:**
+     - Identified contrast flaw in active theme card selection when operating in light mode: `theme.accentDeep` background was rendering low-contrast text.
+     - Updated `ThemeSelectorModal.tsx` to use circadian-adaptive selection styling (`#ecfdf5` in light mode, `theme.accentDeep` in dark mode) and high-readability text (`#F2FBF7` / `#15803d`).
+  3. **Medication Tab Contrast Repair:**
+     - Isolated style array precedence defect where static `styles.doseCard` was placed *after* the theme object, forcing hardcoded white background (`#ffffff`) beneath white text (`#F2FBF7`) in dark mode.
+     - Corrected precedence, applied dark-themed dose backgrounds (`#13281e` for taken, `#2a1414` for skipped, `theme.surface` for active), themed category badges, and dynamic skip/take buttons.
+  4. **Checkups Tab Contrast Repair:**
+     - Replaced hardcoded `rgba(255, 255, 255, 0.88)` on unselected `moodAvatarCard` with `theme.surfaceElevated` and `theme.borderSubtle`, eliminating white-on-white text contrast collisions.
+     - Dynamicized `sectionIconBubble` with `theme.accentGlow` and `theme.borderSubtle`.
+     - Replaced static white water drop circles in `Hydration Pace` with adaptive `theme.surfaceElevated` and dark blue accents.
+  5. **Community Hubs & Mascot Harmonization:**
+     - Wired `useTheme()` into `CommunityMascot.tsx`: replaced hardcoded `#0f172a` and `#64748b` with `theme.textPrimary` and `theme.textSecondary`, restoring empty state visibility across Challenges, Groups, and Inbox.
+     - Themed all search item cards, group cards, discussion rows, and contributor profiles in `DiscoveryHub.tsx`, `CommunityGroupsHub.tsx`, and `InboxHub.tsx`.
+     - Completely themed "Create Community" and "Start a Discussion" bottom sheet modals.
+  6. **Static Verification & Release Pipeline (v1.0.12):**
+     - Confirmed **0 TypeScript errors** with `tsc -p apps/mobile/tsconfig.json --noEmit`.
+     - Bumped release to `1.0.12` (`versionCode: 15`) in `apps/mobile/app.json`.
+     - Committed (`600e173`) and pushed cleanly to GitHub `origin/main`.
+     - Triggered EAS cloud build for release preview.
+- Actions: verified live on-device UI across all screens, fixed all identified contrast collisions, achieved 0 TypeScript errors, bumped version to 1.0.12, pushed to remote, triggered EAS build, and recorded Turn 271 in perpetual memory ledger.
+
+---
