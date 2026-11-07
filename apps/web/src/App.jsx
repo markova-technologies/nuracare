@@ -52,48 +52,48 @@ export default function App() {
 
   // ── URL ↔ activePage map ──────────────────────────────────────────────────
   const PATH_TO_PAGE = {
-    '/':           'home',
-    '/home':       'home',
-    '/nura':       'chat',
-    '/chat':       'chat',
-    '/community':  'community',
-    '/lifestyle':  'lifestyle',
+    '/': 'home',
+    '/home': 'home',
+    '/nura': 'chat',
+    '/chat': 'chat',
+    '/community': 'community',
+    '/lifestyle': 'lifestyle',
     '/medication': 'medication',
-    '/checkups':   'checkups',
-    '/checkin':    'checkin',
-    '/discover':   'discovery',
-    '/discovery':  'discovery',
-    '/profile':    'profile',
-    '/records':    'records',
-    '/devices':    'devices',
+    '/checkups': 'checkups',
+    '/checkin': 'checkin',
+    '/discover': 'discovery',
+    '/discovery': 'discovery',
+    '/profile': 'profile',
+    '/records': 'records',
+    '/devices': 'devices',
     '/subscription': 'upgrade',
-    '/upgrade':    'upgrade',
+    '/upgrade': 'upgrade',
     '/enterprise': 'enterprise',
-    '/wellness':   'wellness',
-    '/privacy':    'privacy',
-    '/terms':      'terms',
+    '/wellness': 'wellness',
+    '/privacy': 'privacy',
+    '/terms': 'terms',
     '/disclaimer': 'disclaimer',
-    '/admin':      'admin',
+    '/admin': 'admin',
   };
   const PAGE_TO_PATH = {
-    'home':       '/home',
-    'chat':       '/nura',
-    'community':  '/community',
-    'lifestyle':  '/lifestyle',
+    'home': '/home',
+    'chat': '/nura',
+    'community': '/community',
+    'lifestyle': '/lifestyle',
     'medication': '/medication',
-    'checkups':   '/checkups',
-    'checkin':    '/checkin',
-    'discovery':  '/discover',
-    'profile':    '/profile',
-    'records':    '/records',
-    'devices':    '/devices',
-    'upgrade':    '/subscription',
+    'checkups': '/checkups',
+    'checkin': '/checkin',
+    'discovery': '/discover',
+    'profile': '/profile',
+    'records': '/records',
+    'devices': '/devices',
+    'upgrade': '/subscription',
     'enterprise': '/enterprise',
-    'wellness':   '/wellness',
-    'privacy':    '/privacy',
-    'terms':      '/terms',
+    'wellness': '/wellness',
+    'privacy': '/privacy',
+    'terms': '/terms',
     'disclaimer': '/disclaimer',
-    'admin':      '/admin',
+    'admin': '/admin',
   };
 
   const { user, signUpWithEmail, signInWithEmail, signInWithGoogle, signOut, loading: authLoading } = useAuth();
@@ -101,7 +101,7 @@ export default function App() {
   const { sessions, saveSession, deleteSession, clearSessions, loading: sessionsLoading } = useSupabaseSessions();
   const { checkups, updateCheckup } = useCheckups();
   const { t, lang, setLang } = useTranslation();
-  
+
   const [onboardingStep, setOnboardingStep] = useState(0);
 
   // Initialise activePage from URL path (enables direct URL access)
@@ -129,14 +129,14 @@ export default function App() {
   }, [location.pathname]);
 
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
-  
+
   useEffect(() => {
     // Handle Payment Redirects
     const params = new URLSearchParams(window.location.search);
     if (params.get('payment') === 'success') {
       showToast('Payment successful! Welcome to Premium.', 'success');
       window.history.replaceState({}, document.title, window.location.pathname);
-      
+
       // Give local mock premium access immediately
       if (profile) {
         const p = { ...profile, is_premium: true };
@@ -151,7 +151,7 @@ export default function App() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [discoveryTab, setDiscoveryTab] = useState(() => localStorage.getItem('nuracare_discoveryTab') || 'herbs');
-  
+
   useEffect(() => {
     localStorage.setItem('nuracare_discoveryTab', discoveryTab);
   }, [discoveryTab]);
@@ -186,10 +186,10 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, [checkups, updateCheckup]);
-  
+
   const [sessionToDelete, setSessionToDelete] = useState(null);
   const [shareSession, setShareSession] = useState(null);
-  
+
   // We keep currentSessionId in state at App level so sidebar can highlight the active session
   const [currentSessionId, setCurrentSessionId] = useState(() => 'session-' + Date.now());
 
@@ -221,7 +221,7 @@ export default function App() {
   useEffect(() => {
     if (profile) {
       if (typeof profile.medications === 'string') {
-        setProfileMedsInput(profile.medications.split(',').map(s=>s.trim()).filter(Boolean));
+        setProfileMedsInput(profile.medications.split(',').map(s => s.trim()).filter(Boolean));
       } else {
         setProfileMedsInput(profile.medications || []);
       }
@@ -230,7 +230,7 @@ export default function App() {
 
   useEffect(() => {
     if (!profile || profile.location) return;
-    
+
     fetchLocationWithSecurity()
       .then(loc => {
         if (!loc) return;
@@ -243,7 +243,7 @@ export default function App() {
         };
         setProfile(p);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, [profile, setProfile]);
 
   const saveProfile = (p) => {
@@ -324,7 +324,7 @@ export default function App() {
             <div className="hero-icon-wrap"><Icons.Leaf /></div>
             <h1 className="hero-title">NuraCare</h1>
             <p className="hero-subtitle">Your calm, natural health companion.</p>
-            
+
             <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '24px' }}>
               <button className="btn-primary btn-large" onClick={() => {
                 if (user) {
@@ -334,20 +334,20 @@ export default function App() {
                 }
               }}>
                 {user ? (
-                  <>Complete your profile <Icons.ArrowRight size={20} style={{marginLeft: 8}}/></>
+                  <>Complete your profile <Icons.ArrowRight size={20} style={{ marginLeft: 8 }} /></>
                 ) : (
-                  <>Start your session <Icons.ArrowRight size={20} style={{marginLeft: 8}}/></>
+                  <>Start your session <Icons.ArrowRight size={20} style={{ marginLeft: 8 }} /></>
                 )}
               </button>
 
-              <button 
-                className="btn-outline-sm" 
-                style={{ 
-                  padding: '14px 22px', 
-                  fontSize: '15px', 
-                  borderRadius: '16px', 
-                  display: 'inline-flex', 
-                  alignItems: 'center', 
+              <button
+                className="btn-outline-sm"
+                style={{
+                  padding: '14px 22px',
+                  fontSize: '15px',
+                  borderRadius: '16px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
                   gap: '8px',
                   background: 'rgba(255, 255, 255, 0.85)',
                   backdropFilter: 'blur(10px)',
@@ -386,7 +386,7 @@ export default function App() {
             </button>
 
 
-            <div style={{height: 20}}></div>
+            <div style={{ height: 20 }}></div>
             <img src="/hero.png" alt="Natural Wellness" className="hero-media" />
           </div>
 
@@ -413,7 +413,7 @@ export default function App() {
           <div className="landing-discovery">
             <div className="landing-disc-inner">
               <h2 className="landing-disc-title">Explore Natural Remedies</h2>
-              <div className="discovery-grid" style={{marginBottom: 40}}>
+              <div className="discovery-grid" style={{ marginBottom: 40 }}>
                 {discoveryData.herbs.slice(0, 4).map(item => (
                   <div key={item.name} className="disc-card">
                     <img src={item.image} alt={item.name} className="disc-card-img" />
@@ -440,11 +440,11 @@ export default function App() {
       <div className="onboarding-overlay">
         <div className="onboarding-bg-leaf"></div>
         <div className="full-page-form">
-          <div className="form-content-box" style={{background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.5)', borderRadius: '28px', padding: '44px 40px', boxShadow: '0 24px 64px rgba(34,197,94,0.12), 0 8px 24px rgba(0,0,0,0.04)'}}>
+          <div className="form-content-box" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.5)', borderRadius: '28px', padding: '44px 40px', boxShadow: '0 24px 64px rgba(34,197,94,0.12), 0 8px 24px rgba(0,0,0,0.04)' }}>
             {(onboardingStep === 1 || (user && onboardingStep === 0)) && (
               <div className="onboarding-step active">
                 <div className="step-header">
-                  <button className="btn-back" onClick={() => setOnboardingStep(0)}><Icons.ArrowLeft size={16}/></button>
+                  <button className="btn-back" onClick={() => setOnboardingStep(0)}><Icons.ArrowLeft size={16} /></button>
                   <span className="step-indicator">1 of 3</span>
                 </div>
                 <h2 className="step-title">Let's get acquainted</h2>
@@ -504,13 +504,13 @@ export default function App() {
                 </div>
                 <div className="form-group">
                   <label>Location Born (Heritage/Cultural Identity)</label>
-                  <select value={obCulturalHeritage} onChange={e => setObCulturalHeritage(e.target.value)} style={{width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid var(--border)'}}>
+                  <select value={obCulturalHeritage} onChange={e => setObCulturalHeritage(e.target.value)} style={{ width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid var(--border)' }}>
                     {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div className="form-group">
                   <label>Language & Presentation Preference (Optional)</label>
-                  <select value={obLang} onChange={e => setObLang(e.target.value)} style={{width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid var(--border)'}}>
+                  <select value={obLang} onChange={e => setObLang(e.target.value)} style={{ width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid var(--border)' }}>
                     <option value="English">English</option>
                     <option value="Amharic">Amharic (አማርኛ)</option>
                     <option value="Oromiffa">Oromiffa (Afaan Oromoo)</option>
@@ -524,17 +524,17 @@ export default function App() {
                         showToast(`GPS Location Pinned! (${pos.coords.latitude.toFixed(2)}, ${pos.coords.longitude.toFixed(2)})`, "success");
                       }, err => showToast("GPS Permission Denied. Using IP fallback.", "error"));
                     }
-                  }} className="btn-outline-sm" style={{width: '100%', padding: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, background: 'var(--bg)', borderRadius: 12, border: '1px solid var(--border)', cursor: 'pointer', fontWeight: 600}}>
+                  }} className="btn-outline-sm" style={{ width: '100%', padding: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, background: 'var(--bg)', borderRadius: 12, border: '1px solid var(--border)', cursor: 'pointer', fontWeight: 600 }}>
                     <Icons.MapPin size={18} color="var(--green)" /> Pin My Location
                   </button>
                 </div>
-                <button className="btn-primary" onClick={() => { if(obName) setOnboardingStep(2); else showToast("Please enter your name", "error"); }}>Continue</button>
+                <button className="btn-primary" onClick={() => { if (obName) setOnboardingStep(2); else showToast("Please enter your name", "error"); }}>Continue</button>
               </div>
             )}
             {onboardingStep === 2 && (
               <div className="onboarding-step active">
                 <div className="step-header">
-                  <button className="btn-back" onClick={() => setOnboardingStep(1)}><Icons.ArrowLeft size={16}/></button>
+                  <button className="btn-back" onClick={() => setOnboardingStep(1)}><Icons.ArrowLeft size={16} /></button>
                   <span className="step-indicator">2 of 3</span>
                 </div>
                 <h2 className="step-title">Your health baseline</h2>
@@ -574,16 +574,16 @@ export default function App() {
                     />
                   </div>
                 )}
-                
+
                 {obCulturalHeritage === 'Ethiopia' && (
                   <>
                     <h3 style={{ fontSize: 16, marginTop: 24, marginBottom: 12, color: 'var(--text)' }}>Track Religious Fasting Calendars?</h3>
-                    
+
                     <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', padding: 16, border: '1px solid var(--border)', borderRadius: 12, marginBottom: 8 }}>
-                      <input 
-                        type="radio" 
-                        checked={obFasting === TSOM_TYPES.NONE} 
-                        onChange={() => setObFasting(TSOM_TYPES.NONE)} 
+                      <input
+                        type="radio"
+                        checked={obFasting === TSOM_TYPES.NONE}
+                        onChange={() => setObFasting(TSOM_TYPES.NONE)}
                         style={{ width: 18, height: 18, accentColor: 'var(--green)' }}
                       />
                       <div>
@@ -593,10 +593,10 @@ export default function App() {
                     </label>
 
                     <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', padding: 16, border: '1px solid var(--border)', borderRadius: 12, marginBottom: 8 }}>
-                      <input 
-                        type="radio" 
-                        checked={obFasting === TSOM_TYPES.ORTHODOX} 
-                        onChange={() => setObFasting(TSOM_TYPES.ORTHODOX)} 
+                      <input
+                        type="radio"
+                        checked={obFasting === TSOM_TYPES.ORTHODOX}
+                        onChange={() => setObFasting(TSOM_TYPES.ORTHODOX)}
                         style={{ width: 18, height: 18, accentColor: 'var(--green)' }}
                       />
                       <div>
@@ -606,10 +606,10 @@ export default function App() {
                     </label>
 
                     <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', padding: 16, border: '1px solid var(--border)', borderRadius: 12 }}>
-                      <input 
-                        type="radio" 
-                        checked={obFasting === TSOM_TYPES.ISLAMIC} 
-                        onChange={() => setObFasting(TSOM_TYPES.ISLAMIC)} 
+                      <input
+                        type="radio"
+                        checked={obFasting === TSOM_TYPES.ISLAMIC}
+                        onChange={() => setObFasting(TSOM_TYPES.ISLAMIC)}
                         style={{ width: 18, height: 18, accentColor: 'var(--green)' }}
                       />
                       <div>
@@ -626,7 +626,7 @@ export default function App() {
             {onboardingStep === 3 && (
               <div className="onboarding-step active">
                 <div className="step-header">
-                  <button className="btn-back" onClick={() => setOnboardingStep(2)}><Icons.ArrowLeft size={16}/></button>
+                  <button className="btn-back" onClick={() => setOnboardingStep(2)}><Icons.ArrowLeft size={16} /></button>
                   <span className="step-indicator">3 of 3</span>
                 </div>
                 <h2 className="step-title">Regular Medications</h2>
@@ -634,21 +634,21 @@ export default function App() {
                 <div className="form-group">
                   <MedTagInput tags={obMeds} setTags={setObMeds} placeholder="e.g. Metformin, Vitamin D... Press Enter to add" />
                 </div>
-                <button className="btn-primary" onClick={() => setOnboardingStep(4)}>Continue <Icons.ArrowRight size={18} style={{marginLeft: 8}}/></button>
+                <button className="btn-primary" onClick={() => setOnboardingStep(4)}>Continue <Icons.ArrowRight size={18} style={{ marginLeft: 8 }} /></button>
               </div>
             )}
             {onboardingStep === 4 && (
               <div className="onboarding-step active">
                 <div className="step-header">
-                  <button className="btn-back" onClick={() => setOnboardingStep(3)}><Icons.ArrowLeft size={16}/></button>
+                  <button className="btn-back" onClick={() => setOnboardingStep(3)}><Icons.ArrowLeft size={16} /></button>
                   <span className="step-indicator">4 of 4</span>
                 </div>
                 <h2 className="step-title">Medical Records</h2>
                 <p className="step-desc">Upload any recent medical reports or test results to give Nura better context. (Optional)</p>
-                
+
                 <FileUploadStep onComplete={(notes) => completeOnboarding(notes)} />
-                
-                <button className="btn-outline-sm" style={{width: '100%', marginTop: 12, padding: 16}} onClick={() => completeOnboarding('')}>Skip for Now</button>
+
+                <button className="btn-outline-sm" style={{ width: '100%', marginTop: 12, padding: 16 }} onClick={() => completeOnboarding('')}>Skip for Now</button>
               </div>
             )}
           </div>
@@ -669,9 +669,9 @@ export default function App() {
           <span className="logo-label">NuraCare</span>
         </div>
         <nav className="sidebar-nav">
-          <NavItem icon={Icons.Home} label={t("home")} active={activePage === 'home'} onClick={() => {setActivePage('home'); setSidebarOpen(false);}} />
+          <NavItem icon={Icons.Home} label={t("home")} active={activePage === 'home'} onClick={() => { setActivePage('home'); setSidebarOpen(false); }} />
           <NavItem icon={Icons.CalendarCheck} label={t("daily_checkin")} active={activePage === 'checkin'} onClick={() => { setActivePage('checkin'); setSidebarOpen(false); }} />
-          <NavItem icon={Icons.MessageCircle} label={t("chat")} active={activePage === 'chat'} onClick={() => {setActivePage('chat'); setSidebarOpen(false);}} />
+          <NavItem icon={Icons.MessageCircle} label={t("chat")} active={activePage === 'chat'} onClick={() => { setActivePage('chat'); setSidebarOpen(false); }} />
           <NavItem icon={Icons.Pill} label="Medication" active={activePage === 'medication'} onClick={() => { setActivePage('medication'); setSidebarOpen(false); }} />
           <NavItem icon={Icons.Zap} label={t("lifestyle")} active={activePage === 'lifestyle'} onClick={() => { setActivePage('lifestyle'); setSidebarOpen(false); }} />
           <NavItem icon={Icons.Users} label="Community" active={activePage === 'community'} onClick={() => { setActivePage('community'); setSidebarOpen(false); }} />
@@ -680,34 +680,34 @@ export default function App() {
         </nav>
         <div className="sidebar-bottom">
           <div className="mobile-only-sessions">
-            <div style={{fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8, letterSpacing: 0.5}}>{t("past_sessions").toUpperCase()}</div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 8, letterSpacing: 0.5 }}>{t("past_sessions").toUpperCase()}</div>
             {sessions.slice(0, 5).map(s => (
-               <div key={s.id} style={{ display: 'flex', alignItems: 'center' }}>
-                 <a href="#" className={`nav-item ${currentSessionId === s.id && activePage === 'chat' ? 'active' : ''}`} style={{padding:'8px 20px', fontSize: 13, minHeight: '36px', flex: 1, paddingRight: '8px'}} onClick={(e) => {
-                   e.preventDefault();
-                   setCurrentSessionId(s.id);
-                   setActivePage('chat');
-                   setSidebarOpen(false);
-                 }}>
-                   <span className="nav-icon" style={{marginRight: 8}}><Icons.MessageCircle size={14}/></span>
-                   <span className="nav-label" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{s.name}</span>
-                 </a>
-                 <button style={{ background: 'none', border: 'none', padding: '8px', color: 'var(--text-muted)', cursor: 'pointer', opacity: 0.7 }} onClick={(e) => { e.preventDefault(); handleDeleteSession(s.id); }}>
-                   <Icons.Trash2 size={14} />
-                 </button>
-               </div>
+              <div key={s.id} style={{ display: 'flex', alignItems: 'center' }}>
+                <a href="#" className={`nav-item ${currentSessionId === s.id && activePage === 'chat' ? 'active' : ''}`} style={{ padding: '8px 20px', fontSize: 13, minHeight: '36px', flex: 1, paddingRight: '8px' }} onClick={(e) => {
+                  e.preventDefault();
+                  setCurrentSessionId(s.id);
+                  setActivePage('chat');
+                  setSidebarOpen(false);
+                }}>
+                  <span className="nav-icon" style={{ marginRight: 8 }}><Icons.MessageCircle size={14} /></span>
+                  <span className="nav-label" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.name}</span>
+                </a>
+                <button style={{ background: 'none', border: 'none', padding: '8px', color: 'var(--text-muted)', cursor: 'pointer', opacity: 0.7 }} onClick={(e) => { e.preventDefault(); handleDeleteSession(s.id); }}>
+                  <Icons.Trash2 size={14} />
+                </button>
+              </div>
             ))}
-            <a href="#" className="nav-item" style={{padding:'8px 20px', fontSize: 13, minHeight: '36px', color:'var(--green)', marginBottom: 12}} onClick={(e) => {
-                 e.preventDefault();
-                 setCurrentSessionId('session-' + Date.now());
-                 setActivePage('chat');
-                 setSidebarOpen(false);
-               }}>
-                 <span className="nav-icon" style={{marginRight: 8}}><Icons.Plus size={14}/></span>
-                 <span className="nav-label">{t("new_session")}</span>
+            <a href="#" className="nav-item" style={{ padding: '8px 20px', fontSize: 13, minHeight: '36px', color: 'var(--green)', marginBottom: 12 }} onClick={(e) => {
+              e.preventDefault();
+              setCurrentSessionId('session-' + Date.now());
+              setActivePage('chat');
+              setSidebarOpen(false);
+            }}>
+              <span className="nav-icon" style={{ marginRight: 8 }}><Icons.Plus size={14} /></span>
+              <span className="nav-label">{t("new_session")}</span>
             </a>
           </div>
-          <select value={lang} onChange={(e) => setLang(e.target.value)} style={{width: '100%', padding: '8px', borderRadius: '12px', border: '1px solid var(--border)', fontFamily: 'var(--font)', marginBottom: 12, outline: 'none'}}>
+          <select value={lang} onChange={(e) => setLang(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '12px', border: '1px solid var(--border)', fontFamily: 'var(--font)', marginBottom: 12, outline: 'none' }}>
             <option value="en">English</option>
             <option value="am">አማርኛ</option>
           </select>
@@ -724,8 +724,8 @@ export default function App() {
 
       <div className="mobile-topbar">
         <button className="hamburger" onClick={() => setSidebarOpen(true)}><Icons.Menu /></button>
-        <div className="mobile-logo" style={{display: 'flex', alignItems: 'center'}}><Icons.Leaf size={16} style={{marginRight: 4}}/> NuraCare</div>
-        <button 
+        <div className="mobile-logo" style={{ display: 'flex', alignItems: 'center' }}><Icons.Leaf size={16} style={{ marginRight: 4 }} /> NuraCare</div>
+        <button
           onClick={() => setDownloadModalOpen(true)}
           style={{
             display: 'flex',
@@ -770,8 +770,8 @@ export default function App() {
                 <h1 className="page-title">Profile</h1>
                 <p className="page-subtitle">Your personal wellness profile</p>
               </div>
-              <button className="btn-outline-sm" onClick={handleLogout} style={{color: 'var(--text)', borderColor: 'var(--border)'}}>
-                <Icons.LogOut size={14} style={{marginRight: 4, verticalAlign: 'text-bottom'}} /> Logout
+              <button className="btn-outline-sm" onClick={handleLogout} style={{ color: 'var(--text)', borderColor: 'var(--border)' }}>
+                <Icons.LogOut size={14} style={{ marginRight: 4, verticalAlign: 'text-bottom' }} /> Logout
               </button>
             </div>
             <div className="profile-card">
@@ -786,7 +786,7 @@ export default function App() {
               {profile.conditions && profile.conditions.length > 0 ? profile.conditions.map(c => <span key={c} className="profile-tag">{c.charAt(0).toUpperCase() + c.slice(1)}</span>) : <span className="profile-tag">None reported</span>}
             </div>
             <div className="profile-meds">
-              {Array.isArray(profile.medications) && profile.medications.length > 0 ? profile.medications.map((m, i) => <span key={i} className="profile-tag" style={{marginRight: 6}}>{m}</span>) : (profile.medications || 'None reported')}
+              {Array.isArray(profile.medications) && profile.medications.length > 0 ? profile.medications.map((m, i) => <span key={i} className="profile-tag" style={{ marginRight: 6 }}>{m}</span>) : (profile.medications || 'None reported')}
             </div>
 
             <div className="section-title" style={{ marginTop: 32 }}>Health Records</div>
@@ -807,9 +807,9 @@ export default function App() {
             <div className="form-group">
               <MedTagInput tags={profileMedsInput} setTags={setProfileMedsInput} placeholder="e.g. Metformin 500mg... Press Enter to add" />
             </div>
-            <button className="btn-primary" onClick={() => { const p = {...profile, medications: profileMedsInput}; saveProfile(p); }}>{t("save_medications")}</button>
+            <button className="btn-primary" onClick={() => { const p = { ...profile, medications: profileMedsInput }; saveProfile(p); }}>{t("save_medications")}</button>
 
-            <div className="section-title" style={{marginTop: 32}}>Connected Devices</div>
+            <div className="section-title" style={{ marginTop: 32 }}>Connected Devices</div>
             <div className="dash-card">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -825,77 +825,77 @@ export default function App() {
               </div>
             </div>
 
-            <div className="section-title" style={{marginTop: 32}}>Preferences</div>
+            <div className="section-title" style={{ marginTop: 32 }}>Preferences</div>
             <div className="dash-card" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', marginBottom: 12 }}>
-                <input 
-                  type="radio" 
-                  checked={profile.fastingMode === TSOM_TYPES.NONE} 
+                <input
+                  type="radio"
+                  checked={profile.fastingMode === TSOM_TYPES.NONE}
                   onChange={() => {
                     saveProfile({ ...profile, fastingMode: TSOM_TYPES.NONE });
                     showToast('Standard diet enabled', 'success');
-                  }} 
+                  }}
                   style={{ width: 18, height: 18, accentColor: 'var(--green)' }}
                 />
                 <span style={{ fontWeight: 600 }}>Standard Diet (No Restrictions)</span>
               </label>
 
               <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', marginBottom: 12 }}>
-                <input 
-                  type="radio" 
-                  checked={profile.fastingMode === TSOM_TYPES.ORTHODOX} 
+                <input
+                  type="radio"
+                  checked={profile.fastingMode === TSOM_TYPES.ORTHODOX}
                   onChange={() => {
                     saveProfile({ ...profile, fastingMode: TSOM_TYPES.ORTHODOX });
                     showToast('Orthodox fasting mode enabled', 'success');
-                  }} 
+                  }}
                   style={{ width: 18, height: 18, accentColor: 'var(--green)' }}
                 />
                 <span style={{ fontWeight: 600 }}>Orthodox Christian Fasting (Tsom)</span>
               </label>
 
               <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
-                <input 
-                  type="radio" 
-                  checked={profile.fastingMode === TSOM_TYPES.ISLAMIC} 
+                <input
+                  type="radio"
+                  checked={profile.fastingMode === TSOM_TYPES.ISLAMIC}
                   onChange={() => {
                     saveProfile({ ...profile, fastingMode: TSOM_TYPES.ISLAMIC });
                     showToast('Islamic fasting mode enabled', 'success');
-                  }} 
+                  }}
                   style={{ width: 18, height: 18, accentColor: 'var(--green)' }}
                 />
                 <span style={{ fontWeight: 600 }}>Islamic Fasting (Ramadan)</span>
               </label>
-              
+
               <p style={{ margin: '12px 0 0', fontSize: 13, color: 'var(--text-muted)' }}>
                 NuraCare will adjust nutritional recommendations and athletic tracking based on your active fasting cycle.
               </p>
             </div>
 
-            <div className="section-title" style={{marginTop: 32}}>{t("medical_notes")}</div>
-            <FileUploadStep 
-              existingNotes={profile.medicalNotes || ''} 
-              isProfile={true} 
+            <div className="section-title" style={{ marginTop: 32 }}>{t("medical_notes")}</div>
+            <FileUploadStep
+              existingNotes={profile.medicalNotes || ''}
+              isProfile={true}
               t={t}
-              onComplete={(notes) => { const p = {...profile, medicalNotes: notes}; saveProfile(p); showToast('Saved!', 'success'); }} 
+              onComplete={(notes) => { const p = { ...profile, medicalNotes: notes }; saveProfile(p); showToast('Saved!', 'success'); }}
             />
           </div>
         )}
         {activePage === 'admin' && <AdminDashboard onBack={() => setActivePage('home')} />}
       </main>
 
-      <DeleteModal 
-        isOpen={!!sessionToDelete} 
-        onClose={() => setSessionToDelete(null)} 
-        onConfirm={confirmDeleteSession} 
+      <DeleteModal
+        isOpen={!!sessionToDelete}
+        onClose={() => setSessionToDelete(null)}
+        onConfirm={confirmDeleteSession}
       />
-      <ShareModal 
-        isOpen={!!shareSession} 
-        onClose={() => setShareSession(null)} 
-        session={shareSession} 
+      <ShareModal
+        isOpen={!!shareSession}
+        onClose={() => setShareSession(null)}
+        session={shareSession}
       />
-      <DownloadAppModal 
-        isOpen={downloadModalOpen} 
-        onClose={() => setDownloadModalOpen(false)} 
+      <DownloadAppModal
+        isOpen={downloadModalOpen}
+        onClose={() => setDownloadModalOpen(false)}
       />
       <WebUpdateToast />
       <ToastContainer />

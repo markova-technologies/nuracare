@@ -271,7 +271,16 @@ export default function ChallengesHub({
             return (
               <TouchableOpacity
                 key={ch.id}
-            style={[styles.challengeCard, { overflow: 'hidden', width: '48%', marginBottom: 16 }]}
+                style={[
+                  styles.challengeCard,
+                  {
+                    backgroundColor: theme.surface,
+                    borderColor: theme.border,
+                    overflow: 'hidden',
+                    width: '48%',
+                    marginBottom: 16,
+                  },
+                ]}
                 onPress={() => setSelectedChallenge(ch)}
                 activeOpacity={0.9}
               >
@@ -304,22 +313,22 @@ export default function ChallengesHub({
                 </View>
 
                 {/* Challenge Title & Desc */}
-                <Text style={styles.challengeTitle}>{ch.title}</Text>
-                <Text style={styles.challengeDesc} numberOfLines={1}>
+                <Text style={[styles.challengeTitle, { color: theme.textPrimary }]}>{ch.title}</Text>
+                <Text style={[styles.challengeDesc, { color: theme.textSecondary }]} numberOfLines={1}>
                   {ch.description}
                 </Text>
 
                 {/* Meta details */}
                 <View style={styles.metaRow}>
                   <View style={styles.metaItem}>
-                    <Users size={13} color="#64748b" />
-                    <Text style={styles.metaItemText}>
+                    <Users size={13} color={theme.textTertiary} />
+                    <Text style={[styles.metaItemText, { color: theme.textSecondary }]}>
                       {ch.participantsCount} joined
                     </Text>
                   </View>
                   <View style={styles.metaItem}>
-                    <Clock size={13} color="#64748b" />
-                    <Text style={styles.metaItemText}>{ch.durationDays} Days</Text>
+                    <Clock size={13} color={theme.textTertiary} />
+                    <Text style={[styles.metaItemText, { color: theme.textSecondary }]}>{ch.durationDays} Days</Text>
                   </View>
                   {ch.isJoined && ch.streak > 0 && (
                     <View style={styles.streakBadge}>
@@ -331,13 +340,13 @@ export default function ChallengesHub({
 
                 {/* Financial details if monetary */}
                 {ch.isMonetary && (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderTopWidth: 1, borderTopColor: '#f1f5f9', marginTop: 4, marginBottom: 8 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderTopWidth: 1, borderTopColor: theme.borderSubtle, marginTop: 4, marginBottom: 8 }}>
                      <View>
-                        <Text style={{ fontSize: 11, color: '#64748b', fontWeight: '600', textTransform: 'uppercase' }}>Entry Stake</Text>
+                        <Text style={{ fontSize: 11, color: theme.textTertiary, fontWeight: '600', textTransform: 'uppercase' }}>Entry Stake</Text>
                         <Text style={{ fontSize: 13, fontWeight: '700', color: theme.textPrimary }}>{ch.entryFee} {ch.currency || 'ETB'}</Text>
                      </View>
                      <View style={{ alignItems: 'flex-end' }}>
-                        <Text style={{ fontSize: 11, color: '#64748b', fontWeight: '600', textTransform: 'uppercase' }}>Prize Pool</Text>
+                        <Text style={{ fontSize: 11, color: theme.textTertiary, fontWeight: '600', textTransform: 'uppercase' }}>Prize Pool</Text>
                         <Text style={{ fontSize: 13, fontWeight: '800', color: '#16a34a' }}>{ch.prizePool?.toLocaleString()} {ch.currency || 'ETB'}</Text>
                      </View>
                   </View>
@@ -347,12 +356,12 @@ export default function ChallengesHub({
                 {ch.isJoined && (
                   <View style={styles.progressContainer}>
                     <View style={styles.progressHeader}>
-                      <Text style={styles.progressHeaderText}>
+                      <Text style={[styles.progressHeaderText, { color: theme.textSecondary }]}>
                         Day {ch.currentDay} of {ch.durationDays}
                       </Text>
-                      <Text style={styles.progressPercentText}>{progressPercent}%</Text>
+                      <Text style={[styles.progressPercentText, { color: theme.accent }]}>{progressPercent}%</Text>
                     </View>
-                    <View style={styles.progressBarTrack}>
+                    <View style={[styles.progressBarTrack, { backgroundColor: theme.surfaceElevated }]}>
                       <View
                         style={[
                           styles.progressBarFill,
@@ -415,15 +424,15 @@ export default function ChallengesHub({
           onRequestClose={() => setSelectedChallenge(null)}
         >
           <View style={styles.modalOverlay}>
-            <View style={styles.modalSheet}>
+            <View style={[styles.modalSheet, { backgroundColor: theme.surfaceModal || theme.surface, borderColor: theme.border }]}>
               {/* Header */}
-              <View style={styles.sheetHeader}>
+              <View style={[styles.sheetHeader, { borderBottomColor: theme.borderSubtle }]}>
                 <View style={[styles.sheetIconWrap, { backgroundColor: `${selectedChallenge.coverColor}18` }]}>
                   <Trophy size={20} color={selectedChallenge.coverColor} />
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.sheetTitle}>{selectedChallenge.title}</Text>
-                  <Text style={styles.sheetSubtitle}>
+                  <Text style={[styles.sheetTitle, { color: theme.textPrimary }]}>{selectedChallenge.title}</Text>
+                  <Text style={[styles.sheetSubtitle, { color: theme.textSecondary }]}>
                     {selectedChallenge.category} • {selectedChallenge.durationDays} Days • By {selectedChallenge.creator}
                   </Text>
                 </View>
@@ -431,26 +440,26 @@ export default function ChallengesHub({
                   onPress={() => setSelectedChallenge(null)}
                   style={styles.sheetCloseBtn}
                 >
-                  <X size={20} color="#64748b" />
+                  <X size={20} color={theme.textTertiary} />
                 </TouchableOpacity>
               </View>
 
               <ScrollView style={styles.sheetBody}>
                 {/* Description */}
-                <Text style={styles.sheetDescText}>{selectedChallenge.description}</Text>
+                <Text style={[styles.sheetDescText, { color: theme.textSecondary }]}>{selectedChallenge.description}</Text>
 
                 {/* Daily Goal Box */}
-                <View style={styles.goalBox}>
+                <View style={[styles.goalBox, { backgroundColor: isDark ? theme.surfaceElevated : '#f0fdf4', borderColor: isDark ? theme.borderSubtle : '#bbf7d0' }]}>
                   <Target size={16} color="#16a34a" />
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.goalBoxTitle}>Today's Target</Text>
-                    <Text style={styles.goalBoxDesc}>{selectedChallenge.dailyGoal}</Text>
+                    <Text style={[styles.goalBoxTitle, { color: isDark ? '#4ade80' : '#16a34a' }]}>Today's Target</Text>
+                    <Text style={[styles.goalBoxDesc, { color: isDark ? theme.textPrimary : '#15803d' }]}>{selectedChallenge.dailyGoal}</Text>
                   </View>
                 </View>
 
                 {/* Timeline / Daily Progress Checklist */}
                 <View style={styles.timelineSection}>
-                  <Text style={styles.sectionHeading}>Daily Timeline Progress</Text>
+                  <Text style={[styles.sectionHeading, { color: theme.textPrimary }]}>Daily Timeline Progress</Text>
                   <View style={styles.daysGrid}>
                     {Array.from({ length: selectedChallenge.durationDays }).map((_, idx) => {
                       const dayNumber = idx + 1;
@@ -462,15 +471,17 @@ export default function ChallengesHub({
                           key={dayNumber}
                           style={[
                             styles.dayPill,
+                            { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle },
                             isCompleted && styles.dayPillCompleted,
-                            isCurrent && styles.dayPillCurrent,
+                            isCurrent && [styles.dayPillCurrent, { borderColor: theme.accent }],
                           ]}
                         >
                           <Text
                             style={[
                               styles.dayPillNumber,
+                              { color: theme.textSecondary },
                               isCompleted && styles.dayPillNumberCompleted,
-                              isCurrent && styles.dayPillNumberCurrent,
+                              isCurrent && { color: theme.accent, fontWeight: '700' },
                             ]}
                           >
                             D{dayNumber}
@@ -478,7 +489,7 @@ export default function ChallengesHub({
                           {isCompleted ? (
                             <CheckCircle2 size={13} color="#16a34a" />
                           ) : (
-                            <View style={styles.dayDotEmpty} />
+                            <View style={[styles.dayDotEmpty, { backgroundColor: theme.borderSubtle }]} />
                           )}
                         </View>
                       );
@@ -488,11 +499,11 @@ export default function ChallengesHub({
 
                 {/* Rules List */}
                 <View style={styles.rulesSection}>
-                  <Text style={styles.sectionHeading}>Challenge Guidelines</Text>
+                  <Text style={[styles.sectionHeading, { color: theme.textPrimary }]}>Challenge Guidelines</Text>
                   {selectedChallenge.rules.map((rule, i) => (
                     <View key={i} style={styles.ruleRow}>
-                      <View style={styles.ruleBullet} />
-                      <Text style={styles.ruleText}>{rule}</Text>
+                      <View style={[styles.ruleBullet, { backgroundColor: theme.accent }]} />
+                      <Text style={[styles.ruleText, { color: theme.textSecondary }]}>{rule}</Text>
                     </View>
                   ))}
                 </View>
@@ -549,48 +560,48 @@ export default function ChallengesHub({
         onRequestClose={() => setShowCreateWizard(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalSheet}>
-            <View style={styles.sheetHeader}>
+          <View style={[styles.modalSheet, { backgroundColor: theme.surfaceModal || theme.surface, borderColor: theme.border }]}>
+            <View style={[styles.sheetHeader, { borderBottomColor: theme.borderSubtle }]}>
               <View>
-                <Text style={styles.sheetTitle}>Create Challenge</Text>
-                <Text style={styles.sheetSubtitle}>Step {wizardStep} of 4</Text>
+                <Text style={[styles.sheetTitle, { color: theme.textPrimary }]}>Create Challenge</Text>
+                <Text style={[styles.sheetSubtitle, { color: theme.textSecondary }]}>Step {wizardStep} of 4</Text>
               </View>
               <TouchableOpacity
                 onPress={() => setShowCreateWizard(false)}
                 style={styles.sheetCloseBtn}
               >
-                <X size={20} color="#64748b" />
+                <X size={20} color={theme.textTertiary} />
               </TouchableOpacity>
             </View>
 
             <ScrollView style={styles.sheetBody}>
               {wizardStep === 1 && (
                 <View style={styles.wizardStepWrap}>
-                  <Text style={styles.stepTitle}>Basic Information</Text>
-                  <Text style={styles.stepDesc}>
+                  <Text style={[styles.stepTitle, { color: theme.textPrimary }]}>Basic Information</Text>
+                  <Text style={[styles.stepDesc, { color: theme.textSecondary }]}>
                     Give your challenge an engaging wellness title and clear purpose.
                   </Text>
 
-                  <Text style={styles.inputLabel}>Challenge Title</Text>
+                  <Text style={[styles.inputLabel, { color: theme.textPrimary }]}>Challenge Title</Text>
                   <TextInput
-                    style={styles.textInput}
+                    style={[styles.textInput, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                     placeholder="e.g. 7-Day Morning Movement & Sunlight"
-                    placeholderTextColor="#94a3b8"
+                    placeholderTextColor={theme.placeholderText}
                     value={newTitle}
                     onChangeText={setNewTitle}
                   />
 
-                  <Text style={styles.inputLabel}>Short Description</Text>
+                  <Text style={[styles.inputLabel, { color: theme.textPrimary }]}>Short Description</Text>
                   <TextInput
-                    style={[styles.textInput, { minHeight: 64 }]}
+                    style={[styles.textInput, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText, minHeight: 64 }]}
                     placeholder="What will members accomplish together?"
-                    placeholderTextColor="#94a3b8"
+                    placeholderTextColor={theme.placeholderText}
                     value={newDesc}
                     onChangeText={setNewDesc}
                     multiline
                   />
 
-                  <Text style={styles.inputLabel}>Wellness Category</Text>
+                  <Text style={[styles.inputLabel, { color: theme.textPrimary }]}>Wellness Category</Text>
                   <View style={styles.categoryPickerRow}>
                     {(['Fitness', 'Sleep', 'Hydration', 'Nutrition', 'Mindfulness'] as ChallengeCategory[]).map(
                       (cat) => (
@@ -598,6 +609,7 @@ export default function ChallengesHub({
                           key={cat}
                           style={[
                             styles.categoryChoice,
+                            { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle },
                             newCategory === cat && styles.categoryChoiceActive,
                           ]}
                           onPress={() => setNewCategory(cat)}
@@ -605,6 +617,7 @@ export default function ChallengesHub({
                           <Text
                             style={[
                               styles.categoryChoiceText,
+                              { color: theme.textSecondary },
                               newCategory === cat && styles.categoryChoiceTextActive,
                             ]}
                           >
@@ -619,18 +632,19 @@ export default function ChallengesHub({
 
               {wizardStep === 2 && (
                 <View style={styles.wizardStepWrap}>
-                  <Text style={styles.stepTitle}>Challenge Structure</Text>
-                  <Text style={styles.stepDesc}>
+                  <Text style={[styles.stepTitle, { color: theme.textPrimary }]}>Challenge Structure</Text>
+                  <Text style={[styles.stepDesc, { color: theme.textSecondary }]}>
                     Define duration and daily targets to keep participants accountable.
                   </Text>
 
-                  <Text style={styles.inputLabel}>Duration (Days)</Text>
+                  <Text style={[styles.inputLabel, { color: theme.textPrimary }]}>Duration (Days)</Text>
                   <View style={styles.durationRow}>
                     {['5', '7', '14', '21', '30'].map((d) => (
                       <TouchableOpacity
                         key={d}
                         style={[
                           styles.durationBtn,
+                          { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle },
                           newDuration === d && styles.durationBtnActive,
                         ]}
                         onPress={() => setNewDuration(d)}
@@ -638,6 +652,7 @@ export default function ChallengesHub({
                         <Text
                           style={[
                             styles.durationBtnText,
+                            { color: theme.textSecondary },
                             newDuration === d && styles.durationBtnTextActive,
                           ]}
                         >
@@ -647,29 +662,29 @@ export default function ChallengesHub({
                     ))}
                   </View>
 
-                  <Text style={styles.inputLabel}>Daily Goal / Action</Text>
+                  <Text style={[styles.inputLabel, { color: theme.textPrimary }]}>Daily Goal / Action</Text>
                   <TextInput
-                    style={styles.textInput}
+                    style={[styles.textInput, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                     placeholder="e.g. Drink 2.5L water or complete 10k steps"
-                    placeholderTextColor="#94a3b8"
+                    placeholderTextColor={theme.placeholderText}
                     value={newDailyGoal}
                     onChangeText={setNewDailyGoal}
                   />
 
-                  <Text style={styles.inputLabel}>Rule 1</Text>
+                  <Text style={[styles.inputLabel, { color: theme.textPrimary }]}>Rule 1</Text>
                   <TextInput
-                    style={styles.textInput}
+                    style={[styles.textInput, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                     placeholder="e.g. Log activity before 9:00 PM"
-                    placeholderTextColor="#94a3b8"
+                    placeholderTextColor={theme.placeholderText}
                     value={newRule1}
                     onChangeText={setNewRule1}
                   />
 
-                  <Text style={styles.inputLabel}>Rule 2</Text>
+                  <Text style={[styles.inputLabel, { color: theme.textPrimary }]}>Rule 2</Text>
                   <TextInput
-                    style={styles.textInput}
+                    style={[styles.textInput, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                     placeholder="e.g. Support 1 peer check-in daily"
-                    placeholderTextColor="#94a3b8"
+                    placeholderTextColor={theme.placeholderText}
                     value={newRule2}
                     onChangeText={setNewRule2}
                   />
@@ -678,18 +693,19 @@ export default function ChallengesHub({
 
               {wizardStep === 3 && (
                 <View style={styles.wizardStepWrap}>
-                  <Text style={styles.stepTitle}>Privacy Settings</Text>
-                  <Text style={styles.stepDesc}>Choose who can view and join your challenge.</Text>
+                  <Text style={[styles.stepTitle, { color: theme.textPrimary }]}>Privacy Settings</Text>
+                  <Text style={[styles.stepDesc, { color: theme.textSecondary }]}>Choose who can view and join your challenge.</Text>
 
                   <TouchableOpacity
                     style={[
                       styles.privacyCard,
+                      { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle },
                       newPrivacy === 'Public' && styles.privacyCardActive,
                     ]}
                     onPress={() => setNewPrivacy('Public')}
                   >
-                    <Text style={styles.privacyCardTitle}>Public</Text>
-                    <Text style={styles.privacyCardSub}>
+                    <Text style={[styles.privacyCardTitle, { color: theme.textPrimary }]}>Public</Text>
+                    <Text style={[styles.privacyCardSub, { color: theme.textSecondary }]}>
                       Any community member can discover and join this challenge.
                     </Text>
                   </TouchableOpacity>
@@ -697,12 +713,13 @@ export default function ChallengesHub({
                   <TouchableOpacity
                     style={[
                       styles.privacyCard,
+                      { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle },
                       newPrivacy === 'Private' && styles.privacyCardActive,
                     ]}
                     onPress={() => setNewPrivacy('Private')}
                   >
-                    <Text style={styles.privacyCardTitle}>Private (Invite Only)</Text>
-                    <Text style={styles.privacyCardSub}>
+                    <Text style={[styles.privacyCardTitle, { color: theme.textPrimary }]}>Private (Invite Only)</Text>
+                    <Text style={[styles.privacyCardSub, { color: theme.textSecondary }]}>
                       Only members you share the challenge link with can participate.
                     </Text>
                   </TouchableOpacity>
@@ -711,19 +728,19 @@ export default function ChallengesHub({
 
               {wizardStep === 4 && (
                 <View style={styles.wizardStepWrap}>
-                  <Text style={styles.stepTitle}>Preview & Publish</Text>
-                  <Text style={styles.stepDesc}>Review how your challenge will appear to peers.</Text>
+                  <Text style={[styles.stepTitle, { color: theme.textPrimary }]}>Preview & Publish</Text>
+                  <Text style={[styles.stepDesc, { color: theme.textSecondary }]}>Review how your challenge will appear to peers.</Text>
 
-                  <View style={styles.previewCard}>
+                  <View style={[styles.previewCard, { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle }]}>
                     <Text style={styles.previewCategory}>{newCategory}</Text>
-                    <Text style={styles.previewTitle}>{newTitle || 'Untitled Challenge'}</Text>
-                    <Text style={styles.previewDesc}>
+                    <Text style={[styles.previewTitle, { color: theme.textPrimary }]}>{newTitle || 'Untitled Challenge'}</Text>
+                    <Text style={[styles.previewDesc, { color: theme.textSecondary }]}>
                       {newDesc || 'Join peers in building a positive daily wellness habit.'}
                     </Text>
                     <View style={styles.previewMeta}>
-                      <Text style={styles.previewMetaText}>{newDuration} Days</Text>
-                      <Text style={styles.previewMetaText}>•</Text>
-                      <Text style={styles.previewMetaText}>{newPrivacy}</Text>
+                      <Text style={[styles.previewMetaText, { color: theme.textTertiary }]}>{newDuration} Days</Text>
+                      <Text style={[styles.previewMetaText, { color: theme.textTertiary }]}>•</Text>
+                      <Text style={[styles.previewMetaText, { color: theme.textTertiary }]}>{newPrivacy}</Text>
                     </View>
                   </View>
                 </View>
@@ -731,11 +748,11 @@ export default function ChallengesHub({
             </ScrollView>
 
             {/* Wizard Navigation Footer */}
-                        <View style={[styles.wizardFooter, { borderTopColor: theme.borderSubtle, backgroundColor: isDark ? '#1e293b' : '#ffffff', flexDirection: 'column', gap: 12 }]}>
+            <View style={[styles.wizardFooter, { borderTopColor: theme.borderSubtle, backgroundColor: theme.surface, flexDirection: 'column', gap: 12 }]}>
               <View style={{ flexDirection: 'row', gap: 12 }}>
                 {wizardStep > 1 && (
                   <TouchableOpacity
-                    style={[styles.wizardBackBtn, { borderColor: theme.borderSubtle, backgroundColor: isDark ? '#334155' : '#f1f5f9' }]}
+                    style={[styles.wizardBackBtn, { borderColor: theme.borderSubtle, backgroundColor: theme.surfaceElevated }]}
                     onPress={() => setWizardStep((prev) => (prev - 1) as any)}
                     activeOpacity={0.75}
                   >

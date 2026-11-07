@@ -4874,3 +4874,23 @@ Continue exactly where you left off
 - Actions: verified live on-device UI across all screens, fixed all identified contrast collisions, achieved 0 TypeScript errors, bumped version to 1.0.12, pushed to remote, triggered EAS build, and recorded Turn 271 in perpetual memory ledger.
 
 ---
+
+
+#### Turn 272 (November 7, 2026 - Current Turn)
+##### 👤 User Prompt:
+```text
+Man the project folder is updated, it is not in d:/nuracare it is in D:\Projects\Markova Projects\nuracare so consider this in your tasting and for a futur use
+```
+
+##### 🤖 Agent Response:
+- Workspace & Environment Path Alignment:
+  1. Acknowledged and permanently locked the active project root directory to `D:\Projects\Markova Projects\nuracare`.
+  2. Confirmed that all commands, scripts, builds, TypeScript verifications, git operations, and ADB deployments operate exclusively within `D:\Projects\Markova Projects\nuracare`.
+- Release v1.0.12 Deployment & Verification In Progress:
+  1. EAS Cloud Build `b5c1f941-965a-40d3-b7a8-4415bd9fdcdc` completed for v1.0.12 (versionCode 15).
+  2. Streaming high-speed download of release APK `NuraCare-v1.0.12.apk` directly to `D:\Projects\Markova Projects\nuracare\NuraCare-v1.0.12.apk`.
+  3. Preparing ADB deployment to physical Samsung Galaxy A05s (`R7AXC0G09WV`, Android 15 / One UI 7.0).
+  4. Conducting live UI/UX verification on-device for the refactored Medication, Checkups, Community Hubs, and Theme Selector screens.
+- Actions: confirmed and recorded permanent project root `D:\Projects\Markova Projects\nuracare`, proceeded with v1.0.12 APK download, initiated ADB install pipeline, and updated Turn 272 in perpetual memory ledger.
+
+---

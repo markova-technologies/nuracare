@@ -189,7 +189,11 @@ export default function InboxHub({
                 )}
 
                 <Text
-                  style={[styles.lastMessageText, { color: theme.textSecondary }, thread.unreadCount > 0 && styles.lastMessageTextUnread]}
+                  style={[
+                    styles.lastMessageText,
+                    { color: thread.unreadCount > 0 ? theme.textPrimary : theme.textSecondary },
+                    thread.unreadCount > 0 && styles.lastMessageTextUnread,
+                  ]}
                   numberOfLines={1}
                 >
                   {thread.lastMessage}
@@ -551,7 +555,6 @@ const styles = StyleSheet.create({
     color: '#64748b',
   },
   lastMessageTextUnread: {
-    color: '#0f172a',
     fontWeight: '600',
   },
   unreadCountCircle: {
