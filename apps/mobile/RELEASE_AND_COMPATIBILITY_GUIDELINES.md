@@ -119,3 +119,4 @@ After the APK artifact is compiled and downloaded:
    - Welcome Screen rendered with smooth ambient particle motion.
    - Guest Mode Onboarding navigation responsive across all steps.
    - Sign In and Sign Up screens responsive.
+
