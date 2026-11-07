@@ -1,27 +1,29 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useProfile } from '../src/context/ProfileContext';
 import { ChevronLeft, ClipboardList, Calendar, TrendingUp, Activity, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react-native';
 
 export default function RecordsScreen() {
+  const insets = useSafeAreaInsets();
   const { profile } = useProfile();
   const records = profile?.records || [];
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+      <View style={[styles.header, { paddingTop: Math.max(insets.top, 16) + 10 }]}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
           <ChevronLeft size={24} color="#64748b" />
         </TouchableOpacity>
         <View style={styles.headerTextWrap}>
           <Text style={styles.title}>Medical Records</Text>
           <Text style={styles.subtitle}>Your historical health vault</Text>
         </View>
-        <View style={{ width: 40 }} />
+        <View style={{ width: 44 }} />
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentInner}>
+      <ScrollView style={styles.content} contentContainerStyle={[styles.contentInner, { paddingBottom: Math.max(insets.bottom, 16) + 30 }]}>
         {(!records || records.length === 0) ? (
           <View style={styles.emptyState}>
             <ClipboardList size={64} color="#cbd5e1" />
@@ -128,7 +130,7 @@ function ExpandableRecordCard({ r }: { r: any }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f8fafc' },
   header: { flexDirection: 'row', alignItems: 'center', padding: 20, paddingTop: 60, backgroundColor: '#ffffff', borderBottomWidth: 1, borderColor: '#e2e8f0' },
-  backBtn: { padding: 8, backgroundColor: '#f1f5f9', borderRadius: 20 },
+  backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f1f5f9', borderRadius: 22 },
   headerTextWrap: { flex: 1, alignItems: 'center' },
   title: { fontSize: 20, fontWeight: 'bold', color: '#0f172a' },
   subtitle: { fontSize: 13, color: '#64748b', marginTop: 2 },

@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useAuthStore, useWellnessStore } from '../src/store';
 import { useProfile } from '../src/context/ProfileContext';
@@ -44,6 +45,7 @@ import ThemeSelectorModal from '../src/components/theme/ThemeSelectorModal';
 import { checkForAppUpdates } from '../src/services/versionCheck';
 
 export default function ProfileScreen() {
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const { user, setUser } = useAuthStore();
   const { setScore } = useWellnessStore();
@@ -155,7 +157,16 @@ export default function ProfileScreen() {
   return (
     <View style={[styles.outer, { backgroundColor: theme.background }]}>
       {/* Top Custom Navigation Header */}
-      <View style={[styles.topNav, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+      <View
+        style={[
+          styles.topNav,
+          {
+            backgroundColor: theme.surface,
+            borderColor: theme.border,
+            paddingTop: Math.max(insets.top, 16) + 8,
+          },
+        ]}
+      >
         <TouchableOpacity
           style={[styles.backBtn, { backgroundColor: theme.surfaceElevated }]}
           onPress={() => router.back()}
@@ -173,7 +184,14 @@ export default function ProfileScreen() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={[
+          styles.contentContainer,
+          { paddingBottom: Math.max(insets.bottom, 16) + 36 },
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Profile Hero Card */}
         <View style={[styles.profileHeroCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
           <View style={styles.heroRow}>
@@ -531,7 +549,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: Platform.OS === 'ios' ? 54 : 42,
     paddingBottom: 14,
     borderBottomWidth: 1,
   },

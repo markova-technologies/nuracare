@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Volume2, VolumeX } from 'lucide-react-native';
 import { useTheme } from '../../context/ThemeContext';
 import Svg, {
@@ -149,6 +150,7 @@ export default function FloatingNatureBackground({
   children,
   showSoundToggle = true,
 }: FloatingNatureBackgroundProps) {
+  const insets = useSafeAreaInsets();
   const { theme, isDark } = useTheme();
   const [isPlayingSound, setIsPlayingSound] = useState(false);
 
@@ -401,10 +403,7 @@ export default function FloatingNatureBackground({
         </Svg>
       </Animated.View>
 
-      {/* Screen Content */}
-      <View style={styles.contentWrap}>{children}</View>
-
-      {/* 3D Falling Nature Elements floating above content */}
+      {/* 3D Falling Nature Elements floating gracefully in background */}
       {elementsConfig.map((el, idx) => {
         const anim = animatedValues[idx].progress;
 
@@ -455,11 +454,15 @@ export default function FloatingNatureBackground({
         );
       })}
 
+      {/* Screen Content */}
+      <View style={styles.contentWrap}>{children}</View>
+
       {/* Interactive Floating Sound Pill */}
       {showSoundToggle && (
         <TouchableOpacity
           style={[
             styles.soundPill,
+            { bottom: Math.max(insets.bottom, 12) + 16 },
             isDark && {
               backgroundColor: theme.surfaceElevated,
               borderColor: theme.border,
@@ -512,19 +515,20 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    zIndex: 9999, // Above content
-    elevation: 9999,
+    zIndex: 0, // Behind content
+    elevation: 0,
   },
   leaf: {
     position: 'absolute',
     top: 0,
     left: 0,
-    zIndex: 9999,
-    elevation: 9999,
+    zIndex: 0,
+    elevation: 0,
   },
   contentWrap: {
     flex: 1,
-    zIndex: 2,
+    zIndex: 1,
+    elevation: 1,
   },
   soundPill: {
     position: 'absolute',

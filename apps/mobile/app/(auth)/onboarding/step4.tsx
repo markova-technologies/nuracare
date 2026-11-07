@@ -7,6 +7,7 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Sparkles, CheckCircle2, Heart, ShieldCheck, Users, Pill, ArrowRight } from 'lucide-react-native';
 import { saveProfile, getProfile } from '../../../src/storage/profileStorage';
@@ -14,6 +15,7 @@ import { useAuthStore } from '../../../src/store';
 import { useProfile } from '../../../src/context/ProfileContext';
 
 export default function OnboardingStep4() {
+  const insets = useSafeAreaInsets();
   const existingProfile = getProfile() || {};
   const { user: storeUser, setUser } = useAuthStore();
   const { setProfile } = useProfile();
@@ -52,7 +54,16 @@ export default function OnboardingStep4() {
 
   return (
     <View style={{ flex: 1, backgroundColor: 'transparent' }}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={[
+          styles.content,
+          {
+            paddingTop: Math.max(insets.top, 16) + 12,
+            paddingBottom: Math.max(insets.bottom, 16) + 24,
+          },
+        ]}
+      >
         <View style={styles.header}>
           <View style={styles.stepPill}>
             <Text style={styles.stepText}>Final Step</Text>
@@ -103,8 +114,6 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   content: {
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 60 : 44,
-    paddingBottom: 40,
     justifyContent: 'center',
   },
   header: {

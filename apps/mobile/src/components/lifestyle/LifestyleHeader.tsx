@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Calendar, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react-native';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -15,6 +16,7 @@ export default function LifestyleHeader({
   onOpenQuickActions,
 }: LifestyleHeaderProps) {
   const { theme, isDark } = useTheme();
+  const insets = useSafeAreaInsets();
 
   // Generate 7 days ending today
   const days = React.useMemo(() => {
@@ -37,7 +39,7 @@ export default function LifestyleHeader({
   }, []);
 
   return (
-    <View style={[styles.headerContainer, { backgroundColor: theme.surface, borderBottomColor: theme.border }]}>
+    <View style={[styles.headerContainer, { backgroundColor: theme.surface, borderBottomColor: theme.border, paddingTop: Math.max(insets.top, 16) + 8 }]}>
       <View style={styles.topRow}>
         <View>
           <Text style={[styles.title, { color: theme.textPrimary }]}>Lifestyle</Text>

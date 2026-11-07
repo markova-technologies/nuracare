@@ -11,6 +11,7 @@ import {
   Switch,
   Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTheme } from '../../src/context/ThemeContext';
 import {
@@ -43,6 +44,7 @@ import {
 
 export default function MedicationScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { theme, isDark } = useTheme();
   const [schedule, setSchedule] = useState<ScheduledDose[]>([]);
   const [allMeds, setAllMeds] = useState<MedicationItem[]>([]);
@@ -149,7 +151,7 @@ export default function MedicationScreen() {
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: theme.surface, borderBottomColor: theme.border }]}>
+      <View style={[styles.header, { backgroundColor: theme.surface, borderBottomColor: theme.border, paddingTop: Math.max(insets.top, 16) + 10 }]}>
         <View>
           <Text style={[styles.title, { color: theme.textPrimary }]}>Medication & Care</Text>
           <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Daily schedule & adherence tracking</Text>
@@ -186,7 +188,7 @@ export default function MedicationScreen() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={{ paddingBottom: 40 }}>
+      <ScrollView style={styles.content} contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, 16) + 95 }}>
         {/* Adherence Score Summary Card */}
         <View style={[styles.adherenceCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
           <View style={styles.adherenceLeft}>
@@ -385,7 +387,7 @@ export default function MedicationScreen() {
       {/* Add Medication Modal */}
       <Modal visible={showAddModal} animationType="slide" transparent>
         <View style={styles.modalOverlay}>
-          <View style={[styles.modalCard, { backgroundColor: theme.surfaceModal, borderColor: theme.border, borderWidth: 1 }]}>
+          <View style={[styles.modalCard, { backgroundColor: theme.surfaceModal, borderColor: theme.border, borderWidth: 1, paddingBottom: Math.max(insets.bottom, 16) + 16 }]}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Add Medication / Supplement</Text>
               <TouchableOpacity onPress={() => setShowAddModal(false)}>

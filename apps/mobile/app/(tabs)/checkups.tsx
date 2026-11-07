@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import {
   CalendarCheck,
@@ -84,6 +85,7 @@ const BODY_COMFORTS = [
 
 export default function CheckupsScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { theme, isDark } = useTheme();
   const { checkIns, addCheckIn, loadWellnessData } = useWellnessStore();
 
@@ -209,7 +211,7 @@ export default function CheckupsScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: Math.max(insets.top, 16) + 10 }]}>
         <View>
           <Text style={styles.title}>Daily Checkup</Text>
           <Text style={styles.subtitle}>Self-care signals & biological rhythm</Text>
@@ -251,7 +253,7 @@ export default function CheckupsScreen() {
 
       <ScrollView 
         style={styles.content} 
-        contentContainerStyle={{ paddingBottom: 80 }}
+        contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, 16) + 95 }}
         showsVerticalScrollIndicator={false}
       >
         {section === 'daily' ? (

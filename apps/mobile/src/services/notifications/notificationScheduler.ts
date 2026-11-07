@@ -63,6 +63,7 @@ class NotificationScheduler {
       if (Platform.OS !== 'web') {
         try {
           // Dynamic import to avoid web crash if native module isn't loaded
+          // @ts-ignore
           const Notifications = await import('expo-notifications').catch(() => null);
           if (Notifications && Notifications.scheduleNotificationAsync) {
             for (const timeStr of item.times) {
@@ -153,6 +154,7 @@ class NotificationScheduler {
 
     if (Platform.OS !== 'web') {
       try {
+        // @ts-ignore
         const Notifications = await import('expo-notifications').catch(() => null);
         if (Notifications?.scheduleNotificationAsync) {
           await Notifications.scheduleNotificationAsync({
@@ -180,6 +182,7 @@ class NotificationScheduler {
     if (Platform.OS === 'web') return;
 
     try {
+      // @ts-ignore
       const Notifications = await import('expo-notifications').catch(() => null);
       if (!Notifications?.scheduleNotificationAsync) return;
 

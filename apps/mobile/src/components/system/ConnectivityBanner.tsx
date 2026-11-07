@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WifiOff, RefreshCw, CheckCircle2 } from 'lucide-react-native';
 import { useNetworkState, ConnectivityStatus } from '../../services/connectivity/networkMonitor';
 
 export default function ConnectivityBanner() {
+  const insets = useSafeAreaInsets();
   const { status } = useNetworkState();
   const [visible, setVisible] = useState(false);
   const [message, setMessage] = useState('');
@@ -44,7 +46,15 @@ export default function ConnectivityBanner() {
   };
 
   return (
-    <View style={[styles.banner, { backgroundColor: bgColors[bannerType] }]}>
+    <View
+      style={[
+        styles.banner,
+        {
+          backgroundColor: bgColors[bannerType],
+          paddingTop: Math.max(insets.top, 0) + 6,
+        },
+      ]}
+    >
       <View style={styles.content}>
         {bannerType === 'offline' && <WifiOff size={14} color="#fde68a" style={styles.icon} />}
         {bannerType === 'reconnecting' && <ActivityIndicator size="small" color="#93c5fd" style={styles.icon} />}

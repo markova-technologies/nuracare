@@ -10,6 +10,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Leaf, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react-native';
 import { useAuth } from '../../src/context/AuthContext';
 import { useAuthStore } from '../../src/store';
@@ -17,6 +18,7 @@ import { router } from 'expo-router';
 import { getProfile, saveProfile } from '../../src/storage/profileStorage';
 
 export default function LoginScreen() {
+  const insets = useSafeAreaInsets();
   const { signInWithEmail, signUpWithEmail, signInWithGoogle, setGuestUser } = useAuth();
   const { setUser } = useAuthStore();
   const [isSignUp, setIsSignUp] = useState(false);
@@ -152,7 +154,14 @@ export default function LoginScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <ScrollView
-          contentContainerStyle={styles.scrollContainer}
+          contentContainerStyle={[
+            styles.scrollContainer,
+            {
+              paddingTop: Math.max(insets.top, 16) + 16,
+              paddingBottom: Math.max(insets.bottom, 16) + 24,
+            },
+          ]}
+          keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
           {/* Brand Header */}
@@ -307,7 +316,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 50,
   },
   brandHeader: {
     alignItems: 'center',

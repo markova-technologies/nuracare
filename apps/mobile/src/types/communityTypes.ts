@@ -1,4 +1,13 @@
 export * from '../shared/types';
+import type {
+  ChallengeCategory,
+  ChallengeRule,
+  ChallengeMode,
+  ChallengeObjective,
+  VerificationType,
+  VerificationStrength,
+  ChallengeParticipant
+} from '../shared/types';
 
 export type CommunityPrimaryTab = 'discovery' | 'challenges' | 'community' | 'inbox';
 

@@ -10,6 +10,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   ShieldCheck,
   Lock,
@@ -56,6 +57,7 @@ import { notificationScheduler } from '../../src/services/notifications/notifica
 
 
 export default function CommunityCenterScreen() {
+  const insets = useSafeAreaInsets();
   const { theme, isDark } = useTheme();
   const { user: authUser } = useAuth();
   const { user: storeUser } = useAuthStore();
@@ -394,7 +396,7 @@ export default function CommunityCenterScreen() {
   return (
     <View style={[styles.screenContainer, { backgroundColor: theme.background }]}>
       {/* Top Header Bar with Privacy Action */}
-      <View style={[styles.topAppBar, { backgroundColor: theme.surface, borderBottomColor: theme.border }]}>
+      <View style={[styles.topAppBar, { backgroundColor: theme.surface, borderBottomColor: theme.border, paddingTop: Math.max(insets.top, 16) + 6 }]}>
         <View style={styles.brandTitleRow}>
           <Text style={[styles.brandTitle, { color: theme.textPrimary }]}>NuraCare Community</Text>
         </View>

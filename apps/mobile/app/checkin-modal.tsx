@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 import { router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWellnessStore } from '../src/store';
 import { useProfile } from '../src/context/ProfileContext';
 import { compute5CoreWellness } from '../src/lib/wellnessEngine';
@@ -9,6 +10,7 @@ import { ChevronRight, ChevronLeft, CheckCircle, Smartphone } from 'lucide-react
 const TOTAL_STEPS = 5;
 
 export default function CheckInModal() {
+  const insets = useSafeAreaInsets();
   const { setScore, addCheckIn, checkIns } = useWellnessStore();
   const { profile } = useProfile();
   const [step, setStep] = useState(1);
@@ -240,9 +242,9 @@ export default function CheckInModal() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: Math.max(insets.top, 16) + 10 }]}>
         {step > 1 ? (
-          <TouchableOpacity onPress={() => setStep(s => s - 1)} style={styles.iconBtn}>
+          <TouchableOpacity onPress={() => setStep(s => s - 1)} style={styles.iconBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
             <ChevronLeft size={24} color="#0f172a" />
           </TouchableOpacity>
         ) : <View style={styles.iconBtnSpacer} />}
@@ -253,12 +255,12 @@ export default function CheckInModal() {
           ))}
         </View>
 
-        <TouchableOpacity onPress={() => router.back()} style={styles.iconBtn}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.iconBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
           <Text style={styles.cancelText}>Skip</Text>
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentInner}>
+      <ScrollView style={styles.content} contentContainerStyle={[styles.contentInner, { paddingBottom: Math.max(insets.bottom, 16) + 20 }]}>
         {step === 1 && renderStep1()}
         {step === 2 && renderStep2()}
         {step === 3 && renderStep3()}
@@ -266,7 +268,7 @@ export default function CheckInModal() {
         {step === 5 && renderStep5()}
       </ScrollView>
 
-      <View style={styles.footer}>
+      <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 16) + 16 }]}>
         {step < TOTAL_STEPS ? (
           <TouchableOpacity style={styles.primaryBtn} onPress={() => setStep(s => s + 1)}>
             <Text style={styles.primaryBtnText}>Continue</Text>
@@ -285,7 +287,7 @@ export default function CheckInModal() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#ffffff' },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 20, paddingTop: 60, borderBottomWidth: 1, borderColor: '#f1f5f9' },
-  iconBtn: { padding: 8 },
+  iconBtn: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
   iconBtnSpacer: { width: 40 },
   cancelText: { color: '#64748b', fontSize: 16, fontWeight: '500' },
   progressWrap: { flexDirection: 'row', gap: 6 },

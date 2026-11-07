@@ -154,7 +154,7 @@ export default function InboxHub({
       </View>
 
       {/* 3. Conversation Thread List */}
-      <ScrollView style={styles.threadsScroll} contentContainerStyle={{ paddingBottom: 40 }}>
+      <ScrollView style={styles.threadsScroll} contentContainerStyle={{ paddingBottom: 110 }}>
         {filteredThreads.length > 0 ? (
           filteredThreads.map((thread) => (
             <TouchableOpacity

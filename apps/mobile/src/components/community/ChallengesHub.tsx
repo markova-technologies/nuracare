@@ -897,7 +897,7 @@ export default function ChallengesHub({
                   onSubmitEditing={() => {
                     if (!nuraPrompt.trim()) return;
                     
-                    const userMsg = { id: Date.now().toString(), sender: 'user', text: nuraPrompt.trim() };
+                    const userMsg = { id: Date.now().toString(), sender: 'user' as const, text: nuraPrompt.trim() };
                     setChatMessages(prev => [...prev, userMsg]);
                     setNuraPrompt('');
                     setIsNuraGenerating(true);
@@ -906,7 +906,7 @@ export default function ChallengesHub({
                       setIsNuraGenerating(false);
                       const aiMsg = { 
                         id: (Date.now() + 1).toString(), 
-                        sender: 'nura', 
+                        sender: 'nura' as const, 
                         text: "I've drafted a challenge based on your idea! Here is the blueprint. You can launch it now or tell me what to change.",
                         isBlueprint: true,
                         blueprintData: {
@@ -935,7 +935,7 @@ export default function ChallengesHub({
                   onPress={() => {
                     if (!nuraPrompt.trim()) return;
                     
-                    const userMsg = { id: Date.now().toString(), sender: 'user', text: nuraPrompt.trim() };
+                    const userMsg = { id: Date.now().toString(), sender: 'user' as const, text: nuraPrompt.trim() };
                     setChatMessages(prev => [...prev, userMsg]);
                     setNuraPrompt('');
                     setIsNuraGenerating(true);
@@ -944,7 +944,7 @@ export default function ChallengesHub({
                       setIsNuraGenerating(false);
                       const aiMsg = { 
                         id: (Date.now() + 1).toString(), 
-                        sender: 'nura', 
+                        sender: 'nura' as const, 
                         text: "I've drafted a challenge based on your idea! Here is the blueprint. You can launch it now or tell me what to change.",
                         isBlueprint: true,
                         blueprintData: {
@@ -980,7 +980,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 16,
     paddingTop: 16,
-    paddingBottom: 40,
+    paddingBottom: 110,
   },
   header: {
     flexDirection: 'row',
@@ -1520,6 +1520,13 @@ const styles = StyleSheet.create({
     color: '#64748b',
     lineHeight: 16,
   },
+  wizardModalSheet: {
+    width: '100%',
+    maxHeight: '85%',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    overflow: 'hidden',
+  },
   previewCard: {
     backgroundColor: '#f0fdf4',
     borderWidth: 1,
@@ -1527,6 +1534,32 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     gap: 6,
+  },
+  previewCardInner: {
+    gap: 8,
+  },
+  previewDurationBadge: {
+    backgroundColor: '#dcfce7',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  previewDurationText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#16a34a',
+  },
+  previewVerificationBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    padding: 8,
+    borderRadius: 8,
+    marginTop: 4,
+  },
+  previewVerificationText: {
+    fontSize: 12,
+    fontWeight: '500',
   },
   previewCategory: {
     fontSize: 11,

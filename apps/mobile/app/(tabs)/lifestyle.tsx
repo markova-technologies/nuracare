@@ -8,6 +8,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import {
   Moon,
@@ -81,6 +82,7 @@ import DigitalWellbeingScreen from '../../src/components/digitalWellbeing/Digita
 
 export default function LifestyleScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { theme, isDark } = useTheme();
   const { profile } = useProfile();
 
@@ -259,7 +261,10 @@ export default function LifestyleScreen() {
 
       <ScrollView
         style={styles.scrollContainer}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingBottom: Math.max(insets.bottom, 16) + 95 }
+        ]}
         showsVerticalScrollIndicator={false}
       >
         {/* 2. Welcome Picture Hero Banner */}

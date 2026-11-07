@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Alert
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Send, Bot, ArrowLeft, Mic, MicOff, AlertTriangle, Globe, Sparkles, CheckCircle2, ShieldAlert } from 'lucide-react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useChatStore } from '../src/store';
@@ -26,6 +27,7 @@ import { nuraAgentEngine, AgentProcessResult } from '../src/services/nura/nuraAg
 import { nuraToolExecutor } from '../src/services/nura/nuraToolExecutor';
 
 export default function ChatScreen() {
+  const insets = useSafeAreaInsets();
   const { prompt: paramPrompt } = useLocalSearchParams<{ prompt?: string }>();
   const { messages, addMessage } = useChatStore() as any;
   const { profile } = useProfile();
@@ -217,7 +219,16 @@ export default function ChatScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: theme.surface, borderBottomColor: theme.border }]}>
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: theme.surface,
+            borderBottomColor: theme.border,
+            paddingTop: Math.max(insets.top, 16) + 8,
+          },
+        ]}
+      >
         <TouchableOpacity
           onPress={() => router.back()}
           style={[styles.backBtn, { backgroundColor: theme.surfaceElevated }]}
@@ -366,7 +377,16 @@ export default function ChatScreen() {
       )}
 
       {/* Input Area */}
-      <View style={[styles.inputArea, { backgroundColor: theme.surface, borderTopColor: theme.border }]}>
+      <View
+        style={[
+          styles.inputArea,
+          {
+            backgroundColor: theme.surface,
+            borderTopColor: theme.border,
+            paddingBottom: Math.max(insets.bottom, 12) + 6,
+          },
+        ]}
+      >
         <TouchableOpacity 
           style={[
             styles.micBtn, 
@@ -432,7 +452,6 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     paddingHorizontal: 16, 
     paddingVertical: 14, 
-    paddingTop: Platform.OS === 'ios' ? 52 : 40, 
     borderBottomWidth: 1,
   },
   backBtn: { width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center', marginRight: 10 },

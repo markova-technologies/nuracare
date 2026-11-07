@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useProfile } from '../../../src/context/ProfileContext';
 import { getProfile, saveProfile } from '../../../src/storage/profileStorage';
@@ -17,6 +18,7 @@ import { ArrowLeft, ArrowRight, Upload, FileText, Pill } from 'lucide-react-nati
 import * as DocumentPicker from 'expo-document-picker';
 
 export default function OnboardingStep3() {
+  const insets = useSafeAreaInsets();
   const { profile, setProfile } = useProfile();
   const [medicalNotes, setMedicalNotes] = useState(profile?.medicalNotes || '');
   const [loading, setLoading] = useState(false);
@@ -57,7 +59,17 @@ export default function OnboardingStep3() {
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={[
+            styles.content,
+            {
+              paddingTop: Math.max(insets.top, 16) + 12,
+              paddingBottom: Math.max(insets.bottom, 16) + 24,
+            },
+          ]}
+          keyboardShouldPersistTaps="handled"
+        >
           <View style={styles.header}>
             <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
               <ArrowLeft size={22} color="#0f172a" />
@@ -136,8 +148,6 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   content: {
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 60 : 44,
-    paddingBottom: 40,
   },
   header: {
     flexDirection: 'row',
@@ -146,9 +156,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',

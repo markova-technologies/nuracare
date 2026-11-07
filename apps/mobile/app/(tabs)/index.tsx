@@ -10,6 +10,7 @@ import {
   Modal,
   Image 
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useProfile } from '../../src/context/ProfileContext';
 import { useWellnessStore } from '../../src/store';
@@ -83,6 +84,7 @@ function CircleInfoTeller({
 export default function AdaptiveHomeScreen() {
   const router = useRouter();
   const { theme, isDark } = useTheme();
+  const insets = useSafeAreaInsets();
   const { profile } = useProfile();
   const { checkIns } = useWellnessStore();
   
@@ -271,7 +273,13 @@ export default function AdaptiveHomeScreen() {
     <View style={styles.screenWrapper}>
       <ScrollView 
         style={styles.container}
-        contentContainerStyle={styles.contentContainer}
+        contentContainerStyle={[
+          styles.contentContainer,
+          {
+            paddingTop: Math.max(insets.top, 16) + 8,
+            paddingBottom: Math.max(insets.bottom, 16) + 95,
+          }
+        ]}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl 

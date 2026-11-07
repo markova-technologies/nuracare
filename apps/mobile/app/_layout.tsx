@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Stack, router, useSegments } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useWellnessStore, useAuthStore } from '../src/store';
@@ -24,6 +25,7 @@ SplashScreen.preventAutoHideAsync().catch(() => {});
 async function checkOTAUpdate() {
   if (Platform.OS === 'web') return;
   try {
+    // @ts-ignore
     const Updates = await import('expo-updates').catch(() => null);
     if (!Updates) return;
     // Only run in production (not Expo Go dev)
@@ -88,14 +90,14 @@ function InnerLayout() {
   useEffect(() => {
     if (!isReady || authLoading) return;
 
-    const rootSegment = segments[0];
+    const rootSegment = (segments as string[])[0];
     // If on the entry point / index route, let index.tsx handle initial redirection cleanly
     if (!rootSegment || rootSegment === 'index') {
       return;
     }
 
     const inAuthGroup = rootSegment === '(auth)';
-    const inOnboarding = rootSegment === '(auth)' && segments[1] === 'onboarding';
+    const inOnboarding = rootSegment === '(auth)' && (segments as string[])[1] === 'onboarding';
     
     // Only redirect if unauthenticated and trying to access protected screens
     if (!currentUser) {
@@ -119,7 +121,7 @@ function InnerLayout() {
         }
       }
     }
-  }, [currentUser?.id, authLoading, isReady, segments[0], segments[1]]);
+  }, [currentUser?.id, authLoading, isReady, segments]);
 
   // 1. Maintenance Mode check (server-driven kill switch / maintenance)
   if (config?.emergency?.maintenanceMode) {
@@ -227,17 +229,19 @@ class AppErrorBoundary extends React.Component<
 
 export default function RootLayout() {
   return (
-    <AppErrorBoundary>
-      <AuthProvider>
-        <ProfileProvider>
-          <ThemeProvider>
-            <FloatingNatureBackground showSoundToggle={true}>
-              <InnerLayout />
-            </FloatingNatureBackground>
-          </ThemeProvider>
-        </ProfileProvider>
-      </AuthProvider>
-    </AppErrorBoundary>
+    <SafeAreaProvider>
+      <AppErrorBoundary>
+        <AuthProvider>
+          <ProfileProvider>
+            <ThemeProvider>
+              <FloatingNatureBackground showSoundToggle={true}>
+                <InnerLayout />
+              </FloatingNatureBackground>
+            </ThemeProvider>
+          </ProfileProvider>
+        </AuthProvider>
+      </AppErrorBoundary>
+    </SafeAreaProvider>
   );
 }
 

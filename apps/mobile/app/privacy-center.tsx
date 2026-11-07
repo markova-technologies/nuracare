@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { 
   ShieldCheck, 
   Lock, 
@@ -16,6 +17,7 @@ import {
 
 export default function PrivacyCenterScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const handleDownloadData = () => {
     Alert.alert(
@@ -32,9 +34,13 @@ export default function PrivacyCenterScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+    <ScrollView 
+      style={styles.container} 
+      contentContainerStyle={[styles.contentContainer, { paddingBottom: Math.max(insets.bottom, 16) + 36 }]} 
+      showsVerticalScrollIndicator={false}
+    >
       {/* Top Navigation */}
-      <View style={styles.topNav}>
+      <View style={[styles.topNav, { paddingTop: Math.max(insets.top, 16) + 10 }]}>
         <TouchableOpacity style={styles.backBtn} onPress={() => router.back()} activeOpacity={0.7}>
           <ArrowLeft size={22} color="#0f172a" />
         </TouchableOpacity>
@@ -144,7 +150,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f8fafc' },
   contentContainer: { paddingBottom: 40 },
   topNav: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 52, paddingBottom: 16, backgroundColor: '#ffffff', borderBottomWidth: 1, borderColor: '#e2e8f0' },
-  backBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: '#f1f5f9', alignItems: 'center', justifyContent: 'center' },
+  backBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#f1f5f9', alignItems: 'center', justifyContent: 'center' },
   topNavTitle: { fontSize: 18, fontWeight: '800', color: '#0f172a' },
   heroBox: { margin: 16, padding: 20, backgroundColor: '#f0fdf4', borderRadius: 20, borderWidth: 1, borderColor: '#dcfce7', alignItems: 'center' },
   heroIconCircle: { width: 52, height: 52, borderRadius: 26, backgroundColor: '#dcfce7', alignItems: 'center', justifyContent: 'center', marginBottom: 10 },

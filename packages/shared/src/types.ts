@@ -84,7 +84,8 @@ export type VerificationType =
   | 'location'
   | 'mutual'
   | 'evidence'
-  | 'self_reported';
+  | 'self_reported'
+  | 'self_report';
 
 export type VerificationStrength =
   | 'device'
@@ -92,7 +93,8 @@ export type VerificationStrength =
   | 'location'
   | 'mutual'
   | 'evidence'
-  | 'self_reported';
+  | 'self_reported'
+  | 'self_report';
 
 export interface ChallengeObjective {
   id: string;

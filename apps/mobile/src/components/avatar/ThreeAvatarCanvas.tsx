@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import * as THREE from 'three';
 
@@ -166,12 +166,12 @@ export default function ThreeAvatarCanvas({
     resizeObserver.observe(container);
 
     // 9. ANIMATION LOOP
-    clockRef.current.start();
+    clockRef.current?.start();
     const animate = () => {
       animFrameId.current = requestAnimationFrame(animate);
 
-      const elapsedTime = clockRef.current.getElapsedTime();
-      const delta = clockRef.current.getDelta();
+      const elapsedTime = clockRef.current?.getElapsedTime() ?? 0;
+      const delta = clockRef.current?.getDelta() ?? 0.016;
 
       // Smooth mouse follow with damping
       mousePos.current.x += (mousePos.current.targetX - mousePos.current.x) * 0.08;
@@ -288,7 +288,7 @@ export default function ThreeAvatarCanvas({
   }, [character]);
 
   const handleTriggerTap = () => {
-    tapAnimTime.current = clockRef.current.getElapsedTime();
+    tapAnimTime.current = clockRef.current?.getElapsedTime() ?? 0;
     if (onTap) onTap();
   };
 

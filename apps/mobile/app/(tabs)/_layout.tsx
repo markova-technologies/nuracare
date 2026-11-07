@@ -1,5 +1,6 @@
 import { Tabs, useRouter, useSegments } from 'expo-router';
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Home, CalendarCheck, Pill, Heart, Users, MessageCircle, User } from 'lucide-react-native';
 import { useProfile } from '../../src/context/ProfileContext';
 import { useTheme } from '../../src/context/ThemeContext';
@@ -10,6 +11,8 @@ export default function TabLayout() {
   const segments = useSegments();
   const { profile } = useProfile();
   const { theme, isDark } = useTheme();
+  const insets = useSafeAreaInsets();
+  const bottomInset = Math.max(insets.bottom, 8);
 
   // Show floating chat button permanently on all tabs EXCEPT index (Home)
   const activeTabRoute = (segments as string[])[1] || 'index';
@@ -43,8 +46,8 @@ export default function TabLayout() {
           tabBarStyle: {
             backgroundColor: theme.navBackground,
             borderTopColor: theme.navBorder,
-            height: 62,
-            paddingBottom: 8,
+            height: 54 + bottomInset,
+            paddingBottom: bottomInset,
             paddingTop: 6,
           },
           tabBarLabelStyle: {
@@ -127,7 +130,14 @@ export default function TabLayout() {
       {/* Persistent Floating Chat Launcher on the 4 tabs except Home */}
       {showFloatingChat && (
         <TouchableOpacity
-          style={[styles.floatingChatBtn, { backgroundColor: theme.accent, shadowColor: theme.accent }]}
+          style={[
+            styles.floatingChatBtn,
+            {
+              backgroundColor: theme.accent,
+              shadowColor: theme.accent,
+              bottom: 60 + bottomInset,
+            },
+          ]}
           onPress={() => router.push('/chat')}
           activeOpacity={0.88}
           accessibilityLabel="Open Nura Chat"
