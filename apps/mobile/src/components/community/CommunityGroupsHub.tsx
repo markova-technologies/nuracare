@@ -200,17 +200,17 @@ export default function CommunityGroupsHub({
           {suggestedGroups.map((grp) => (
             <TouchableOpacity
               key={grp.id}
-              style={styles.groupCard}
+              style={[styles.groupCard, { backgroundColor: theme.surface, borderColor: theme.border }]}
               onPress={() => setSelectedGroup(grp)}
               activeOpacity={0.88}
             >
               <View style={styles.groupCardHeader}>
-                <View style={styles.groupCardIcon}>
-                  <Users size={20} color="#16a34a" />
+                <View style={[styles.groupCardIcon, { backgroundColor: theme.accentGlow, borderColor: theme.borderSubtle }]}>
+                  <Users size={20} color={theme.accent} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={[styles.groupCardName, { color: theme.textPrimary }]}>{grp.name}</Text>
-                  <Text style={styles.groupCardMeta}>
+                  <Text style={[styles.groupCardMeta, { color: theme.textSecondary }]}>
                     {grp.membersCount} members • {grp.privacy}
                   </Text>
                 </View>
@@ -235,14 +235,14 @@ export default function CommunityGroupsHub({
 
       {/* 4. Recent Discussions from Communities */}
       <View style={styles.sectionWrap}>
-        <Text style={styles.sectionTitle}>Recent Discussions</Text>
-        <Text style={styles.sectionSub}>Live questions and wellness reflections</Text>
+        <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>Recent Discussions</Text>
+        <Text style={[styles.sectionSub, { color: theme.textSecondary }]}>Live questions and wellness reflections</Text>
 
         <View style={styles.discussionsList}>
           {discussions.map((d) => (
             <TouchableOpacity
               key={d.id}
-              style={styles.discussionCard}
+              style={[styles.discussionCard, { backgroundColor: theme.surface, borderColor: theme.border }]}
               onPress={() => onSelectDiscussion(d)}
               activeOpacity={0.88}
             >
@@ -251,8 +251,8 @@ export default function CommunityGroupsHub({
                   <Text style={styles.avatarInitial}>{d.author[0]}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.discussionAuthor}>{d.author}</Text>
-                  <Text style={styles.discussionMeta}>
+                  <Text style={[styles.discussionAuthor, { color: theme.textPrimary }]}>{d.author}</Text>
+                  <Text style={[styles.discussionMeta, { color: theme.textSecondary }]}>
                     in {d.groupName || 'Community'} • {d.timeAgo}
                   </Text>
                 </View>
@@ -260,12 +260,12 @@ export default function CommunityGroupsHub({
                   onPress={() => onReportItem('discussion', d.title)}
                   hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
                 >
-                  <ShieldAlert size={14} color="#94a3b8" />
+                  <ShieldAlert size={14} color={theme.textTertiary} />
                 </TouchableOpacity>
               </View>
 
-              <Text style={styles.discussionTitle}>{d.title}</Text>
-              <Text style={styles.discussionSnippet} numberOfLines={2}>
+              <Text style={[styles.discussionTitle, { color: theme.textPrimary }]}>{d.title}</Text>
+              <Text style={[styles.discussionSnippet, { color: theme.textSecondary }]} numberOfLines={2}>
                 {d.content}
               </Text>
 
@@ -282,12 +282,13 @@ export default function CommunityGroupsHub({
                 >
                   <Heart
                     size={14}
-                    color={d.userSupported ? '#dc2626' : '#64748b'}
+                    color={d.userSupported ? '#dc2626' : theme.textSecondary}
                     fill={d.userSupported ? '#dc2626' : 'none'}
                   />
                   <Text
                     style={[
                       styles.supportBtnText,
+                      { color: theme.textSecondary },
                       d.userSupported && styles.supportBtnTextActive,
                     ]}
                   >
@@ -296,8 +297,8 @@ export default function CommunityGroupsHub({
                 </TouchableOpacity>
 
                 <View style={styles.commentCountWrap}>
-                  <MessageSquare size={13} color="#64748b" />
-                  <Text style={styles.commentCountText}>{d.commentCount} replies</Text>
+                  <MessageSquare size={13} color={theme.textSecondary} />
+                  <Text style={[styles.commentCountText, { color: theme.textSecondary }]}>{d.commentCount} replies</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -314,47 +315,48 @@ export default function CommunityGroupsHub({
           animationType="slide"
           onRequestClose={() => setSelectedGroup(null)}
         >
-          <View style={styles.groupModalContainer}>
+          <View style={[styles.groupModalContainer, { backgroundColor: theme.background }]}>
             {/* Group Modal Header */}
-            <View style={styles.groupModalHeader}>
+            <View style={[styles.groupModalHeader, { borderBottomColor: theme.borderSubtle }]}>
               <TouchableOpacity
-                style={styles.backModalBtn}
+                style={[styles.backModalBtn, { backgroundColor: theme.surfaceElevated }]}
                 onPress={() => setSelectedGroup(null)}
               >
-                <X size={20} color="#0f172a" />
+                <X size={20} color={theme.textPrimary} />
               </TouchableOpacity>
               <View style={styles.groupModalHeaderActions}>
                 <TouchableOpacity
-                  style={styles.shareBtn}
+                  style={[styles.shareBtn, { backgroundColor: theme.surfaceElevated }]}
                   onPress={() => Alert.alert('Share Link', `Group link copied for ${selectedGroup.name}.`)}
                 >
-                  <Share2 size={16} color="#64748b" />
+                  <Share2 size={16} color={theme.textSecondary} />
                 </TouchableOpacity>
                 <TouchableOpacity
+                  style={{ padding: 8 }}
                   onPress={() => onReportItem('group', selectedGroup.name)}
                 >
-                  <ShieldAlert size={16} color="#64748b" />
+                  <ShieldAlert size={16} color={theme.textTertiary} />
                 </TouchableOpacity>
               </View>
             </View>
 
             <ScrollView style={styles.groupModalBody}>
               {/* Group Hero Banner */}
-              <View style={styles.groupHeroBanner}>
-                <View style={styles.groupHeroIconCircle}>
-                  <Users size={28} color="#16a34a" />
+              <View style={[styles.groupHeroBanner, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+                <View style={[styles.groupHeroIconCircle, { backgroundColor: theme.accentGlow, borderColor: theme.borderSubtle }]}>
+                  <Users size={28} color={theme.accent} />
                 </View>
-                <Text style={styles.groupHeroTitle}>{selectedGroup.name}</Text>
-                <Text style={styles.groupHeroCategory}>{selectedGroup.category}</Text>
+                <Text style={[styles.groupHeroTitle, { color: theme.textPrimary }]}>{selectedGroup.name}</Text>
+                <Text style={[styles.groupHeroCategory, { color: theme.accent }]}>{selectedGroup.category}</Text>
 
                 <View style={styles.groupHeroMetaRow}>
                   <View style={styles.heroMetaItem}>
-                    <Users size={13} color="#64748b" />
-                    <Text style={styles.heroMetaText}>{selectedGroup.membersCount} members</Text>
+                    <Users size={13} color={theme.textSecondary} />
+                    <Text style={[styles.heroMetaText, { color: theme.textSecondary }]}>{selectedGroup.membersCount} members</Text>
                   </View>
                   <View style={styles.heroMetaItem}>
-                    <ShieldCheck size={13} color="#16a34a" />
-                    <Text style={styles.heroMetaText}>{selectedGroup.privacy}</Text>
+                    <ShieldCheck size={13} color={theme.accent} />
+                    <Text style={[styles.heroMetaText, { color: theme.textSecondary }]}>{selectedGroup.privacy}</Text>
                   </View>
                 </View>
 
@@ -539,42 +541,42 @@ export default function CommunityGroupsHub({
         onRequestClose={() => setShowCreateGroupWizard(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalSheet}>
-            <View style={styles.sheetHeader}>
+          <View style={[styles.modalSheet, { backgroundColor: theme.surfaceModal, borderColor: theme.border }]}>
+            <View style={[styles.sheetHeader, { borderBottomColor: theme.borderSubtle }]}>
               <View>
-                <Text style={styles.sheetTitle}>Create Community</Text>
-                <Text style={styles.sheetSubtitle}>Step {wizardStep} of 4</Text>
+                <Text style={[styles.sheetTitle, { color: theme.textPrimary }]}>Create Community</Text>
+                <Text style={[styles.sheetSubtitle, { color: theme.textSecondary }]}>Step {wizardStep} of 4</Text>
               </View>
               <TouchableOpacity
                 onPress={() => setShowCreateGroupWizard(false)}
-                style={styles.sheetCloseBtn}
+                style={[styles.sheetCloseBtn, { backgroundColor: theme.surfaceElevated }]}
               >
-                <X size={20} color="#64748b" />
+                <X size={20} color={theme.textSecondary} />
               </TouchableOpacity>
             </View>
 
             <ScrollView style={styles.sheetBody}>
               {wizardStep === 1 && (
                 <View style={styles.wizardStepWrap}>
-                  <Text style={styles.stepTitle}>Basic Information</Text>
-                  <Text style={styles.stepDesc}>
+                  <Text style={[styles.stepTitle, { color: theme.textPrimary }]}>Basic Information</Text>
+                  <Text style={[styles.stepDesc, { color: theme.textSecondary }]}>
                     Give your community a clear, welcoming name and mission.
                   </Text>
 
-                  <Text style={styles.inputLabel}>Community Name</Text>
+                  <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Community Name</Text>
                   <TextInput
-                    style={styles.textInput}
+                    style={[styles.textInput, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                     placeholder="e.g. Addis Sunrise Runners"
-                    placeholderTextColor="#94a3b8"
+                    placeholderTextColor={theme.placeholderText}
                     value={newGroupName}
                     onChangeText={setNewGroupName}
                   />
 
-                  <Text style={styles.inputLabel}>Description</Text>
+                  <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Description</Text>
                   <TextInput
-                    style={[styles.textInput, { minHeight: 64 }]}
+                    style={[styles.textInput, { minHeight: 64, backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                     placeholder="Describe what members connect over..."
-                    placeholderTextColor="#94a3b8"
+                    placeholderTextColor={theme.placeholderText}
                     value={newGroupDesc}
                     onChangeText={setNewGroupDesc}
                     multiline
@@ -741,32 +743,32 @@ export default function CommunityGroupsHub({
         onRequestClose={() => setShowNewDiscussionModal(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalSheet}>
-            <View style={styles.sheetHeader}>
-              <Text style={styles.sheetTitle}>Start a Discussion</Text>
+          <View style={[styles.modalSheet, { backgroundColor: theme.surfaceModal, borderColor: theme.border }]}>
+            <View style={[styles.sheetHeader, { borderBottomColor: theme.borderSubtle }]}>
+              <Text style={[styles.sheetTitle, { color: theme.textPrimary }]}>Start a Discussion</Text>
               <TouchableOpacity
                 onPress={() => setShowNewDiscussionModal(false)}
-                style={styles.sheetCloseBtn}
+                style={[styles.sheetCloseBtn, { backgroundColor: theme.surfaceElevated }]}
               >
-                <X size={20} color="#64748b" />
+                <X size={20} color={theme.textSecondary} />
               </TouchableOpacity>
             </View>
 
             <View style={{ padding: 20, gap: 12 }}>
-              <Text style={styles.inputLabel}>Topic Title</Text>
+              <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Topic Title</Text>
               <TextInput
-                style={styles.textInput}
+                style={[styles.textInput, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                 placeholder="What question or reflection would you like to share?"
-                placeholderTextColor="#94a3b8"
+                placeholderTextColor={theme.placeholderText}
                 value={discTitle}
                 onChangeText={setDiscTitle}
               />
 
-              <Text style={styles.inputLabel}>Details & Thoughts</Text>
+              <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Details & Thoughts</Text>
               <TextInput
-                style={[styles.textInput, { minHeight: 100 }]}
+                style={[styles.textInput, { minHeight: 100, backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                 placeholder="Share your experience or context..."
-                placeholderTextColor="#94a3b8"
+                placeholderTextColor={theme.placeholderText}
                 value={discContent}
                 onChangeText={setDiscContent}
                 multiline

@@ -159,7 +159,11 @@ export default function InboxHub({
           filteredThreads.map((thread) => (
             <TouchableOpacity
               key={thread.id}
-              style={[styles.threadRow, thread.unreadCount > 0 && styles.threadRowUnread]}
+              style={[
+                styles.threadRow,
+                { backgroundColor: theme.surface, borderColor: theme.border },
+                thread.unreadCount > 0 && { borderColor: theme.accent },
+              ]}
               onPress={() => setActiveChatThread(thread)}
               activeOpacity={0.85}
             >
@@ -174,18 +178,18 @@ export default function InboxHub({
               {/* Thread Info */}
               <View style={{ flex: 1 }}>
                 <View style={styles.threadTopRow}>
-                  <Text style={[styles.senderName, thread.unreadCount > 0 && styles.senderNameUnread]}>
+                  <Text style={[styles.senderName, { color: theme.textPrimary }, thread.unreadCount > 0 && styles.senderNameUnread]}>
                     {thread.senderName}
                   </Text>
-                  <Text style={styles.timeAgoText}>{thread.timeAgo}</Text>
+                  <Text style={[styles.timeAgoText, { color: theme.textTertiary }]}>{thread.timeAgo}</Text>
                 </View>
 
                 {thread.roleSubtitle && (
-                  <Text style={styles.roleSubtitle}>{thread.roleSubtitle}</Text>
+                  <Text style={[styles.roleSubtitle, { color: theme.accent }]}>{thread.roleSubtitle}</Text>
                 )}
 
                 <Text
-                  style={[styles.lastMessageText, thread.unreadCount > 0 && styles.lastMessageTextUnread]}
+                  style={[styles.lastMessageText, { color: theme.textSecondary }, thread.unreadCount > 0 && styles.lastMessageTextUnread]}
                   numberOfLines={1}
                 >
                   {thread.lastMessage}
@@ -219,7 +223,7 @@ export default function InboxHub({
                   <Text style={styles.unreadCountText}>{thread.unreadCount}</Text>
                 </View>
               ) : (
-                <ChevronRight size={16} color="#cbd5e1" />
+                <ChevronRight size={16} color={theme.textTertiary} />
               )}
             </TouchableOpacity>
           ))
@@ -252,9 +256,9 @@ export default function InboxHub({
             <View style={[styles.chatModalHeader, { backgroundColor: theme.surface, borderBottomColor: theme.border }]}>
               <TouchableOpacity
                 onPress={() => setActiveChatThread(null)}
-                style={styles.chatBackBtn}
+                style={[styles.chatBackBtn, { backgroundColor: theme.surfaceElevated }]}
               >
-                <X size={20} color="#0f172a" />
+                <X size={20} color={theme.textPrimary} />
               </TouchableOpacity>
 
               <View style={[styles.avatarCircleSmall, { backgroundColor: activeChatThread.avatarBg }]}>
@@ -262,8 +266,8 @@ export default function InboxHub({
               </View>
 
               <View style={{ flex: 1, marginLeft: 10 }}>
-                <Text style={styles.chatHeaderName}>{activeChatThread.senderName}</Text>
-                <Text style={styles.chatHeaderStatus}>
+                <Text style={[styles.chatHeaderName, { color: theme.textPrimary }]}>{activeChatThread.senderName}</Text>
+                <Text style={[styles.chatHeaderStatus, { color: theme.textSecondary }]}>
                   {activeChatThread.isOnline ? 'Active now' : 'Encouraging peer'}
                 </Text>
               </View>
@@ -272,13 +276,13 @@ export default function InboxHub({
                 onPress={() => onReportUser(activeChatThread.senderName)}
                 style={{ padding: 6 }}
               >
-                <ShieldAlert size={18} color="#94a3b8" />
+                <ShieldAlert size={18} color={theme.textTertiary} />
               </TouchableOpacity>
             </View>
 
             {/* Chat Messages Body */}
             <ScrollView
-              style={styles.chatMessagesBody}
+              style={[styles.chatMessagesBody, { backgroundColor: theme.background }]}
               contentContainerStyle={{ padding: 16, gap: 12 }}
             >
               {activeChatThread.messages.map((msg) => {
@@ -288,13 +292,25 @@ export default function InboxHub({
                     key={msg.id}
                     style={[styles.messageBubbleWrap, isMe ? styles.bubbleWrapMe : styles.bubbleWrapThem]}
                   >
-                    <View style={[styles.messageBubble, isMe ? styles.bubbleMe : styles.bubbleThem]}>
-                      <Text style={[styles.messageText, isMe ? styles.messageTextMe : styles.messageTextThem]}>
+                    <View
+                      style={[
+                        styles.messageBubble,
+                        isMe
+                          ? styles.bubbleMe
+                          : [styles.bubbleThem, { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle }],
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.messageText,
+                          isMe ? styles.messageTextMe : [styles.messageTextThem, { color: theme.textPrimary }],
+                        ]}
+                      >
                         {msg.text}
                       </Text>
                     </View>
                     <View style={styles.msgMetaRow}>
-                      <Text style={styles.msgTimestamp}>{msg.time}</Text>
+                      <Text style={[styles.msgTimestamp, { color: theme.textTertiary }]}>{msg.time}</Text>
                       {isMe && (
                         <CheckCheck size={13} color="#16a34a" style={{ marginLeft: 3 }} />
                       )}
@@ -308,23 +324,30 @@ export default function InboxHub({
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.quickPromptsRow}
+              contentContainerStyle={[styles.quickPromptsRow, { backgroundColor: theme.surface }]}
             >
               {quickPrompts.map((prompt, i) => (
                 <TouchableOpacity
                   key={i}
-                  style={styles.promptChip}
+                  style={[styles.promptChip, { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle }]}
                   onPress={() => setInputMessage(prompt)}
                 >
-                  <Text style={styles.promptChipText}>{prompt}</Text>
+                  <Text style={[styles.promptChipText, { color: theme.textSecondary }]}>{prompt}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
 
             {/* Composer Bar */}
-            <View style={styles.chatComposerBar}>
+            <View style={[styles.chatComposerBar, { backgroundColor: theme.surface, borderTopColor: theme.border }]}>
               <TextInput
-                style={styles.chatComposerInput}
+                style={[
+                  styles.chatComposerInput,
+                  {
+                    backgroundColor: theme.inputBackground,
+                    borderColor: theme.inputBorder,
+                    color: theme.inputText,
+                  },
+                ]}
                 placeholder={`Message ${activeChatThread.senderName.split(' ')[0]}...`}
                 placeholderTextColor={theme.placeholderText}
                 value={inputMessage}

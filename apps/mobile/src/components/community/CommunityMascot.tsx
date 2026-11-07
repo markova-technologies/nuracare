@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Sparkles, CheckCircle2, Compass, HeartHandshake } from 'lucide-react-native';
+import { useTheme } from '../../context/ThemeContext';
 
 interface CommunityMascotProps {
   mood?: 'curious' | 'celebrate' | 'welcome' | 'guide';
@@ -13,6 +14,7 @@ export default function CommunityMascot({
   message,
   subtext,
 }: CommunityMascotProps) {
+  const { theme, isDark } = useTheme();
   const getMascotConfig = () => {
     switch (mood) {
       case 'celebrate':
@@ -60,7 +62,15 @@ export default function CommunityMascot({
 
   return (
     <View style={styles.container}>
-      <View style={[styles.mascotCircle, { backgroundColor: config.bgColor, borderColor: config.borderColor }]}>
+      <View
+        style={[
+          styles.mascotCircle,
+          {
+            backgroundColor: isDark ? 'rgba(34, 197, 94, 0.12)' : config.bgColor,
+            borderColor: isDark ? 'rgba(34, 197, 94, 0.3)' : config.borderColor,
+          },
+        ]}
+      >
         {/* Cute Stylized Botanical Sprout Companion */}
         <View style={styles.sproutHead}>
           <View style={styles.leafLeft} />
@@ -80,8 +90,8 @@ export default function CommunityMascot({
         </View>
       </View>
 
-      <Text style={styles.titleText}>{message || config.defaultTitle}</Text>
-      <Text style={styles.subtext}>{subtext || config.defaultSub}</Text>
+      <Text style={[styles.titleText, { color: theme.textPrimary }]}>{message || config.defaultTitle}</Text>
+      <Text style={[styles.subtext, { color: theme.textSecondary }]}>{subtext || config.defaultSub}</Text>
     </View>
   );
 }

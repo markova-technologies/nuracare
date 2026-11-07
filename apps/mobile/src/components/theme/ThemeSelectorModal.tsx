@@ -153,7 +153,7 @@ export default function ThemeSelectorModal({ visible, onClose }: ThemeSelectorMo
                     styles.optionItem,
                     {
                       backgroundColor: isSelected
-                        ? theme.accentDeep
+                        ? (isDark ? theme.accentDeep : '#ecfdf5')
                         : theme.surfaceElevated,
                       borderColor: isSelected ? theme.accent : theme.borderSubtle,
                     },
@@ -193,14 +193,16 @@ export default function ThemeSelectorModal({ visible, onClose }: ThemeSelectorMo
                       <View style={styles.optionTitleRow}>
                         <IconComponent
                           size={15}
-                          color={isSelected ? theme.accent : theme.textSecondary}
+                          color={isSelected ? (isDark ? theme.accent : theme.accentSecondary) : theme.textSecondary}
                           style={{ marginRight: 6 }}
                         />
                         <Text
                           style={[
                             styles.optionLabel,
                             {
-                              color: isSelected ? theme.accent : theme.textPrimary,
+                              color: isSelected
+                                ? (isDark ? '#F2FBF7' : theme.accentSecondary)
+                                : theme.textPrimary,
                               fontWeight: isSelected ? '700' : '600',
                             },
                           ]}
@@ -211,7 +213,11 @@ export default function ThemeSelectorModal({ visible, onClose }: ThemeSelectorMo
                       <Text
                         style={[
                           styles.optionSubtitle,
-                          { color: theme.textSecondary },
+                          {
+                            color: isSelected
+                              ? (isDark ? 'rgba(242, 251, 247, 0.75)' : '#166534')
+                              : theme.textSecondary,
+                          },
                         ]}
                       >
                         {opt.subtitle}

@@ -250,10 +250,19 @@ export default function MedicationScreen() {
                 <View
                   key={dose.doseId}
                   style={[
-                    { backgroundColor: theme.surface, borderColor: theme.border },
                     styles.doseCard,
-                    dose.status === 'taken' && styles.doseCardTaken,
-                    dose.status === 'skipped' && styles.doseCardSkipped,
+                    {
+                      backgroundColor: dose.status === 'taken'
+                        ? (isDark ? '#13281e' : '#f8fafc')
+                        : dose.status === 'skipped'
+                        ? (isDark ? '#2a1414' : '#fef2f2')
+                        : theme.surface,
+                      borderColor: dose.status === 'taken'
+                        ? (isDark ? 'rgba(34, 197, 94, 0.3)' : '#cbd5e1')
+                        : dose.status === 'skipped'
+                        ? (isDark ? 'rgba(239, 68, 68, 0.3)' : '#fecaca')
+                        : theme.border,
+                    },
                   ]}
                 >
                   <View style={[styles.doseTimeCol, { borderRightColor: theme.borderSubtle }]}>
@@ -281,10 +290,10 @@ export default function MedicationScreen() {
                           {
                             backgroundColor:
                               dose.medication.category === 'Prescription'
-                                ? '#fee2e2'
+                                ? (isDark ? 'rgba(239, 68, 68, 0.18)' : '#fee2e2')
                                 : dose.medication.category === 'Vitamin'
-                                ? '#fef3c7'
-                                : '#dcfce7',
+                                ? (isDark ? 'rgba(245, 158, 11, 0.18)' : '#fef3c7')
+                                : (isDark ? 'rgba(22, 163, 74, 0.18)' : '#dcfce7'),
                           },
                         ]}
                       >
@@ -294,10 +303,10 @@ export default function MedicationScreen() {
                             {
                               color:
                                 dose.medication.category === 'Prescription'
-                                  ? '#b91c1c'
+                                  ? (isDark ? '#f87171' : '#b91c1c')
                                   : dose.medication.category === 'Vitamin'
-                                  ? '#b45309'
-                                  : '#15803d',
+                                  ? (isDark ? '#fbbf24' : '#b45309')
+                                  : (isDark ? '#4ade80' : '#15803d'),
                             },
                           ]}
                         >
@@ -320,12 +329,12 @@ export default function MedicationScreen() {
                     {/* Action buttons */}
                     <View style={styles.actionRow}>
                       {dose.status === 'taken' ? (
-                        <View style={styles.takenBadge}>
+                        <View style={[styles.takenBadge, { backgroundColor: isDark ? 'rgba(22, 163, 74, 0.18)' : '#f0fdf4' }]}>
                           <CheckCircle2 size={16} color="#16a34a" />
                           <Text style={styles.takenBadgeText}>Taken</Text>
                         </View>
                       ) : dose.status === 'skipped' ? (
-                        <View style={styles.skippedBadge}>
+                        <View style={[styles.skippedBadge, { backgroundColor: isDark ? 'rgba(239, 68, 68, 0.18)' : '#fee2e2' }]}>
                           <XCircle size={16} color="#ef4444" />
                           <Text style={styles.skippedBadgeText}>Skipped</Text>
                         </View>
@@ -339,10 +348,10 @@ export default function MedicationScreen() {
                             <Text style={styles.takeBtnText}>Mark as Taken</Text>
                           </TouchableOpacity>
                           <TouchableOpacity
-                            style={styles.skipBtn}
+                            style={[styles.skipBtn, { borderColor: theme.border, backgroundColor: theme.surfaceElevated }]}
                             onPress={() => handleMarkSkipped(dose)}
                           >
-                            <Text style={styles.skipBtnText}>Skip</Text>
+                            <Text style={[styles.skipBtnText, { color: theme.textSecondary }]}>Skip</Text>
                           </TouchableOpacity>
                         </>
                       )}
@@ -627,21 +636,16 @@ const styles = StyleSheet.create({
   emptyActionBtnText: { color: '#ffffff', fontWeight: '700', fontSize: 13 },
   doseCard: {
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
     borderRadius: 14,
     padding: 14,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
   },
   doseCardTaken: {
-    backgroundColor: '#f8fafc',
-    borderColor: '#cbd5e1',
     opacity: 0.85,
   },
   doseCardSkipped: {
-    backgroundColor: '#fef2f2',
-    borderColor: '#fecaca',
+    opacity: 0.85,
   },
   doseTimeCol: {
     width: 80,

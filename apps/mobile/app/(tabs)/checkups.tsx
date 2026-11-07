@@ -288,7 +288,7 @@ export default function CheckupsScreen() {
             <View style={[styles.funCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
               <View style={styles.cardHeader}>
                 <View style={styles.cardHeaderLeft}>
-                  <View style={styles.sectionIconBubble}>
+                  <View style={[styles.sectionIconBubble, { backgroundColor: theme.accentGlow, borderColor: theme.borderSubtle }]}>
                     <Smile size={18} color="#16a34a" />
                   </View>
                   <Text style={[styles.cardTitle, { color: theme.textPrimary }]}>Emotional & Mental State</Text>
@@ -309,9 +309,9 @@ export default function CheckupsScreen() {
                       key={item.id}
                       style={[
                         styles.moodAvatarCard,
-                        isSelected && {
-                          borderColor: item.color,
-                          backgroundColor: `${item.color}14`,
+                        {
+                          backgroundColor: isSelected ? `${item.color}18` : theme.surfaceElevated,
+                          borderColor: isSelected ? item.color : theme.borderSubtle,
                         },
                       ]}
                       onPress={() => setMood(item.val)}
@@ -339,7 +339,7 @@ export default function CheckupsScreen() {
             <View style={[styles.funCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
               <View style={styles.cardHeader}>
                 <View style={styles.cardHeaderLeft}>
-                  <View style={styles.sectionIconBubble}>
+                  <View style={[styles.sectionIconBubble, { backgroundColor: theme.accentGlow, borderColor: theme.borderSubtle }]}>
                     <Zap size={18} color="#16a34a" />
                   </View>
                   <Text style={[styles.cardTitle, { color: theme.textPrimary }]}>Physical Energy Capacity</Text>
@@ -383,7 +383,7 @@ export default function CheckupsScreen() {
             <View style={[styles.funCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
               <View style={styles.cardHeader}>
                 <View style={styles.cardHeaderLeft}>
-                  <View style={styles.sectionIconBubble}>
+                  <View style={[styles.sectionIconBubble, { backgroundColor: theme.accentGlow, borderColor: theme.borderSubtle }]}>
                     <Moon size={18} color="#16a34a" />
                   </View>
                   <Text style={[styles.cardTitle, { color: theme.textPrimary }]}>Sleep Duration & Rest</Text>
@@ -422,7 +422,7 @@ export default function CheckupsScreen() {
             <View style={[styles.funCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
               <View style={styles.cardHeader}>
                 <View style={styles.cardHeaderLeft}>
-                  <View style={styles.sectionIconBubble}>
+                  <View style={[styles.sectionIconBubble, { backgroundColor: theme.accentGlow, borderColor: theme.borderSubtle }]}>
                     <Activity size={18} color="#16a34a" />
                   </View>
                   <Text style={[styles.cardTitle, { color: theme.textPrimary }]}>Nervous System Load</Text>
@@ -464,7 +464,7 @@ export default function CheckupsScreen() {
             <View style={[styles.funCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
               <View style={styles.cardHeader}>
                 <View style={styles.cardHeaderLeft}>
-                  <View style={styles.sectionIconBubble}>
+                  <View style={[styles.sectionIconBubble, { backgroundColor: theme.accentGlow, borderColor: theme.borderSubtle }]}>
                     <Droplets size={18} color="#0284c7" />
                   </View>
                   <Text style={[styles.cardTitle, { color: theme.textPrimary }]}>Hydration Pace</Text>
@@ -480,12 +480,17 @@ export default function CheckupsScreen() {
                       key={cup}
                       style={[
                         styles.waterDropBtn,
-                        filled && styles.waterDropBtnFilled,
+                        {
+                          backgroundColor: filled
+                            ? (isDark ? 'rgba(2, 132, 199, 0.28)' : '#e0f2fe')
+                            : theme.surfaceElevated,
+                          borderColor: filled ? '#0284c7' : theme.borderSubtle,
+                        },
                       ]}
                       onPress={() => setWaterCups(cup === waterCups ? cup - 1 : cup)}
                       activeOpacity={0.7}
                     >
-                      <Droplets size={17} color={filled ? '#0284c7' : '#94a3b8'} />
+                      <Droplets size={17} color={filled ? '#0284c7' : (isDark ? theme.textTertiary : '#94a3b8')} />
                     </TouchableOpacity>
                   );
                 })}
@@ -499,7 +504,7 @@ export default function CheckupsScreen() {
             <View style={[styles.funCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
               <View style={styles.cardHeader}>
                 <View style={styles.cardHeaderLeft}>
-                  <View style={styles.sectionIconBubble}>
+                  <View style={[styles.sectionIconBubble, { backgroundColor: theme.accentGlow, borderColor: theme.borderSubtle }]}>
                     <Heart size={18} color="#16a34a" />
                   </View>
                   <Text style={[styles.cardTitle, { color: theme.textPrimary }]}>Musculoskeletal Comfort</Text>
@@ -900,11 +905,9 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(187, 247, 208, 0.8)',
   },
   cardTitle: {
     flex: 1,
@@ -931,12 +934,10 @@ const styles = StyleSheet.create({
   moodAvatarCard: {
     width: 104,
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.88)',
     borderRadius: 16,
     paddingVertical: 14,
     paddingHorizontal: 8,
     borderWidth: 1.2,
-    borderColor: 'rgba(187, 247, 208, 0.65)',
     position: 'relative',
   },
   moodIconWrap: {

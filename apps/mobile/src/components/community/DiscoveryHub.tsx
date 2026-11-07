@@ -224,24 +224,24 @@ export default function DiscoveryHub({
           {(selectedCategory === 'All' || selectedCategory === 'Groups') &&
             filteredGroups.length > 0 && (
               <View style={styles.resultGroup}>
-                <Text style={styles.subCategoryTitle}>Groups ({filteredGroups.length})</Text>
+                <Text style={[styles.subCategoryTitle, { color: theme.textSecondary }]}>Groups ({filteredGroups.length})</Text>
                 {filteredGroups.map((grp) => (
                   <TouchableOpacity
                     key={grp.id}
-                    style={styles.searchItemCard}
+                    style={[styles.searchItemCard, { backgroundColor: theme.surface, borderColor: theme.border }]}
                     onPress={() => onSelectGroup(grp)}
                     activeOpacity={0.85}
                   >
-                    <View style={styles.searchItemIconWrap}>
-                      <Users size={18} color="#16a34a" />
+                    <View style={[styles.searchItemIconWrap, { backgroundColor: theme.accentGlow }]}>
+                      <Users size={18} color={theme.accent} />
                     </View>
                     <View style={{ flex: 1 }}>
-                      <Text style={styles.searchItemTitle}>{grp.name}</Text>
-                      <Text style={styles.searchItemMeta}>
+                      <Text style={[styles.searchItemTitle, { color: theme.textPrimary }]}>{grp.name}</Text>
+                      <Text style={[styles.searchItemMeta, { color: theme.textSecondary }]}>
                         {grp.membersCount} members • {grp.category}
                       </Text>
                     </View>
-                    <ChevronRight size={16} color="#cbd5e1" />
+                    <ChevronRight size={16} color={theme.textTertiary} />
                   </TouchableOpacity>
                 ))}
               </View>
@@ -251,11 +251,11 @@ export default function DiscoveryHub({
           {(selectedCategory === 'All' || selectedCategory === 'Challenges') &&
             filteredChallenges.length > 0 && (
               <View style={styles.resultGroup}>
-                <Text style={styles.subCategoryTitle}>Challenges ({filteredChallenges.length})</Text>
+                <Text style={[styles.subCategoryTitle, { color: theme.textSecondary }]}>Challenges ({filteredChallenges.length})</Text>
                 {filteredChallenges.map((ch) => (
                   <TouchableOpacity
                     key={ch.id}
-                    style={styles.searchItemCard}
+                    style={[styles.searchItemCard, { backgroundColor: theme.surface, borderColor: theme.border }]}
                     onPress={() => onSelectChallenge(ch)}
                     activeOpacity={0.85}
                   >
@@ -268,12 +268,12 @@ export default function DiscoveryHub({
                       <Trophy size={18} color={ch.coverColor} />
                     </View>
                     <View style={{ flex: 1 }}>
-                      <Text style={styles.searchItemTitle}>{ch.title}</Text>
-                      <Text style={styles.searchItemMeta}>
+                      <Text style={[styles.searchItemTitle, { color: theme.textPrimary }]}>{ch.title}</Text>
+                      <Text style={[styles.searchItemMeta, { color: theme.textSecondary }]}>
                         {ch.durationDays} Days • {ch.participantsCount} participants
                       </Text>
                     </View>
-                    <ChevronRight size={16} color="#cbd5e1" />
+                    <ChevronRight size={16} color={theme.textTertiary} />
                   </TouchableOpacity>
                 ))}
               </View>
@@ -283,26 +283,26 @@ export default function DiscoveryHub({
           {(selectedCategory === 'All' || selectedCategory === 'Discussions') &&
             filteredDiscussions.length > 0 && (
               <View style={styles.resultGroup}>
-                <Text style={styles.subCategoryTitle}>Discussions ({filteredDiscussions.length})</Text>
+                <Text style={[styles.subCategoryTitle, { color: theme.textSecondary }]}>Discussions ({filteredDiscussions.length})</Text>
                 {filteredDiscussions.map((d) => (
                   <TouchableOpacity
                     key={d.id}
-                    style={styles.searchItemCard}
+                    style={[styles.searchItemCard, { backgroundColor: theme.surface, borderColor: theme.border }]}
                     onPress={() => onSelectDiscussion(d)}
                     activeOpacity={0.85}
                   >
-                    <View style={styles.searchItemIconWrap}>
+                    <View style={[styles.searchItemIconWrap, { backgroundColor: 'rgba(2, 132, 199, 0.15)' }]}>
                       <MessageSquare size={18} color="#0284c7" />
                     </View>
                     <View style={{ flex: 1 }}>
-                      <Text style={styles.searchItemTitle} numberOfLines={1}>
+                      <Text style={[styles.searchItemTitle, { color: theme.textPrimary }]} numberOfLines={1}>
                         {d.title}
                       </Text>
-                      <Text style={styles.searchItemMeta}>
+                      <Text style={[styles.searchItemMeta, { color: theme.textSecondary }]}>
                         By {d.author} • {d.commentCount} comments
                       </Text>
                     </View>
-                    <ChevronRight size={16} color="#cbd5e1" />
+                    <ChevronRight size={16} color={theme.textTertiary} />
                   </TouchableOpacity>
                 ))}
               </View>
@@ -312,9 +312,9 @@ export default function DiscoveryHub({
           {(selectedCategory === 'All' || selectedCategory === 'People') &&
             filteredPeople.length > 0 && (
               <View style={styles.resultGroup}>
-                <Text style={styles.subCategoryTitle}>People ({filteredPeople.length})</Text>
+                <Text style={[styles.subCategoryTitle, { color: theme.textSecondary }]}>People ({filteredPeople.length})</Text>
                 {filteredPeople.map((p) => (
-                  <View key={p.id} style={styles.searchItemCard}>
+                  <View key={p.id} style={[styles.searchItemCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
                     <View
                       style={[
                         styles.avatarCircleSmall,
@@ -324,8 +324,8 @@ export default function DiscoveryHub({
                       <Text style={styles.avatarInitialSmall}>{p.initials}</Text>
                     </View>
                     <View style={{ flex: 1 }}>
-                      <Text style={styles.searchItemTitle}>{p.name}</Text>
-                      <Text style={styles.searchItemMeta}>{p.role}</Text>
+                      <Text style={[styles.searchItemTitle, { color: theme.textPrimary }]}>{p.name}</Text>
+                      <Text style={[styles.searchItemMeta, { color: theme.textSecondary }]}>{p.role}</Text>
                     </View>
                     <TouchableOpacity
                       style={[
@@ -386,17 +386,17 @@ export default function DiscoveryHub({
               {(showAllTrending ? groups : groups.slice(0, 2)).map((grp) => (
                 <TouchableOpacity
                   key={grp.id}
-                  style={styles.communityCard}
+                  style={[styles.communityCard, { backgroundColor: theme.surface, borderColor: theme.border }]}
                   onPress={() => onSelectGroup(grp)}
                   activeOpacity={0.88}
                 >
                   <View style={styles.communityCardHeader}>
-                    <View style={styles.groupIconCircle}>
-                      <Users size={20} color="#16a34a" />
+                    <View style={[styles.groupIconCircle, { backgroundColor: theme.accentGlow, borderColor: theme.borderSubtle }]}>
+                      <Users size={20} color={theme.accent} />
                     </View>
                     <View style={{ flex: 1 }}>
-                      <Text style={styles.groupNameText}>{grp.name}</Text>
-                      <Text style={styles.groupCategoryText}>
+                      <Text style={[styles.groupNameText, { color: theme.textPrimary }]}>{grp.name}</Text>
+                      <Text style={[styles.groupCategoryText, { color: theme.textSecondary }]}>
                         {grp.membersCount} members • {grp.privacy}
                       </Text>
                     </View>
@@ -418,7 +418,7 @@ export default function DiscoveryHub({
                       </Text>
                     </TouchableOpacity>
                   </View>
-                  <Text style={styles.groupDescText} numberOfLines={2}>
+                  <Text style={[styles.groupDescText, { color: theme.textSecondary }]} numberOfLines={2}>
                     {grp.description}
                   </Text>
                 </TouchableOpacity>
@@ -459,7 +459,7 @@ export default function DiscoveryHub({
               {discussions.map((d) => (
                 <TouchableOpacity
                   key={d.id}
-                  style={styles.discussionCard}
+                  style={[styles.discussionCard, { backgroundColor: theme.surface, borderColor: theme.border }]}
                   onPress={() => onSelectDiscussion(d)}
                   activeOpacity={0.88}
                 >
@@ -469,14 +469,14 @@ export default function DiscoveryHub({
                     </View>
                     <View style={{ flex: 1 }}>
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                        <Text style={styles.discussionAuthor}>{d.author}</Text>
+                        <Text style={[styles.discussionAuthor, { color: theme.textPrimary }]}>{d.author}</Text>
                         {d.authorBadge && (
                           <View style={styles.badgePill}>
                             <Text style={styles.badgePillText}>{d.authorBadge}</Text>
                           </View>
                         )}
                       </View>
-                      <Text style={styles.discussionMeta}>
+                      <Text style={[styles.discussionMeta, { color: theme.textSecondary }]}>
                         in {d.groupName || 'Community'} • {d.timeAgo}
                       </Text>
                     </View>
@@ -484,12 +484,12 @@ export default function DiscoveryHub({
                       onPress={() => onReportItem('discussion', d.title)}
                       hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
                     >
-                      <ShieldAlert size={14} color="#94a3b8" />
+                      <ShieldAlert size={14} color={theme.textTertiary} />
                     </TouchableOpacity>
                   </View>
 
-                  <Text style={styles.discussionTitle}>{d.title}</Text>
-                  <Text style={styles.discussionSnippet} numberOfLines={3}>
+                  <Text style={[styles.discussionTitle, { color: theme.textPrimary }]}>{d.title}</Text>
+                  <Text style={[styles.discussionSnippet, { color: theme.textSecondary }]} numberOfLines={3}>
                     {d.content}
                   </Text>
 
@@ -586,17 +586,17 @@ export default function DiscoveryHub({
               {people.map((p) => {
                 const isFollowing = followingMap[p.id] || false;
                 return (
-                  <View key={p.id} style={styles.personCard}>
+                  <View key={p.id} style={[styles.personCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
                     <View style={[styles.avatarCircleLarge, { backgroundColor: p.avatarColor }]}>
                       <Text style={styles.avatarInitialLarge}>{p.initials}</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                        <Text style={styles.personName}>{p.name}</Text>
-                        <ShieldCheck size={14} color="#16a34a" />
+                        <Text style={[styles.personName, { color: theme.textPrimary }]}>{p.name}</Text>
+                        <ShieldCheck size={14} color={theme.accent} />
                       </View>
-                      <Text style={styles.personRole}>{p.role}</Text>
-                      <Text style={styles.personBio} numberOfLines={2}>
+                      <Text style={[styles.personRole, { color: theme.accent }]}>{p.role}</Text>
+                      <Text style={[styles.personBio, { color: theme.textSecondary }]} numberOfLines={2}>
                         {p.bio}
                       </Text>
                     </View>
