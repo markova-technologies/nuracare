@@ -234,7 +234,7 @@ export default function RootLayout() {
         <AuthProvider>
           <ProfileProvider>
             <ThemeProvider>
-              <FloatingNatureBackground showSoundToggle={true}>
+              <FloatingNatureBackground showSoundToggle={false}>
                 <InnerLayout />
               </FloatingNatureBackground>
             </ThemeProvider>
