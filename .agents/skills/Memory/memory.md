@@ -4886,11 +4886,25 @@ Man the project folder is updated, it is not in d:/nuracare it is in D:\Projects
 - Workspace & Environment Path Alignment:
   1. Acknowledged and permanently locked the active project root directory to `D:\Projects\Markova Projects\nuracare`.
   2. Confirmed that all commands, scripts, builds, TypeScript verifications, git operations, and ADB deployments operate exclusively within `D:\Projects\Markova Projects\nuracare`.
-- Release v1.0.12 Deployment & Verification In Progress:
-  1. EAS Cloud Build `b5c1f941-965a-40d3-b7a8-4415bd9fdcdc` completed for v1.0.12 (versionCode 15).
-  2. Streaming high-speed download of release APK `NuraCare-v1.0.12.apk` directly to `D:\Projects\Markova Projects\nuracare\NuraCare-v1.0.12.apk`.
-  3. Preparing ADB deployment to physical Samsung Galaxy A05s (`R7AXC0G09WV`, Android 15 / One UI 7.0).
-  4. Conducting live UI/UX verification on-device for the refactored Medication, Checkups, Community Hubs, and Theme Selector screens.
-- Actions: confirmed and recorded permanent project root `D:\Projects\Markova Projects\nuracare`, proceeded with v1.0.12 APK download, initiated ADB install pipeline, and updated Turn 272 in perpetual memory ledger.
+- Release v1.0.12 Deployment & Physical Device Verification (Samsung Galaxy A05s):
+  1. High-speed download of EAS production APK `NuraCare-v1.0.12.apk` completed (112,252,472 bytes).
+  2. Diagnosed and resolved Android 15 device storage constraint: cleared old temporary screenshot artifacts and uninstalled previous build package to free buffer on `/data`.
+  3. Successfully streamed and installed `NuraCare-v1.0.12.apk` onto connected Samsung Galaxy A05s (`R7AXC0G09WV`, Android 15, One UI 7.0, build `AP3A.240905.015.A2.A057FXXUFDZH2`).
+  4. Verified package manifest live on device: `versionCode=15 minSdk=24 targetSdk=36 versionName=1.0.12`.
+  5. Launched `MainActivity` via ADB; verified `logcat -d -b crash` reported **0 crashes**.
+- Exhaustive Live Screen Traversal & Visual Proof:
+  1. **Login & Onboarding:** Verified the entire 4-step onboarding journey on device — dark elevated cards, emerald CTAs, culturally customized selections (Orthodox Tsom fasting, English/Amharic/Oromiffa).
+  2. **Home Tab:** Verified circadian vital globe, 5-core resilience badges, and wrapped insight teller banner.
+  3. **Medication Tab:** Verified that "Today's Schedule" dose cards are dark surfaces with crisp white text ("Vitamin D3 & K2", "08:30"), category badges are clear, and action buttons ("Mark as Taken", "Skip") render with high contrast.
+  4. **Checkups Tab:** Verified that unselected mood avatar cards ("Radiant", "Balanced") use dark elevated surfaces with crisp white text, and water drop hydration buttons render as dark elevated circles.
+  5. **Community Hubs:** Verified that the empty state illustration ("No featured challenges yet") has bright, readable white text, and validated Discovery, Groups, and Inbox tabs.
+  6. **Profile & Theme Engine:** Tested circadian theme switching between Botanical Light and Standard Dark live on device — confirmed zero text collisions or unreadable contrast in either mode.
+- Deep UI/UX Bug Hunt & Fixes (v1.0.13):
+  1. `InboxHub.tsx`: Isolated and replaced hardcoded near-black `#0f172a` in `styles.lastMessageTextUnread` with dynamic `theme.textPrimary`, restoring full legibility to unread message snippets on dark cards.
+  2. `ChallengesHub.tsx`: Fully themed challenge cards (`theme.surface`, `theme.border`), titles (`theme.textPrimary`), descriptions (`theme.textSecondary`), progress bars, and resolved hardcoded white background (`#ffffff`) on the challenge details and creation modal sheets.
+  3. Verified **0 TypeScript errors** with `tsc -p apps/mobile/tsconfig.json --noEmit`.
+  4. Bumped release to `1.0.13` (`versionCode: 16`) in `apps/mobile/app.json`.
+  5. Committed (`9335b4c`) and pushed to GitHub `origin/main`.
+- Actions: confirmed and recorded permanent project root `D:\Projects\Markova Projects\nuracare`, installed and verified v1.0.12 live on device, resolved contrast defects in InboxHub and ChallengesHub, verified 0 TS errors, bumped to v1.0.13, pushed to GitHub remote, and recorded Turn 272 in perpetual memory ledger.
 
 ---
