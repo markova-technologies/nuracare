@@ -13,9 +13,11 @@ import { Sparkles, CheckCircle2, Heart, ShieldCheck, Users, Pill, ArrowRight } f
 import { saveProfile, getProfile } from '../../../src/storage/profileStorage';
 import { useAuthStore } from '../../../src/store';
 import { useProfile } from '../../../src/context/ProfileContext';
+import { useTheme } from '../../../src/context/ThemeContext';
 
 export default function OnboardingStep4() {
   const insets = useSafeAreaInsets();
+  const { theme, isDark } = useTheme();
   const existingProfile = getProfile() || {};
   const { user: storeUser, setUser } = useAuthStore();
   const { setProfile } = useProfile();
@@ -53,7 +55,7 @@ export default function OnboardingStep4() {
   ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={[
@@ -65,42 +67,42 @@ export default function OnboardingStep4() {
         ]}
       >
         <View style={styles.header}>
-          <View style={styles.stepPill}>
-            <Text style={styles.stepText}>Final Step</Text>
+          <View style={[styles.stepPill, { backgroundColor: theme.accentGlow }]}>
+            <Text style={[styles.stepText, { color: theme.accent }]}>Final Step</Text>
           </View>
         </View>
 
         <View style={styles.titleSection}>
-          <View style={styles.sparkleCircle}>
-            <Sparkles size={32} color="#16a34a" />
+          <View style={[styles.sparkleCircle, { backgroundColor: theme.accentGlow, borderColor: theme.borderSubtle, borderWidth: 1 }]}>
+            <Sparkles size={32} color={theme.accent} />
           </View>
-          <Text style={styles.title}>You are all set</Text>
-          <Text style={styles.subtitle}>
+          <Text style={[styles.title, { color: theme.textPrimary }]}>You are all set</Text>
+          <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
             Your personalized natural health sanctuary is ready.
           </Text>
         </View>
 
-        <View style={styles.card}>
-          <Text style={styles.cardHeading}>What awaits you:</Text>
+        <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+          <Text style={[styles.cardHeading, { color: theme.textPrimary }]}>What awaits you:</Text>
 
           {highlights.map((h, i) => (
             <View key={i} style={styles.highlightRow}>
-              <View style={styles.iconCircle}>{h.icon}</View>
+              <View style={[styles.iconCircle, { backgroundColor: theme.surfaceElevated }]}>{h.icon}</View>
               <View style={{ flex: 1, marginLeft: 12 }}>
-                <Text style={styles.highlightTitle}>{h.title}</Text>
-                <Text style={styles.highlightDesc}>{h.desc}</Text>
+                <Text style={[styles.highlightTitle, { color: theme.textPrimary }]}>{h.title}</Text>
+                <Text style={[styles.highlightDesc, { color: theme.textSecondary }]}>{h.desc}</Text>
               </View>
             </View>
           ))}
 
-          <View style={styles.privacyNote}>
-            <ShieldCheck size={16} color="#16a34a" />
-            <Text style={styles.privacyNoteText}>
+          <View style={[styles.privacyNote, { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle }]}>
+            <ShieldCheck size={16} color={theme.accent} />
+            <Text style={[styles.privacyNoteText, { color: theme.textTertiary }]}>
               All checkups, biometric inputs, and medications remain private by design on your device.
             </Text>
           </View>
 
-          <TouchableOpacity style={styles.enterBtn} onPress={handleComplete} activeOpacity={0.85}>
+          <TouchableOpacity style={[styles.enterBtn, { backgroundColor: theme.accent }]} onPress={handleComplete} activeOpacity={0.85}>
             <Text style={styles.enterBtnText}>Enter NuraCare Sanctuary</Text>
             <ArrowRight size={18} color="#ffffff" />
           </TouchableOpacity>

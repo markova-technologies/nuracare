@@ -73,7 +73,9 @@ function CircleInfoTeller({
   return (
     <View style={styles.circleTellerWrap}>
       <View style={[styles.circleRing, { borderColor: color, backgroundColor: bgColor }]}>
-        <Text style={[styles.circleVal, { color }]}>{value}</Text>
+        <Text style={[styles.circleVal, { color }]} numberOfLines={1} adjustsFontSizeToFit>
+          {value}
+        </Text>
       </View>
       <Text style={[styles.circleLabel, textColor ? { color: textColor } : null]}>{label}</Text>
       <Text style={[styles.circleSub, subColor ? { color: subColor } : null]}>{subtext}</Text>
@@ -270,13 +272,13 @@ export default function AdaptiveHomeScreen() {
   };
 
   return (
-    <View style={styles.screenWrapper}>
+    <View style={[styles.screenWrapper, { backgroundColor: theme.background }]}>
       <ScrollView 
-        style={styles.container}
+        style={[styles.container, { backgroundColor: theme.background }]}
         contentContainerStyle={[
           styles.contentContainer,
           {
-            paddingTop: Math.max(insets.top, 16) + 8,
+            paddingTop: 16,
             paddingBottom: Math.max(insets.bottom, 16) + 95,
           }
         ]}
@@ -347,8 +349,8 @@ export default function AdaptiveHomeScreen() {
             />
             <CircleInfoTeller
               label="Burnout"
-              value={burnoutAssessment.state.split(' ')[0]}
-              subtext={burnoutAssessment.state.split(' ')[1] || 'State'}
+              value={burnoutAssessment.readinessScore || 88}
+              subtext={burnoutAssessment.state}
               color={burnoutAssessment.stateColor}
               bgColor={isDark ? theme.surfaceElevated : `${burnoutAssessment.stateColor}15`}
               textColor={theme.textPrimary}
@@ -624,6 +626,9 @@ export default function AdaptiveHomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  screenWrapper: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: 'transparent'
@@ -775,9 +780,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   circleRing: {
-    width: 52, // Moderate compact circle
-    height: 52,
-    borderRadius: 26,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     borderWidth: 2.2,
     alignItems: 'center',
     justifyContent: 'center',
@@ -787,11 +792,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   circleVal: {
-    fontSize: 13,
-    fontWeight: '900',
+    fontSize: 15,
+    fontWeight: '800',
   },
   circleSub: {
-    fontSize: 8.5,
+    fontSize: 9,
     color: '#64748b',
     fontWeight: '600',
     marginTop: 1,
@@ -889,10 +894,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#94a3b8',
     fontWeight: '600'
-  },
-  screenWrapper: {
-    flex: 1,
-    backgroundColor: 'transparent'
   },
   horizontalScrollContent: {
     paddingRight: 16,

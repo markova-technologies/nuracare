@@ -130,20 +130,20 @@ export default function CommunityGroupsHub({
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.background }]} contentContainerStyle={styles.contentContainer}>
       {/* 1. Header with Create Group */}
       <View style={styles.header}>
         <View style={{ flex: 1 }}>
-          <View style={styles.headerBadge}>
-            <Users size={13} color="#16a34a" />
-            <Text style={styles.headerBadgeText}>Belong & Participate</Text>
+          <View style={[styles.headerBadge, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}>
+            <Users size={13} color={theme.accent} />
+            <Text style={[styles.headerBadgeText, { color: theme.accent }]}>Belong & Participate</Text>
           </View>
-          <Text style={styles.title}>Community</Text>
+          <Text style={[styles.title, { color: theme.textPrimary }]}>Community</Text>
           <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Find your people and grow together.</Text>
         </View>
 
         <TouchableOpacity
-          style={styles.createGroupBtn}
+          style={[styles.createGroupBtn, { backgroundColor: theme.accent }]}
           onPress={() => setShowCreateGroupWizard(true)}
           activeOpacity={0.85}
         >
@@ -154,25 +154,25 @@ export default function CommunityGroupsHub({
 
       {/* 2. My Communities Section */}
       <View style={styles.sectionWrap}>
-        <Text style={styles.sectionTitle}>My Communities ({myGroups.length})</Text>
+        <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>My Communities ({myGroups.length})</Text>
         {myGroups.length > 0 ? (
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.myGroupsScroll}>
             {myGroups.map((grp) => (
               <TouchableOpacity
                 key={grp.id}
-                style={styles.myGroupCard}
+                style={[styles.myGroupCard, { backgroundColor: theme.surface, borderColor: theme.border }]}
                 onPress={() => setSelectedGroup(grp)}
                 activeOpacity={0.88}
               >
-                <View style={styles.myGroupIcon}>
-                  <Users size={20} color="#16a34a" />
+                <View style={[styles.myGroupIcon, { backgroundColor: theme.surfaceElevated }]}>
+                  <Users size={20} color={theme.accent} />
                 </View>
-                <Text style={styles.myGroupName} numberOfLines={1}>
+                <Text style={[styles.myGroupName, { color: theme.textPrimary }]} numberOfLines={1}>
                   {grp.name}
                 </Text>
-                <Text style={styles.myGroupCategory}>{grp.category}</Text>
+                <Text style={[styles.myGroupCategory, { color: theme.textSecondary }]}>{grp.category}</Text>
                 <View style={styles.myGroupMetaRow}>
-                  <Text style={styles.myGroupMetaText}>{grp.membersCount} members</Text>
+                  <Text style={[styles.myGroupMetaText, { color: theme.textTertiary }]}>{grp.membersCount} members</Text>
                   {grp.role && (
                     <View style={styles.roleBadge}>
                       <Text style={styles.roleBadgeText}>{grp.role}</Text>
@@ -193,8 +193,8 @@ export default function CommunityGroupsHub({
 
       {/* 3. Suggested & Active Communities */}
       <View style={styles.sectionWrap}>
-        <Text style={styles.sectionTitle}>Suggested For You</Text>
-        <Text style={styles.sectionSub}>Active groups building sustainable wellness habits</Text>
+        <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>Suggested For You</Text>
+        <Text style={[styles.sectionSub, { color: theme.textSecondary }]}>Active groups building sustainable wellness habits</Text>
 
         <View style={styles.suggestedList}>
           {suggestedGroups.map((grp) => (
@@ -790,7 +790,7 @@ export default function CommunityGroupsHub({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: 'transparent',
   },
   contentContainer: {
     paddingHorizontal: 16,

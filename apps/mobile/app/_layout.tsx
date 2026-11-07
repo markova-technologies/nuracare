@@ -45,6 +45,7 @@ async function checkOTAUpdate() {
 
 
 function InnerLayout() {
+  const { theme } = useTheme();
   const { user, loading: authLoading } = useAuth();
   const { user: storeUser } = useAuthStore();
   const currentUser = user || storeUser;
@@ -150,9 +151,9 @@ function InnerLayout() {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ConnectivityBanner />
-      <Stack>
+      <Stack screenOptions={{ contentStyle: { backgroundColor: theme.background }, headerShown: false }}>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -175,7 +176,7 @@ function InnerLayout() {
 
 import React, { Component } from 'react';
 import FloatingNatureBackground from '../src/components/ambient/FloatingNatureBackground';
-import { ThemeProvider } from '../src/context/ThemeContext';
+import { ThemeProvider, useTheme } from '../src/context/ThemeContext';
 
 class AppErrorBoundary extends React.Component<
   { children: React.ReactNode },

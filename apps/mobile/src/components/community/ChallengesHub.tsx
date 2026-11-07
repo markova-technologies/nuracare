@@ -183,21 +183,21 @@ export default function ChallengesHub({
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.background }]} contentContainerStyle={styles.contentContainer}>
       {/* 1. Header with Create Action & Wallet */}
       <View style={styles.header}>
         <View style={{ flex: 1 }}>
-          <View style={styles.headerBadge}>
-            <Trophy size={13} color="#16a34a" />
-            <Text style={styles.headerBadgeText}>Action & Progress</Text>
+          <View style={[styles.headerBadge, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}>
+            <Trophy size={13} color={theme.accent} />
+            <Text style={[styles.headerBadgeText, { color: theme.accent }]}>Action & Progress</Text>
           </View>
-          <Text style={styles.title}>Challenges</Text>
+          <Text style={[styles.title, { color: theme.textPrimary }]}>Challenges</Text>
           <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Small steps. Shared progress.</Text>
         </View>
 
         <TouchableOpacity
           onPress={() => setShowWallet(true)}
-          style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: '#f1f5f9', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 20 }}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: theme.surfaceElevated, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 20 }}
           activeOpacity={0.8}
         >
           <Wallet size={16} color={theme.accent} />
@@ -277,7 +277,7 @@ export default function ChallengesHub({
               >
 
             {/* Picture Hero Header */}
-            <View style={{ width: '100%', height: 120, backgroundColor: '#f1f5f9' }}>
+            <View style={{ width: '100%', height: 120, backgroundColor: theme.surfaceElevated }}>
                <Image
                  source={{ uri: ch.imageUrl || 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&auto=format&fit=crop&q=80' }}
                  style={{ width: '100%', height: '100%' }}
@@ -975,7 +975,7 @@ export default function ChallengesHub({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: 'transparent',
   },
   contentContainer: {
     paddingHorizontal: 16,

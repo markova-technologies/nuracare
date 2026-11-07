@@ -147,12 +147,12 @@ export default function DiscoveryHub({
   );
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.background }]} contentContainerStyle={styles.contentContainer}>
       {/* 1. Header */}
       <View style={styles.header}>
-        <View style={styles.headerBadge}>
-          <Compass size={13} color="#16a34a" />
-          <Text style={styles.headerBadgeText}>Exploration Hub</Text>
+        <View style={[styles.headerBadge, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}>
+          <Compass size={13} color={theme.accent} />
+          <Text style={[styles.headerBadgeText, { color: theme.accent }]}>Exploration Hub</Text>
         </View>
         <Text style={[styles.title, { color: theme.textPrimary }]}>Discover</Text>
         <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
@@ -641,7 +641,7 @@ export default function DiscoveryHub({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: 'transparent',
   },
   contentContainer: {
     paddingHorizontal: 16,

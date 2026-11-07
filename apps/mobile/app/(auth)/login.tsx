@@ -13,12 +13,14 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Leaf, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react-native';
 import { useAuth } from '../../src/context/AuthContext';
+import { useTheme } from '../../src/context/ThemeContext';
 import { useAuthStore } from '../../src/store';
 import { router } from 'expo-router';
 import { getProfile, saveProfile } from '../../src/storage/profileStorage';
 
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
+  const { theme, isDark } = useTheme();
   const { signInWithEmail, signUpWithEmail, signInWithGoogle, setGuestUser } = useAuth();
   const { setUser } = useAuthStore();
   const [isSignUp, setIsSignUp] = useState(false);
@@ -148,7 +150,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -166,19 +168,19 @@ export default function LoginScreen() {
         >
           {/* Brand Header */}
           <View style={styles.brandHeader}>
-            <View style={styles.logoBadge}>
-              <Leaf size={38} color="#16a34a" />
+            <View style={[styles.logoBadge, { backgroundColor: theme.surfaceElevated, borderColor: theme.border, borderWidth: 1 }]}>
+              <Leaf size={38} color={theme.accent} />
             </View>
-            <Text style={styles.brandTitle}>NuraCare</Text>
-            <Text style={styles.brandSubtitle}>
+            <Text style={[styles.brandTitle, { color: theme.textPrimary }]}>NuraCare</Text>
+            <Text style={[styles.brandSubtitle, { color: theme.textSecondary }]}>
               {isSignUp
                 ? 'Begin your personalized, calm wellness journey'
                 : 'Welcome back to your natural health companion'}
             </Text>
           </View>
 
-          {/* Aesthetic Glassmorphic Card */}
-          <View style={styles.card}>
+          {/* Aesthetic Themed Card */}
+          <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
             {error && (
               <View style={styles.errorBox}>
                 <Text style={styles.errorText}>{error}</Text>
@@ -187,11 +189,11 @@ export default function LoginScreen() {
 
             {isSignUp && (
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Full Name</Text>
+                <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Full Name</Text>
                 <TextInput
-                  style={styles.input}
+                  style={[styles.input, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                   placeholder="e.g. Abebe Bikila"
-                  placeholderTextColor="#94a3b8"
+                  placeholderTextColor={theme.placeholderText}
                   value={name}
                   onChangeText={setName}
                   autoCapitalize="words"
@@ -200,11 +202,11 @@ export default function LoginScreen() {
             )}
 
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Email Address</Text>
+              <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Email Address</Text>
               <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                 placeholder="name@example.com"
-                placeholderTextColor="#94a3b8"
+                placeholderTextColor={theme.placeholderText}
                 value={email}
                 onChangeText={setEmail}
                 autoCapitalize="none"
@@ -213,11 +215,11 @@ export default function LoginScreen() {
             </View>
 
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Password</Text>
+              <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Password</Text>
               <TextInput
-                style={styles.input}
+                style={[styles.input, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
                 placeholder="••••••••"
-                placeholderTextColor="#94a3b8"
+                placeholderTextColor={theme.placeholderText}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
@@ -225,9 +227,9 @@ export default function LoginScreen() {
             </View>
 
             {isSignUp && (
-              <Text style={styles.termsNotice}>
+              <Text style={[styles.termsNotice, { color: theme.textSecondary }]}>
                 By signing up, you agree to NuraCare's{' '}
-                <Text style={styles.termsLink} onPress={() => router.push('/legal')}>
+                <Text style={[styles.termsLink, { color: theme.accent }]} onPress={() => router.push('/legal')}>
                   Privacy & Terms
                 </Text>
                 .
@@ -236,7 +238,7 @@ export default function LoginScreen() {
 
             {/* Primary Action Button */}
             <TouchableOpacity
-              style={styles.primaryBtn}
+              style={[styles.primaryBtn, { backgroundColor: theme.accent }]}
               onPress={handleSubmit}
               disabled={loading}
               activeOpacity={0.85}
@@ -254,19 +256,19 @@ export default function LoginScreen() {
             </TouchableOpacity>
 
             <View style={styles.dividerRow}>
-              <View style={styles.dividerLine} />
-              <Text style={styles.dividerLabel}>or</Text>
-              <View style={styles.dividerLine} />
+              <View style={[styles.dividerLine, { backgroundColor: theme.border }]} />
+              <Text style={[styles.dividerLabel, { color: theme.textTertiary }]}>or</Text>
+              <View style={[styles.dividerLine, { backgroundColor: theme.border }]} />
             </View>
 
             {/* Google OAuth Button */}
             <TouchableOpacity
-              style={styles.googleBtn}
+              style={[styles.googleBtn, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}
               onPress={handleGoogle}
               disabled={loading}
               activeOpacity={0.85}
             >
-              <Text style={styles.googleBtnText}>Continue with Google</Text>
+              <Text style={[styles.googleBtnText, { color: theme.textPrimary }]}>Continue with Google</Text>
             </TouchableOpacity>
 
             {/* Toggle Sign Up / Sign In */}
@@ -277,11 +279,11 @@ export default function LoginScreen() {
               }}
               style={styles.toggleRow}
             >
-              <Text style={styles.toggleText}>
+              <Text style={[styles.toggleText, { color: theme.textSecondary }]}>
                 {isSignUp
                   ? 'Already have an account? '
                   : "Don't have an account yet? "}
-                <Text style={styles.toggleHighlight}>
+                <Text style={[styles.toggleHighlight, { color: theme.accent }]}>
                   {isSignUp ? 'Sign In' : 'Sign Up'}
                 </Text>
               </Text>
@@ -289,19 +291,19 @@ export default function LoginScreen() {
 
             {/* Instant Explorer / Preview Button */}
             <TouchableOpacity
-              style={styles.exploreBtn}
+              style={[styles.exploreBtn, { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle }]}
               onPress={handleGuestPreview}
               activeOpacity={0.7}
             >
-              <Sparkles size={16} color="#16a34a" />
-              <Text style={styles.exploreBtnText}>Explore NuraCare (Guest Mode)</Text>
+              <Sparkles size={16} color={theme.accent} />
+              <Text style={[styles.exploreBtnText, { color: theme.accent }]}>Explore NuraCare (Guest Mode)</Text>
             </TouchableOpacity>
           </View>
 
           {/* Privacy Safeguard Strip */}
           <View style={styles.footerShield}>
-            <ShieldCheck size={14} color="#16a34a" />
-            <Text style={styles.footerShieldText}>
+            <ShieldCheck size={14} color={theme.accent} />
+            <Text style={[styles.footerShieldText, { color: theme.textTertiary }]}>
               Protected by Ethiopian Data Protection Proclamation No. 1321/2024
             </Text>
           </View>

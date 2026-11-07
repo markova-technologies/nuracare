@@ -13,6 +13,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useProfile } from '../../../src/context/ProfileContext';
+import { useTheme } from '../../../src/context/ThemeContext';
 import { getProfile, saveProfile } from '../../../src/storage/profileStorage';
 import { ArrowLeft, ArrowRight, Activity, Heart, Wind, Bone, Brain, Sparkles, Clock } from 'lucide-react-native';
 
@@ -34,6 +35,7 @@ const FASTING_OPTIONS = [
 
 export default function OnboardingStep2() {
   const insets = useSafeAreaInsets();
+  const { theme, isDark } = useTheme();
   const { profile, setProfile } = useProfile();
   const [conditions, setConditions] = useState<string[]>(['none']);
   const [fastingMode, setFastingMode] = useState('Orthodox Christian (Tsom)');
@@ -77,7 +79,7 @@ export default function OnboardingStep2() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -94,23 +96,23 @@ export default function OnboardingStep2() {
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-              <ArrowLeft size={22} color="#0f172a" />
+            <TouchableOpacity onPress={() => router.back()} style={[styles.backBtn, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}>
+              <ArrowLeft size={22} color={theme.textPrimary} />
             </TouchableOpacity>
-            <View style={styles.stepPill}>
-              <Text style={styles.stepText}>Step 2 of 4</Text>
+            <View style={[styles.stepPill, { backgroundColor: theme.accentGlow }]}>
+              <Text style={[styles.stepText, { color: theme.accent }]}>Step 2 of 4</Text>
             </View>
           </View>
 
           <View style={styles.titleSection}>
-            <Text style={styles.title}>Health Focus & Fasting</Text>
-            <Text style={styles.subtitle}>
+            <Text style={[styles.title, { color: theme.textPrimary }]}>Health Focus & Fasting</Text>
+            <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
               Customize AI nutrition and checkup advice to your biological rhythms.
             </Text>
           </View>
 
-          <View style={styles.card}>
-            <Text style={styles.label}>Health Focus Areas</Text>
+          <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+            <Text style={[styles.label, { color: theme.textSecondary }]}>Health Focus Areas</Text>
             <View style={styles.conditionsGrid}>
               {CONDITIONS.map((item) => {
                 const Icon = item.icon;
@@ -118,11 +120,15 @@ export default function OnboardingStep2() {
                 return (
                   <TouchableOpacity
                     key={item.id}
-                    style={[styles.conditionBtn, active && styles.conditionBtnActive]}
+                    style={[
+                      styles.conditionBtn,
+                      { backgroundColor: theme.surfaceElevated, borderColor: theme.border },
+                      active && { backgroundColor: `${theme.accent}15`, borderColor: theme.accent },
+                    ]}
                     onPress={() => toggleCondition(item.id)}
                   >
-                    <Icon size={18} color={active ? '#16a34a' : '#64748b'} />
-                    <Text style={[styles.conditionBtnText, active && styles.conditionBtnTextActive]}>
+                    <Icon size={18} color={active ? theme.accent : theme.textSecondary} />
+                    <Text style={[styles.conditionBtnText, { color: theme.textSecondary }, active && { color: theme.accent, fontWeight: '800' }]}>
                       {item.label}
                     </Text>
                   </TouchableOpacity>
@@ -130,26 +136,30 @@ export default function OnboardingStep2() {
               })}
             </View>
 
-            <Text style={[styles.label, { marginTop: 18 }]}>Fasting Schedule (Tsom / Routine)</Text>
+            <Text style={[styles.label, { color: theme.textSecondary, marginTop: 18 }]}>Fasting Schedule (Tsom / Routine)</Text>
             {FASTING_OPTIONS.map((opt) => (
               <TouchableOpacity
                 key={opt.id}
-                style={[styles.fastingCard, fastingMode === opt.id && styles.fastingCardActive]}
+                style={[
+                  styles.fastingCard,
+                  { backgroundColor: theme.surfaceElevated, borderColor: theme.border },
+                  fastingMode === opt.id && { backgroundColor: `${theme.accent}15`, borderColor: theme.accent },
+                ]}
                 onPress={() => setFastingMode(opt.id)}
               >
-                <View style={styles.fastingRadio}>
-                  {fastingMode === opt.id && <View style={styles.fastingRadioDot} />}
+                <View style={[styles.fastingRadio, { borderColor: fastingMode === opt.id ? theme.accent : theme.border }]}>
+                  {fastingMode === opt.id && <View style={[styles.fastingRadioDot, { backgroundColor: theme.accent }]} />}
                 </View>
                 <View style={{ flex: 1, marginLeft: 10 }}>
-                  <Text style={[styles.fastingName, fastingMode === opt.id && styles.fastingNameActive]}>
+                  <Text style={[styles.fastingName, { color: theme.textPrimary }, fastingMode === opt.id && { color: theme.accent, fontWeight: '800' }]}>
                     {opt.label}
                   </Text>
-                  <Text style={styles.fastingDesc}>{opt.desc}</Text>
+                  <Text style={[styles.fastingDesc, { color: theme.textSecondary }]}>{opt.desc}</Text>
                 </View>
               </TouchableOpacity>
             ))}
 
-            <TouchableOpacity style={styles.nextBtn} onPress={handleNext} disabled={loading}>
+            <TouchableOpacity style={[styles.nextBtn, { backgroundColor: theme.accent }]} onPress={handleNext} disabled={loading}>
               {loading ? (
                 <ActivityIndicator color="#ffffff" />
               ) : (

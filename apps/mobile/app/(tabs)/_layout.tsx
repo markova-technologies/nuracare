@@ -41,6 +41,9 @@ export default function TabLayout() {
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Tabs
         screenOptions={{
+          sceneStyle: { backgroundColor: theme.background },
+          // @ts-ignore
+          sceneContainerStyle: { backgroundColor: theme.background },
           tabBarActiveTintColor: theme.navActive,
           tabBarInactiveTintColor: theme.navInactive,
           tabBarStyle: {

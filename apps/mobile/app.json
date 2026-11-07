@@ -2,7 +2,7 @@
   "expo": {
     "name": "NuraCare",
     "slug": "nuracare",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "orientation": "portrait",
     "scheme": "nuracare",
     "icon": "./assets/images/icon.png",
@@ -16,7 +16,7 @@
     "android": {
       "jsEngine": "hermes",
       "package": "com.darikab71.nuracaremobile",
-      "versionCode": 13,
+      "versionCode": 14,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"

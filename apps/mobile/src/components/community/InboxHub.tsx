@@ -94,15 +94,15 @@ export default function InboxHub({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* 1. Header */}
       <View style={styles.header}>
-        <View style={styles.headerBadge}>
-          <MessageSquare size={13} color="#16a34a" />
-          <Text style={styles.headerBadgeText}>Private Conversations</Text>
+        <View style={[styles.headerBadge, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}>
+          <MessageSquare size={13} color={theme.accent} />
+          <Text style={[styles.headerBadgeText, { color: theme.accent }]}>Private Conversations</Text>
         </View>
-        <Text style={styles.title}>Inbox</Text>
-        <Text style={styles.subtitle}>Direct wellness messaging with peers and mentors</Text>
+        <Text style={[styles.title, { color: theme.textPrimary }]}>Inbox</Text>
+        <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Direct wellness messaging with peers and mentors</Text>
       </View>
 
       {/* 2. Search & Sub-Tabs */}
@@ -110,7 +110,7 @@ export default function InboxHub({
         <View style={[styles.searchBar, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder }]}>
           <Search size={16} color="#94a3b8" />
           <TextInput
-            style={styles.searchInput}
+            style={[styles.searchInput, { color: theme.inputText }]}
             placeholder="Search conversations..."
             placeholderTextColor={theme.placeholderText}
             value={searchQuery}
@@ -352,7 +352,7 @@ export default function InboxHub({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: 'transparent',
   },
   header: {
     paddingHorizontal: 16,

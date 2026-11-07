@@ -13,12 +13,14 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useProfile } from '../../../src/context/ProfileContext';
+import { useTheme } from '../../../src/context/ThemeContext';
 import { getProfile, saveProfile } from '../../../src/storage/profileStorage';
 import { ArrowLeft, ArrowRight, Upload, FileText, Pill } from 'lucide-react-native';
 import * as DocumentPicker from 'expo-document-picker';
 
 export default function OnboardingStep3() {
   const insets = useSafeAreaInsets();
+  const { theme, isDark } = useTheme();
   const { profile, setProfile } = useProfile();
   const [medicalNotes, setMedicalNotes] = useState(profile?.medicalNotes || '');
   const [loading, setLoading] = useState(false);
@@ -54,7 +56,7 @@ export default function OnboardingStep3() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -71,56 +73,56 @@ export default function OnboardingStep3() {
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-              <ArrowLeft size={22} color="#0f172a" />
+            <TouchableOpacity onPress={() => router.back()} style={[styles.backBtn, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}>
+              <ArrowLeft size={22} color={theme.textPrimary} />
             </TouchableOpacity>
-            <View style={styles.stepPill}>
-              <Text style={styles.stepText}>Step 3 of 4</Text>
+            <View style={[styles.stepPill, { backgroundColor: theme.accentGlow }]}>
+              <Text style={[styles.stepText, { color: theme.accent }]}>Step 3 of 4</Text>
             </View>
           </View>
 
           <View style={styles.titleSection}>
-            <Text style={styles.title}>Health Records & Lab Tests</Text>
-            <Text style={styles.subtitle}>
+            <Text style={[styles.title, { color: theme.textPrimary }]}>Health Records & Lab Tests</Text>
+            <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
               Optionally upload recent medical reports, blood work, or doctor recommendations.
             </Text>
           </View>
 
-          <View style={styles.card}>
-            <TouchableOpacity style={styles.uploadBox} onPress={handleUpload}>
-              <View style={styles.uploadIconContainer}>
-                <Upload size={24} color="#16a34a" />
+          <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+            <TouchableOpacity style={[styles.uploadBox, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]} onPress={handleUpload}>
+              <View style={[styles.uploadIconContainer, { backgroundColor: theme.accentGlow }]}>
+                <Upload size={24} color={theme.accent} />
               </View>
-              <Text style={styles.uploadTitle}>
+              <Text style={[styles.uploadTitle, { color: theme.textPrimary }]}>
                 {fileAttached ? 'File Attached ✓' : 'Tap to Upload Document'}
               </Text>
-              <Text style={styles.uploadSubtitle}>
+              <Text style={[styles.uploadSubtitle, { color: theme.textSecondary }]}>
                 {fileAttached ? fileAttached : 'PDF, JPG, PNG up to 10MB'}
               </Text>
             </TouchableOpacity>
 
             <View style={styles.divider}>
-              <View style={styles.dividerLine} />
-              <Text style={styles.dividerText}>or</Text>
-              <View style={styles.dividerLine} />
+              <View style={[styles.dividerLine, { backgroundColor: theme.border }]} />
+              <Text style={[styles.dividerText, { color: theme.textTertiary }]}>or</Text>
+              <View style={[styles.dividerLine, { backgroundColor: theme.border }]} />
             </View>
 
-            <Text style={styles.label}>Notes, Allergies or Current Supplements</Text>
-            <View style={styles.textAreaContainer}>
-              <FileText size={18} color="#94a3b8" style={styles.textAreaIcon} />
+            <Text style={[styles.label, { color: theme.textSecondary }]}>Notes, Allergies or Current Supplements</Text>
+            <View style={[styles.textAreaContainer, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder }]}>
+              <FileText size={18} color={theme.textTertiary} style={styles.textAreaIcon} />
               <TextInput
-                style={styles.textArea}
+                style={[styles.textArea, { color: theme.inputText }]}
                 value={medicalNotes}
                 onChangeText={setMedicalNotes}
                 placeholder="e.g. Taking Vitamin D3 daily, mild seasonal allergies..."
-                placeholderTextColor="#94a3b8"
+                placeholderTextColor={theme.placeholderText}
                 multiline
                 numberOfLines={4}
                 textAlignVertical="top"
               />
             </View>
 
-            <TouchableOpacity style={styles.nextBtn} onPress={handleNext} disabled={loading}>
+            <TouchableOpacity style={[styles.nextBtn, { backgroundColor: theme.accent }]} onPress={handleNext} disabled={loading}>
               {loading ? (
                 <ActivityIndicator color="#ffffff" />
               ) : (
@@ -135,7 +137,7 @@ export default function OnboardingStep3() {
               style={styles.skipBtn}
               onPress={() => router.push('/(auth)/onboarding/step4')}
             >
-              <Text style={styles.skipBtnText}>Skip for now</Text>
+              <Text style={[styles.skipBtnText, { color: theme.textSecondary }]}>Skip for now</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

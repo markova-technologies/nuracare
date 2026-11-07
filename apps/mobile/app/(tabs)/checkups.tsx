@@ -209,20 +209,20 @@ export default function CheckupsScreen() {
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
-      <View style={[styles.header, { paddingTop: Math.max(insets.top, 16) + 10 }]}>
+      <View style={[styles.header, { backgroundColor: theme.surface, borderBottomColor: theme.border, paddingTop: 10, paddingBottom: 10 }]}>
         <View>
-          <Text style={styles.title}>Daily Checkup</Text>
-          <Text style={styles.subtitle}>Self-care signals & biological rhythm</Text>
+          <Text style={[styles.title, { color: theme.textPrimary, fontSize: 18 }]}>Daily Checkup</Text>
+          <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Self-care signals & biological rhythm</Text>
         </View>
         <TouchableOpacity
-          style={styles.aiHeaderBtn}
+          style={[styles.aiHeaderBtn, { backgroundColor: theme.accentGlow, borderColor: theme.border }]}
           onPress={() => router.push('/chat')}
           activeOpacity={0.8}
         >
-          <Bot size={17} color="#16a34a" />
-          <Text style={styles.aiHeaderBtnText}>Ask Nura</Text>
+          <Bot size={17} color={theme.accent} />
+          <Text style={[styles.aiHeaderBtnText, { color: theme.accent }]}>Ask Nura</Text>
         </TouchableOpacity>
       </View>
 
@@ -320,10 +320,10 @@ export default function CheckupsScreen() {
                       <View style={[styles.moodIconWrap, { backgroundColor: `${item.color}18` }]}>
                         <IconComp size={24} color={item.color} />
                       </View>
-                      <Text style={[styles.moodAvatarTitle, isSelected && { color: item.color, fontWeight: '800' }]}>
+                      <Text style={[styles.moodAvatarTitle, { color: isSelected ? item.color : theme.textPrimary }, isSelected && { fontWeight: '800' }]}>
                         {item.label}
                       </Text>
-                      <Text style={styles.moodAvatarSub}>{item.sub}</Text>
+                      <Text style={[styles.moodAvatarSub, { color: theme.textSecondary }]}>{item.sub}</Text>
                       {isSelected && (
                         <View style={[styles.moodCheckDot, { backgroundColor: item.color }]}>
                           <CheckCircle2 size={10} color="#ffffff" />
@@ -358,16 +358,19 @@ export default function CheckupsScreen() {
                       key={lvl.val}
                       style={[
                         styles.energyBtn,
-                        isSelected && styles.energyBtnActive,
+                        {
+                          backgroundColor: isSelected ? (isDark ? `${theme.accent}25` : '#dcfce7') : theme.surfaceElevated,
+                          borderColor: isSelected ? theme.accent : theme.border,
+                        },
                       ]}
                       onPress={() => setEnergy(lvl.val)}
                       activeOpacity={0.8}
                     >
-                      <IconComp size={20} color={isSelected ? '#16a34a' : '#64748b'} style={{ marginBottom: 4 }} />
-                      <Text style={[styles.energyPctText, isSelected && styles.energyPctTextActive]}>
+                      <IconComp size={20} color={isSelected ? theme.accent : theme.textSecondary} style={{ marginBottom: 4 }} />
+                      <Text style={[styles.energyPctText, { color: isSelected ? theme.accent : theme.textPrimary }]}>
                         {lvl.pct}
                       </Text>
-                      <Text style={[styles.energyLabelText, isSelected && styles.energyLabelTextActive]}>
+                      <Text style={[styles.energyLabelText, { color: isSelected ? theme.accent : theme.textSecondary }]}>
                         {lvl.label}
                       </Text>
                     </TouchableOpacity>
@@ -396,16 +399,19 @@ export default function CheckupsScreen() {
                       key={opt.hours}
                       style={[
                         styles.sleepCard,
-                        isSelected && styles.sleepCardActive,
+                        {
+                          backgroundColor: isSelected ? (isDark ? `${theme.accent}25` : '#dcfce7') : theme.surfaceElevated,
+                          borderColor: isSelected ? theme.accent : theme.border,
+                        },
                       ]}
                       onPress={() => setSleepHours(opt.hours)}
                       activeOpacity={0.8}
                     >
-                      <IconComp size={19} color={isSelected ? '#16a34a' : '#64748b'} style={{ marginBottom: 4 }} />
-                      <Text style={[styles.sleepHoursText, isSelected && styles.sleepHoursTextActive]}>
+                      <IconComp size={19} color={isSelected ? theme.accent : theme.textSecondary} style={{ marginBottom: 4 }} />
+                      <Text style={[styles.sleepHoursText, { color: isSelected ? theme.accent : theme.textPrimary }]}>
                         {opt.label}
                       </Text>
-                      <Text style={styles.sleepDescText}>{opt.desc}</Text>
+                      <Text style={[styles.sleepDescText, { color: theme.textSecondary }]}>{opt.desc}</Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -435,19 +441,19 @@ export default function CheckupsScreen() {
                       key={zone.label}
                       style={[
                         styles.stressZoneCard,
-                        isSelected && {
-                          borderColor: zone.color,
-                          backgroundColor: `${zone.color}14`,
+                        {
+                          backgroundColor: isSelected ? `${zone.color}14` : theme.surfaceElevated,
+                          borderColor: isSelected ? zone.color : theme.border,
                         },
                       ]}
                       onPress={() => setStress(zone.val)}
                       activeOpacity={0.8}
                     >
                       <IconComp size={22} color={zone.color} style={{ marginBottom: 5 }} />
-                      <Text style={[styles.stressZoneTitle, isSelected && { color: zone.color, fontWeight: '800' }]}>
+                      <Text style={[styles.stressZoneTitle, { color: isSelected ? zone.color : theme.textPrimary }, isSelected && { fontWeight: '800' }]}>
                         {zone.label}
                       </Text>
-                      <Text style={styles.stressZoneDesc}>{zone.desc}</Text>
+                      <Text style={[styles.stressZoneDesc, { color: theme.textSecondary }]}>{zone.desc}</Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -509,19 +515,19 @@ export default function CheckupsScreen() {
                       key={item.val}
                       style={[
                         styles.comfortCard,
-                        isSelected && {
-                          borderColor: item.color,
-                          backgroundColor: `${item.color}14`,
+                        {
+                          backgroundColor: isSelected ? `${item.color}14` : theme.surfaceElevated,
+                          borderColor: isSelected ? item.color : theme.border,
                         },
                       ]}
                       onPress={() => setPain(item.val)}
                       activeOpacity={0.8}
                     >
                       <IconComp size={18} color={item.color} style={{ marginBottom: 4 }} />
-                      <Text style={[styles.comfortCardTitle, isSelected && { color: item.color, fontWeight: '800' }]}>
+                      <Text style={[styles.comfortCardTitle, { color: isSelected ? item.color : theme.textPrimary }, isSelected && { fontWeight: '800' }]}>
                         {item.label}
                       </Text>
-                      <Text style={styles.comfortCardSub}>{item.sub}</Text>
+                      <Text style={[styles.comfortCardSub, { color: theme.textSecondary }]}>{item.sub}</Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -530,7 +536,7 @@ export default function CheckupsScreen() {
 
             {/* Submit Button (Pure Modern Icons) */}
             <TouchableOpacity
-              style={styles.submitRitualBtn}
+              style={[styles.submitRitualBtn, { backgroundColor: theme.accent }]}
               onPress={handleSaveDailyCheckup}
               activeOpacity={0.88}
             >
@@ -541,37 +547,37 @@ export default function CheckupsScreen() {
             </TouchableOpacity>
 
             {/* 7-Day Trend Summary Strip */}
-            <View style={styles.trendSummaryCard}>
-              <Text style={styles.trendSummaryTitle}>7-DAY BIOMETRIC HARMONY</Text>
+            <View style={[styles.trendSummaryCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+              <Text style={[styles.trendSummaryTitle, { color: theme.textSecondary }]}>7-DAY BIOMETRIC HARMONY</Text>
               <View style={styles.trendGrid}>
                 <View style={styles.trendItem}>
-                  <Text style={styles.trendLabel}>Mood</Text>
+                  <Text style={[styles.trendLabel, { color: theme.textSecondary }]}>Mood</Text>
                   <View style={styles.trendValRow}>
-                    <Text style={styles.trendVal}>{avgMood}</Text>
+                    <Text style={[styles.trendVal, { color: theme.textPrimary }]}>{avgMood}</Text>
                     <TrendingUp size={15} color="#16a34a" />
                   </View>
                 </View>
 
                 <View style={styles.trendItem}>
-                  <Text style={styles.trendLabel}>Energy</Text>
+                  <Text style={[styles.trendLabel, { color: theme.textSecondary }]}>Energy</Text>
                   <View style={styles.trendValRow}>
-                    <Text style={styles.trendVal}>{avgEnergy}</Text>
+                    <Text style={[styles.trendVal, { color: theme.textPrimary }]}>{avgEnergy}</Text>
                     <TrendingUp size={15} color="#16a34a" />
                   </View>
                 </View>
 
                 <View style={styles.trendItem}>
-                  <Text style={styles.trendLabel}>Sleep</Text>
+                  <Text style={[styles.trendLabel, { color: theme.textSecondary }]}>Sleep</Text>
                   <View style={styles.trendValRow}>
-                    <Text style={styles.trendVal}>{avgSleep}h</Text>
+                    <Text style={[styles.trendVal, { color: theme.textPrimary }]}>{avgSleep}h</Text>
                     <Minus size={15} color="#64748b" />
                   </View>
                 </View>
 
                 <View style={styles.trendItem}>
-                  <Text style={styles.trendLabel}>Stress</Text>
+                  <Text style={[styles.trendLabel, { color: theme.textSecondary }]}>Stress</Text>
                   <View style={styles.trendValRow}>
-                    <Text style={styles.trendVal}>{avgStress}</Text>
+                    <Text style={[styles.trendVal, { color: theme.textPrimary }]}>{avgStress}</Text>
                     <TrendingDown size={15} color="#16a34a" />
                   </View>
                 </View>
@@ -579,12 +585,12 @@ export default function CheckupsScreen() {
             </View>
 
             {/* AI Companion Insight */}
-            <View style={styles.aiSynthesisCard}>
+            <View style={[styles.aiSynthesisCard, { backgroundColor: theme.surfaceElevated, borderColor: theme.borderSubtle }]}>
               <View style={styles.aiSynthesisHeader}>
-                <Sparkles size={18} color="#16a34a" />
-                <Text style={styles.aiSynthesisTitle}>Nura AI Daily Reflection</Text>
+                <Sparkles size={18} color={theme.accent} />
+                <Text style={[styles.aiSynthesisTitle, { color: theme.accent }]}>Nura AI Daily Reflection</Text>
               </View>
-              <Text style={styles.aiSynthesisText}>
+              <Text style={[styles.aiSynthesisText, { color: theme.textPrimary }]}>
                 {stress > 6
                   ? 'Elevated stress patterns detected. A short 10-minute restorative pause and chamomile infusion will help reset autonomic balance.'
                   : sleepHours < 6
@@ -597,9 +603,9 @@ export default function CheckupsScreen() {
           <View>
             {/* Clinical Section */}
             <View style={styles.clinicalHeaderRow}>
-              <Text style={styles.sectionHeading}>Preventive Health Schedule</Text>
+              <Text style={[styles.sectionHeading, { color: theme.textPrimary }]}>Preventive Health Schedule</Text>
               <TouchableOpacity
-                style={styles.addVisitBtn}
+                style={[styles.addVisitBtn, { backgroundColor: theme.accent }]}
                 onPress={() => setShowAddVisit(true)}
               >
                 <Plus size={16} color="#ffffff" />
@@ -608,45 +614,45 @@ export default function CheckupsScreen() {
             </View>
 
             {/* Standard Preventive Protocols */}
-            <Text style={styles.subHeading}>Recommended Clinical Screenings</Text>
+            <Text style={[styles.subHeading, { color: theme.textSecondary }]}>Recommended Clinical Screenings</Text>
             {defaultPlannerItems.map((item, i) => (
-              <View key={i} style={styles.screeningCard}>
+              <View key={i} style={[styles.screeningCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.screeningTitle}>{item.name}</Text>
-                  <Text style={styles.screeningDesc}>{item.desc}</Text>
-                  <Text style={styles.screeningFreq}>Frequency: {item.freq}</Text>
+                  <Text style={[styles.screeningTitle, { color: theme.textPrimary }]}>{item.name}</Text>
+                  <Text style={[styles.screeningDesc, { color: theme.textSecondary }]}>{item.desc}</Text>
+                  <Text style={[styles.screeningFreq, { color: theme.accent }]}>Frequency: {item.freq}</Text>
                 </View>
                 <TouchableOpacity
-                  style={styles.planBtn}
+                  style={[styles.planBtn, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}
                   onPress={() => {
                     setVisitName(item.name);
                     setShowAddVisit(true);
                   }}
                 >
-                  <Text style={styles.planBtnText}>Record</Text>
+                  <Text style={[styles.planBtnText, { color: theme.textPrimary }]}>Record</Text>
                 </TouchableOpacity>
               </View>
             ))}
 
             {/* Logged Past Visits */}
-            <Text style={[styles.subHeading, { marginTop: 20 }]}>
+            <Text style={[styles.subHeading, { color: theme.textSecondary, marginTop: 20 }]}>
               Logged Visits & Records ({clinicalCheckups.length})
             </Text>
 
             {clinicalCheckups.length === 0 ? (
-              <View style={styles.emptyClinical}>
-                <CalendarCheck size={36} color="#cbd5e1" />
-                <Text style={styles.emptyClinicalText}>No clinical records logged yet.</Text>
+              <View style={[styles.emptyClinical, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+                <CalendarCheck size={36} color={theme.textTertiary} />
+                <Text style={[styles.emptyClinicalText, { color: theme.textTertiary }]}>No clinical records logged yet.</Text>
               </View>
             ) : (
               clinicalCheckups.map((c) => (
-                <View key={c.id} style={styles.historyCard}>
+                <View key={c.id} style={[styles.historyCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.historyTitle}>{c.name}</Text>
-                    {c.doctor ? <Text style={styles.historyDoctor}>{c.doctor}</Text> : null}
-                    <Text style={styles.historyDate}>Logged on: {c.date_logged}</Text>
+                    <Text style={[styles.historyTitle, { color: theme.textPrimary }]}>{c.name}</Text>
+                    {c.doctor ? <Text style={[styles.historyDoctor, { color: theme.accent }]}>{c.doctor}</Text> : null}
+                    <Text style={[styles.historyDate, { color: theme.textSecondary }]}>Logged on: {c.date_logged}</Text>
                     {c.next_visit ? <Text style={styles.historyNext}>Next target: {c.next_visit}</Text> : null}
-                    {c.notes ? <Text style={styles.historyNotes}>{c.notes}</Text> : null}
+                    {c.notes ? <Text style={[styles.historyNotes, { color: theme.textTertiary }]}>{c.notes}</Text> : null}
                   </View>
                   <TouchableOpacity
                     style={styles.deleteVisitBtn}
@@ -884,9 +890,11 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   cardHeaderLeft: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    marginRight: 8,
   },
   sectionIconBubble: {
     width: 32,
@@ -899,7 +907,8 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(187, 247, 208, 0.8)',
   },
   cardTitle: {
-    fontSize: 15,
+    flex: 1,
+    fontSize: 14.5,
     fontWeight: '800',
     color: '#0f172a',
   },

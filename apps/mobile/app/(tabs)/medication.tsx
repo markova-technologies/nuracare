@@ -151,7 +151,7 @@ export default function MedicationScreen() {
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: theme.surface, borderBottomColor: theme.border, paddingTop: Math.max(insets.top, 16) + 10 }]}>
+      <View style={[styles.header, { backgroundColor: theme.surface, borderBottomColor: theme.border, paddingTop: 10, paddingBottom: 10 }]}>
         <View>
           <Text style={[styles.title, { color: theme.textPrimary }]}>Medication & Care</Text>
           <Text style={[styles.subtitle, { color: theme.textSecondary }]}>Daily schedule & adherence tracking</Text>
@@ -232,14 +232,14 @@ export default function MedicationScreen() {
             <Text style={[styles.sectionHeading, { color: theme.textPrimary }]}>Today's Schedule</Text>
 
             {schedule.length === 0 ? (
-              <View style={styles.emptyState}>
-                <Pill size={40} color="#cbd5e1" />
-                <Text style={styles.emptyTitle}>No scheduled doses today</Text>
-                <Text style={styles.emptySubtitle}>
+              <View style={[styles.emptyState, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+                <Pill size={40} color={theme.textTertiary} />
+                <Text style={[styles.emptyTitle, { color: theme.textPrimary }]}>No scheduled doses today</Text>
+                <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>
                   Add your daily medications, vitamins, or supplements to track them here.
                 </Text>
                 <TouchableOpacity
-                  style={styles.emptyActionBtn}
+                  style={[styles.emptyActionBtn, { backgroundColor: theme.accent }]}
                   onPress={() => setShowAddModal(true)}
                 >
                   <Text style={styles.emptyActionBtnText}>Add First Medication</Text>
@@ -256,12 +256,12 @@ export default function MedicationScreen() {
                     dose.status === 'skipped' && styles.doseCardSkipped,
                   ]}
                 >
-                  <View style={styles.doseTimeCol}>
+                  <View style={[styles.doseTimeCol, { borderRightColor: theme.borderSubtle }]}>
                     <View style={styles.periodRow}>
                       {getPeriodIcon(dose.period)}
-                      <Text style={styles.doseTimeText}>{dose.time}</Text>
+                      <Text style={[styles.doseTimeText, { color: theme.textPrimary }]}>{dose.time}</Text>
                     </View>
-                    <Text style={styles.periodText}>{dose.period}</Text>
+                    <Text style={[styles.periodText, { color: theme.textSecondary }]}>{dose.period}</Text>
                   </View>
 
                   <View style={styles.doseMainCol}>
@@ -269,6 +269,7 @@ export default function MedicationScreen() {
                       <Text
                         style={[
                           styles.doseMedName,
+                          { color: theme.textPrimary },
                           dose.status === 'taken' && styles.strikeText,
                         ]}
                       >
@@ -305,13 +306,13 @@ export default function MedicationScreen() {
                       </View>
                     </View>
 
-                    <Text style={styles.doseDosageText}>
+                    <Text style={[styles.doseDosageText, { color: theme.textSecondary }]}>
                       {dose.medication.dosage}
                       {dose.medication.withFood ? ' • Take with meal' : ''}
                     </Text>
 
                     {dose.medication.instructions ? (
-                      <Text style={styles.instructionsText}>
+                      <Text style={[styles.instructionsText, { color: theme.textTertiary }]}>
                         ℹ️ {dose.medication.instructions}
                       </Text>
                     ) : null}
@@ -356,19 +357,19 @@ export default function MedicationScreen() {
             <Text style={[styles.sectionHeading, { color: theme.textPrimary }]}>Active Medications ({allMeds.length})</Text>
 
             {allMeds.length === 0 ? (
-              <View style={styles.emptyState}>
-                <Text style={styles.emptySubtitle}>No items saved in cabinet.</Text>
+              <View style={[styles.emptyState, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+                <Text style={[styles.emptySubtitle, { color: theme.textSecondary }]}>No items saved in cabinet.</Text>
               </View>
             ) : (
               allMeds.map((med) => (
-                <View key={med.id} style={styles.medItemCard}>
+                <View key={med.id} style={[styles.medItemCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
                   <View style={styles.medItemLeft}>
-                    <Text style={styles.medItemName}>{med.name}</Text>
-                    <Text style={styles.medItemDetail}>
+                    <Text style={[styles.medItemName, { color: theme.textPrimary }]}>{med.name}</Text>
+                    <Text style={[styles.medItemDetail, { color: theme.textSecondary }]}>
                       {med.dosage} • {med.frequency} • {med.times.join(', ')}
                     </Text>
                     {med.instructions ? (
-                      <Text style={styles.medItemInstructions}>{med.instructions}</Text>
+                      <Text style={[styles.medItemInstructions, { color: theme.textTertiary }]}>{med.instructions}</Text>
                     ) : null}
                   </View>
                   <TouchableOpacity
@@ -385,77 +386,118 @@ export default function MedicationScreen() {
       </ScrollView>
 
       {/* Add Medication Modal */}
-      <Modal visible={showAddModal} animationType="slide" transparent>
+      <Modal visible={showAddModal} animationType="slide" transparent onRequestClose={() => setShowAddModal(false)}>
         <View style={styles.modalOverlay}>
           <View style={[styles.modalCard, { backgroundColor: theme.surfaceModal, borderColor: theme.border, borderWidth: 1, paddingBottom: Math.max(insets.bottom, 16) + 16 }]}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Add Medication / Supplement</Text>
-              <TouchableOpacity onPress={() => setShowAddModal(false)}>
-                <XCircle size={24} color="#64748b" />
+              <Text style={[styles.modalTitle, { color: theme.textPrimary }]}>Add Medication / Supplement</Text>
+              <TouchableOpacity onPress={() => setShowAddModal(false)} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+                <XCircle size={24} color={theme.textTertiary} />
               </TouchableOpacity>
             </View>
 
-            <ScrollView style={styles.modalBody}>
-              <Text style={styles.inputLabel}>Name *</Text>
+            <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false}>
+              <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Name *</Text>
               <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: theme.inputBackground,
+                    borderColor: theme.inputBorder,
+                    color: theme.inputText,
+                  }
+                ]}
                 placeholder="e.g. Metformin, Vitamin D, Zinc"
+                placeholderTextColor={theme.placeholderText}
                 value={name}
                 onChangeText={setName}
               />
 
-              <Text style={styles.inputLabel}>Dosage</Text>
+              <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Dosage</Text>
               <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: theme.inputBackground,
+                    borderColor: theme.inputBorder,
+                    color: theme.inputText,
+                  }
+                ]}
                 placeholder="e.g. 500mg, 1 tablet, 10ml"
+                placeholderTextColor={theme.placeholderText}
                 value={dosage}
                 onChangeText={setDosage}
               />
 
-              <Text style={styles.inputLabel}>Category</Text>
+              <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Category</Text>
               <View style={styles.chipsRow}>
                 {(['Prescription', 'Supplement', 'Vitamin', 'OTC'] as const).map((cat) => (
                   <TouchableOpacity
                     key={cat}
-                    style={[styles.chip, category === cat && styles.chipActive]}
+                    style={[
+                      styles.chip,
+                      { backgroundColor: theme.surfaceElevated, borderColor: theme.border },
+                      category === cat && styles.chipActive
+                    ]}
                     onPress={() => setCategory(cat)}
                   >
-                    <Text style={[styles.chipText, category === cat && styles.chipTextActive]}>
+                    <Text style={[styles.chipText, { color: theme.textSecondary }, category === cat && styles.chipTextActive]}>
                       {cat}
                     </Text>
                   </TouchableOpacity>
                 ))}
               </View>
 
-              <Text style={styles.inputLabel}>Scheduled Time(s) (24h format, comma separated)</Text>
+              <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Scheduled Time(s) (24h format, comma separated)</Text>
               <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: theme.inputBackground,
+                    borderColor: theme.inputBorder,
+                    color: theme.inputText,
+                  }
+                ]}
                 placeholder="e.g. 08:00 or 08:00, 20:00"
+                placeholderTextColor={theme.placeholderText}
                 value={timeInput}
                 onChangeText={setTimeInput}
               />
 
-              <View style={styles.switchRow}>
-                <Text style={styles.switchLabel}>Take with Food / Meal</Text>
+              <View style={[styles.switchRow, { borderColor: theme.borderSubtle }]}>
+                <Text style={[styles.switchLabel, { color: theme.textPrimary }]}>Take with Food / Meal</Text>
                 <Switch
                   value={withFood}
                   onValueChange={setWithFood}
-                  trackColor={{ false: '#cbd5e1', true: '#86efac' }}
-                  thumbColor={withFood ? '#16a34a' : '#f1f5f9'}
+                  trackColor={{ false: theme.inputBorder, true: theme.accent }}
+                  thumbColor={withFood ? '#ffffff' : theme.textTertiary}
                 />
               </View>
 
-              <Text style={styles.inputLabel}>Special Instructions</Text>
+              <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>Special Instructions</Text>
               <TextInput
-                style={[styles.input, styles.textArea]}
+                style={[
+                  styles.input,
+                  styles.textArea,
+                  {
+                    backgroundColor: theme.inputBackground,
+                    borderColor: theme.inputBorder,
+                    color: theme.inputText,
+                  }
+                ]}
                 placeholder="e.g. Take with full glass of water, avoid dairy 2h before"
+                placeholderTextColor={theme.placeholderText}
                 value={instructions}
                 onChangeText={setInstructions}
                 multiline
                 numberOfLines={3}
               />
 
-              <TouchableOpacity style={styles.saveModalBtn} onPress={handleSaveNewMed}>
+              <TouchableOpacity
+                style={[styles.saveModalBtn, { backgroundColor: theme.accent }]}
+                onPress={handleSaveNewMed}
+                activeOpacity={0.85}
+              >
                 <Text style={styles.saveModalBtnText}>Save Medication</Text>
               </TouchableOpacity>
             </ScrollView>

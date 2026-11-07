@@ -13,6 +13,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useProfile } from '../../../src/context/ProfileContext';
+import { useTheme } from '../../../src/context/ThemeContext';
 import { getProfile, saveProfile } from '../../../src/storage/profileStorage';
 import { ArrowLeft, ArrowRight, User } from 'lucide-react-native';
 
@@ -21,6 +22,7 @@ const LANGUAGES = ['English', 'Amharic', 'Oromiffa'];
 
 export default function OnboardingStep1() {
   const insets = useSafeAreaInsets();
+  const { theme, isDark } = useTheme();
   const { profile, setProfile } = useProfile();
   const existingStored = getProfile() || {};
   const [name, setName] = useState(profile?.name || existingStored?.name || '');
@@ -57,7 +59,7 @@ export default function OnboardingStep1() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -82,94 +84,94 @@ export default function OnboardingStep1() {
                   router.replace('/(auth)/login');
                 }
               }}
-              style={styles.backBtn}
+              style={[styles.backBtn, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}
             >
-              <ArrowLeft size={22} color="#0f172a" />
+              <ArrowLeft size={22} color={theme.textPrimary} />
             </TouchableOpacity>
-            <View style={styles.stepPill}>
-              <Text style={styles.stepText}>Step 1 of 4</Text>
+            <View style={[styles.stepPill, { backgroundColor: theme.accentGlow }]}>
+              <Text style={[styles.stepText, { color: theme.accent }]}>Step 1 of 4</Text>
             </View>
           </View>
 
           <View style={styles.titleSection}>
-            <Text style={styles.title}>Let's get acquainted</Text>
-            <Text style={styles.subtitle}>
+            <Text style={[styles.title, { color: theme.textPrimary }]}>Let's get acquainted</Text>
+            <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
               Personalize your natural health companion with your language and cultural preferences.
             </Text>
           </View>
 
-          <View style={styles.card}>
-            <Text style={styles.label}>What should we call you?</Text>
+          <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+            <Text style={[styles.label, { color: theme.textSecondary }]}>What should we call you?</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
               value={name}
               onChangeText={setName}
               placeholder="e.g. Sarah or Abebe"
-              placeholderTextColor="#94a3b8"
+              placeholderTextColor={theme.placeholderText}
               autoCapitalize="words"
             />
 
-            <Text style={styles.label}>How old are you?</Text>
+            <Text style={[styles.label, { color: theme.textSecondary }]}>How old are you?</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { backgroundColor: theme.inputBackground, borderColor: theme.inputBorder, color: theme.inputText }]}
               value={age}
               onChangeText={setAge}
               placeholder="e.g. 28"
-              placeholderTextColor="#94a3b8"
+              placeholderTextColor={theme.placeholderText}
               keyboardType="numeric"
             />
 
-            <Text style={styles.label}>Gender (Personalizes your Nura companion appearance)</Text>
+            <Text style={[styles.label, { color: theme.textSecondary }]}>Gender (Personalizes your Nura companion appearance)</Text>
             <View style={styles.chipContainer}>
               <TouchableOpacity
-                style={[styles.chip, gender === 'female' && styles.chipActive]}
+                style={[styles.chip, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }, gender === 'female' && { backgroundColor: `${theme.accent}15`, borderColor: theme.accent }]}
                 onPress={() => setGender('female')}
               >
-                <Text style={[styles.chipText, gender === 'female' && styles.chipTextActive]}>
+                <Text style={[styles.chipText, { color: theme.textSecondary }, gender === 'female' && { color: theme.accent, fontWeight: '800' }]}>
                   👩 Female
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.chip, gender === 'male' && styles.chipActive]}
+                style={[styles.chip, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }, gender === 'male' && { backgroundColor: `${theme.accent}15`, borderColor: theme.accent }]}
                 onPress={() => setGender('male')}
               >
-                <Text style={[styles.chipText, gender === 'male' && styles.chipTextActive]}>
+                <Text style={[styles.chipText, { color: theme.textSecondary }, gender === 'male' && { color: theme.accent, fontWeight: '800' }]}>
                   👨 Male
                 </Text>
               </TouchableOpacity>
             </View>
 
-            <Text style={styles.label}>Cultural Heritage & Wellness Background</Text>
+            <Text style={[styles.label, { color: theme.textSecondary }]}>Cultural Heritage & Wellness Background</Text>
             <View style={styles.chipContainer}>
               {COUNTRIES.map((c) => (
                 <TouchableOpacity
                   key={c}
-                  style={[styles.chip, country === c && styles.chipActive]}
+                  style={[styles.chip, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }, country === c && { backgroundColor: `${theme.accent}15`, borderColor: theme.accent }]}
                   onPress={() => setCountry(c)}
                 >
-                  <Text style={[styles.chipText, country === c && styles.chipTextActive]}>
+                  <Text style={[styles.chipText, { color: theme.textSecondary }, country === c && { color: theme.accent, fontWeight: '800' }]}>
                     {c}
                   </Text>
                 </TouchableOpacity>
               ))}
             </View>
 
-            <Text style={styles.label}>Preferred Language</Text>
+            <Text style={[styles.label, { color: theme.textSecondary }]}>Preferred Language</Text>
             <View style={styles.chipContainer}>
               {LANGUAGES.map((l) => (
                 <TouchableOpacity
                   key={l}
-                  style={[styles.chip, language === l && styles.chipActive]}
+                  style={[styles.chip, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }, language === l && { backgroundColor: `${theme.accent}15`, borderColor: theme.accent }]}
                   onPress={() => setLanguage(l)}
                 >
-                  <Text style={[styles.chipText, language === l && styles.chipTextActive]}>
+                  <Text style={[styles.chipText, { color: theme.textSecondary }, language === l && { color: theme.accent, fontWeight: '800' }]}>
                     {l}
                   </Text>
                 </TouchableOpacity>
               ))}
             </View>
 
-            <TouchableOpacity style={styles.nextBtn} onPress={handleNext} disabled={loading}>
+            <TouchableOpacity style={[styles.nextBtn, { backgroundColor: theme.accent }]} onPress={handleNext} disabled={loading}>
               {loading ? (
                 <ActivityIndicator color="#ffffff" />
               ) : (

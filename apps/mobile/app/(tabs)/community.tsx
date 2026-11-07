@@ -396,7 +396,7 @@ export default function CommunityCenterScreen() {
   return (
     <View style={[styles.screenContainer, { backgroundColor: theme.background }]}>
       {/* Top Header Bar with Privacy Action */}
-      <View style={[styles.topAppBar, { backgroundColor: theme.surface, borderBottomColor: theme.border, paddingTop: Math.max(insets.top, 16) + 6 }]}>
+      <View style={[styles.topAppBar, { backgroundColor: theme.surface, borderBottomColor: theme.border, paddingTop: 10, paddingBottom: 10 }]}>
         <View style={styles.brandTitleRow}>
           <Text style={[styles.brandTitle, { color: theme.textPrimary }]}>NuraCare Community</Text>
         </View>

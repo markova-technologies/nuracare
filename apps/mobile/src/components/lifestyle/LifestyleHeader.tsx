@@ -39,7 +39,7 @@ export default function LifestyleHeader({
   }, []);
 
   return (
-    <View style={[styles.headerContainer, { backgroundColor: theme.surface, borderBottomColor: theme.border, paddingTop: Math.max(insets.top, 16) + 8 }]}>
+    <View style={[styles.headerContainer, { backgroundColor: theme.surface, borderBottomColor: theme.border, paddingTop: 10, paddingBottom: 10 }]}>
       <View style={styles.topRow}>
         <View>
           <Text style={[styles.title, { color: theme.textPrimary }]}>Lifestyle</Text>

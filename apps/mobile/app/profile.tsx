@@ -43,6 +43,7 @@ import {
 import { TSOM_TYPES } from '../src/lib/ethiopianCalendar';
 import ThemeSelectorModal from '../src/components/theme/ThemeSelectorModal';
 import { checkForAppUpdates } from '../src/services/versionCheck';
+import Constants from 'expo-constants';
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
@@ -503,7 +504,7 @@ export default function ProfileScreen() {
             </TouchableOpacity>
           </View>
           <Text style={[styles.sectionSubtitle, { color: theme.textSecondary }]}>
-            NuraCare v1.0.7 (Build 8) • All latest features & challenges active
+            NuraCare v{Constants.expoConfig?.version || '1.0.10'} (Build {Constants.expoConfig?.android?.versionCode || 13}) • All latest features & challenges active
           </Text>
         </View>
 
