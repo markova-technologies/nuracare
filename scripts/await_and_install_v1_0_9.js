@@ -1,11 +1,14 @@
-const { execSync, spawn } = require('child_process');
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
-const BUILD_ID = '91edffc9-7dd9-441c-9984-dd417a51703a';
-const APK_DEST = 'D:\\nuracare\\NuraCare-v1.0.9.apk';
+const ROOT_DIR = path.resolve(__dirname, '..');
+const MOBILE_DIR = path.join(ROOT_DIR, 'apps', 'mobile');
+const APK_DEST = path.join(ROOT_DIR, 'NuraCare-v1.0.9.apk');
 const ADB_PATH = 'C:\\Program Files\\scrcpy\\adb.exe';
+
+let BUILD_ID = process.argv[2] || '';
 
 function downloadFile(url, dest) {
   return new Promise((resolve, reject) => {
@@ -47,15 +50,15 @@ function downloadFile(url, dest) {
   });
 }
 
-function checkBuild() {
+function checkBuild(id) {
   try {
-    const raw = execSync(`eas build:view ${BUILD_ID} --json`, {
-      cwd: 'd:\\nuracare\\apps\\mobile',
+    const raw = execSync(`eas build:view ${id} --json`, {
+      cwd: MOBILE_DIR,
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'ignore'],
-      maxBuffer: 10 * 1024 * 1024
+      maxBuffer: 10 * 1024 * 1024,
+      env: { ...process.env, TEMP: 'D:\\Temp', TMP: 'D:\\Temp' }
     });
-    // Extract JSON from output
     const jsonStart = raw.indexOf('{');
     if (jsonStart === -1) return null;
     return JSON.parse(raw.slice(jsonStart));
@@ -65,11 +68,36 @@ function checkBuild() {
 }
 
 async function main() {
+  if (!BUILD_ID) {
+    console.log('[Monitor] No BUILD_ID passed; querying latest build from EAS...');
+    try {
+      const rawList = execSync(`eas build:list --platform android --limit 1 --json`, {
+        cwd: MOBILE_DIR,
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+        maxBuffer: 10 * 1024 * 1024,
+        env: { ...process.env, TEMP: 'D:\\Temp', TMP: 'D:\\Temp' }
+      });
+      const jsonStart = rawList.indexOf('[');
+      if (jsonStart !== -1) {
+        const list = JSON.parse(rawList.slice(jsonStart));
+        if (list.length > 0) {
+          BUILD_ID = list[0].id;
+          console.log(`[Monitor] Found latest Build ID: ${BUILD_ID}`);
+        }
+      }
+    } catch (e) {}
+  }
+
+  if (!BUILD_ID) {
+    throw new Error('Unable to determine EAS Build ID to monitor.');
+  }
+
   console.log(`[Monitor] Tracking EAS Build ID: ${BUILD_ID}`);
   let startTime = Date.now();
 
   while (true) {
-    const info = checkBuild();
+    const info = checkBuild(BUILD_ID);
     const elapsed = Math.round((Date.now() - startTime) / 1000);
     
     if (info) {
@@ -102,9 +130,9 @@ async function main() {
         const launchOutput = execSync(`"${ADB_PATH}" shell am start -n com.darikab71.nuracaremobile/.MainActivity`, { encoding: 'utf8' });
         console.log('[ADB Launch Result]:', launchOutput.trim());
 
-        // 4. Wait 3 seconds and check for crashes
-        console.log('[ADB] Verifying runtime stability for 3 seconds...');
-        await new Promise(r => setTimeout(r, 3000));
+        // 4. Verify runtime stability
+        console.log('[ADB] Verifying runtime stability for 5 seconds...');
+        await new Promise(r => setTimeout(r, 5000));
         
         const crashLogs = execSync(`"${ADB_PATH}" logcat -d -b crash`, { encoding: 'utf8' });
         if (crashLogs && crashLogs.includes('FATAL EXCEPTION')) {
@@ -124,7 +152,6 @@ async function main() {
       console.log(`[${elapsed}s] Polling EAS build status...`);
     }
 
-    // Wait 20 seconds before next poll
     await new Promise(r => setTimeout(r, 20000));
   }
 }
@@ -133,4 +160,3 @@ main().catch(err => {
   console.error('[Fatal Error]:', err.message);
   process.exit(1);
 });
-
